@@ -84,6 +84,27 @@ Do not reduce the main corpus to toy examples merely to make the editor easier t
 
 These supplement the large corpus; they do not replace it.
 
+## Storage policy
+
+The durable repository payload should be **authoring source only**.
+
+Store:
+- SCAP-NG/editor-facing YAML source;
+- small JSON/YAML manifests;
+- compact provenance, inventory, counts, and hashes;
+- focused text fixtures needed by editor tests.
+
+Do not store:
+- original DISA ZIP packages;
+- original XCCDF/OVAL/XML merely as provenance copies;
+- compiled `.scapng` packages;
+- GitHub Actions artifacts;
+- conversion logs or large evidence bundles;
+- duplicate schema/specification snapshots;
+- generated binaries or caches.
+
+Original inputs and conversion evidence should be referenced by pinned repository revision, source URL/revision, hash, and workflow/run metadata rather than copied into this repository.
+
 ## What does not belong here
 
 - editor application source code;
