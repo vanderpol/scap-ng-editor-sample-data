@@ -1,0 +1,154 @@
+assessment:
+  id: ng.shared.linux-local-initialization-files-must-have-mode-0740-or-less-permissive
+  version: 1
+  assessment_title: Linux local initialization files must have mode 0740 or less permissive.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    local-initialization-files-non-system-users-have-mode-0740-or-test:
+      test_title: Local initialization files for non-system users have mode 0740 or less permissive.
+      capability: unix.file
+      object:
+        capability: unix.file
+        object_title: local initialization files of non-system users.
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: unix.file
+              for_each:
+                item: user
+                in: only-non-system-users-uid-999-home-dirs-excluding-root-object
+              select:
+                directory:
+                  from: user.home_dir
+                name:
+                  matches_regex: ^\.[^\s\.]+
+              object_title: local initialization files of non-system users.
+              filesystem: all
+              traversal:
+                max_depth: 1
+                recurse: symlinks
+            filters:
+            - exclude:
+                type:
+                  require: at_least_one_exists_and_all_match
+                  equals: directory
+      states:
+      - and:
+        - setuid:
+            equals: false
+        - setgid:
+            equals: false
+        - sticky:
+            equals: false
+        - group_write:
+            equals: false
+        - group_execute:
+            equals: false
+        - other_read:
+            equals: false
+        - other_write:
+            equals: false
+        - other_execute:
+            equals: false
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: may_be_absent_and_all_match
+    local-initialization-files-root-have-mode-0740-or-less-permissive-test:
+      test_title: Local initialization files for root have mode 0740 or less permissive.
+      capability: unix.file
+      object:
+        capability: unix.file
+        object_title: local initialization files of root user.
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: unix.file
+              for_each:
+                item: user
+                in: only-root-users-uid-0-home-dirs-excluding-root-directory-object
+              select:
+                directory:
+                  from: user.home_dir
+                name:
+                  matches_regex: ^\.[^\s\.]+
+              object_title: local initialization files of root user.
+              filesystem: all
+              traversal:
+                max_depth: 1
+                recurse: symlinks
+            filters:
+            - exclude:
+                type:
+                  require: at_least_one_exists_and_all_match
+                  equals: directory
+      states:
+      - and:
+        - setuid:
+            equals: false
+        - setgid:
+            equals: false
+        - sticky:
+            equals: false
+        - group_write:
+            equals: false
+        - group_execute:
+            equals: false
+        - other_read:
+            equals: false
+        - other_write:
+            equals: false
+        - other_execute:
+            equals: false
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    all:
+    - test: local-initialization-files-non-system-users-have-mode-0740-or-test
+    - test: local-initialization-files-root-have-mode-0740-or-less-permissive-test
+  shared_objects:
+    users-username-object:
+      capability: unix.password
+      select:
+        username:
+          matches_regex: '[\w]+'
+      object_title: Users with an username
+    only-non-system-users-uid-999-home-dirs-excluding-root-object:
+      capability: unix.password
+      set:
+        operator: difference
+        operands:
+        - object: users-username-object
+          filters:
+          - exclude:
+              user_id:
+                require: at_least_one_exists_and_all_match
+                less_than: 1000
+          - exclude:
+              home_dir:
+                require: at_least_one_exists_and_all_match
+                equals: /
+      object_title: only non-system users (uid>999) home-dirs excluding root directory
+    only-root-users-uid-0-home-dirs-excluding-root-directory-object:
+      capability: unix.password
+      set:
+        operator: difference
+        operands:
+        - object: users-username-object
+          filters:
+          - exclude:
+              user_id:
+                require: at_least_one_exists_and_all_match
+                greater_than: 0
+          - exclude:
+              home_dir:
+                require: at_least_one_exists_and_all_match
+                equals: /
+      object_title: only root users (uid=0) home-dirs excluding root directory

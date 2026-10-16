@@ -1,0 +1,188 @@
+{
+  "asset": "scap-ng-v0.4-joval-six-stig-yaml.zip",
+  "asset_sha256": "03d64157ee295b81defe6f96cf7a3123410010ef4422d76bf5b7bb3ddbf30c9d",
+  "cases": [
+    {
+      "automated_assessment_id": "ng.shared.home-is-mounted-with-the-nosuid-option",
+      "automated_assessment_source": "authoring/shared/assessments/linux/other/home-mounted-nosuid-option.assessment.yaml",
+      "benchmark": "rhel_9",
+      "purpose": "simple Linux check",
+      "rule_id": "SV-257851",
+      "rule_source": "authoring/rhel_9/rules/SV-257851.rule.yaml"
+    },
+    {
+      "automated_assessment_id": "SV-253254.automated",
+      "automated_assessment_source": "authoring/ms_windows_11/assessments/automated/SV-253254.automated.yaml",
+      "benchmark": "windows_11",
+      "purpose": "registry State alternatives",
+      "rule_id": "SV-253254",
+      "rule_source": "authoring/ms_windows_11/rules/SV-253254.rule.yaml"
+    },
+    {
+      "automated_assessment_id": "SV-253495.automated",
+      "automated_assessment_source": "authoring/ms_windows_11/assessments/automated/SV-253495.automated.yaml",
+      "benchmark": "windows_11",
+      "purpose": "user-right and nested WMI records",
+      "rule_id": "SV-253495",
+      "rule_source": "authoring/ms_windows_11/rules/SV-253495.rule.yaml"
+    },
+    {
+      "automated_assessment_id": "ng.shared.linux-local-initialization-files-must-have-mode-0740-or-less-permissive",
+      "automated_assessment_source": "authoring/shared/assessments/linux/other/initialization-files-0740-less-permissive.assessment.yaml",
+      "benchmark": "rhel_9",
+      "purpose": "source ObjectComponent / Variable",
+      "rule_id": "SV-257889",
+      "rule_source": "authoring/rhel_9/rules/SV-257889.rule.yaml"
+    },
+    {
+      "automated_assessment_id": "SV-214228.automated",
+      "automated_assessment_source": "authoring/apache_server_2-4_unix_server/assessments/automated/SV-214228.automated.yaml",
+      "benchmark": "apache_2_4_unix",
+      "purpose": "Apache dynamic regex capture",
+      "rule_id": "SV-214228",
+      "rule_source": "authoring/apache_server_2-4_unix_server/rules/SV-214228.rule.yaml"
+    },
+    {
+      "automated_assessment_id": "SV-259345.automated",
+      "automated_assessment_source": "authoring/ms_windows_server_dns/assessments/automated/SV-259345.automated.yaml",
+      "benchmark": "windows_server_dns",
+      "purpose": "DNS dynamic Variables",
+      "rule_id": "SV-259345",
+      "rule_source": "authoring/ms_windows_server_dns/rules/SV-259345.rule.yaml"
+    }
+  ],
+  "classification": "source_backed_pre_alpha_authoring_not_runtime_evidence",
+  "counts": {
+    "cases": 6,
+    "files": 12,
+    "source_rules": 6,
+    "unique_assessments": 6
+  },
+  "files": [
+    {
+      "archive_member": "authoring/apache_server_2-4_unix_server/assessments/automated/SV-214228.automated.yaml",
+      "cases": [
+        "SV-214228"
+      ],
+      "document_kind": "assessment",
+      "path": "focused-fixtures/source-backed/authoring/apache_server_2-4_unix_server/assessments/automated/SV-214228.automated.yaml",
+      "role": "assessment",
+      "sha256": "d5c2854acbce81f5dc4750c0cec41b7d2c894a2142a6abe5b93c92ec6d2266d6"
+    },
+    {
+      "archive_member": "authoring/apache_server_2-4_unix_server/rules/SV-214228.rule.yaml",
+      "cases": [
+        "SV-214228"
+      ],
+      "document_kind": "rule",
+      "path": "focused-fixtures/source-backed/authoring/apache_server_2-4_unix_server/rules/SV-214228.rule.yaml",
+      "role": "source_rule",
+      "sha256": "69c4091f05bee41699687391e2f9337e9b0cea47b1ce8a7692cfc080e4d46e2f"
+    },
+    {
+      "archive_member": "authoring/ms_windows_11/assessments/automated/SV-253254.automated.yaml",
+      "cases": [
+        "SV-253254"
+      ],
+      "document_kind": "assessment",
+      "path": "focused-fixtures/source-backed/authoring/ms_windows_11/assessments/automated/SV-253254.automated.yaml",
+      "role": "assessment",
+      "sha256": "2169658d5a3fb6c424956c86fbd7fd3d7dc585532c9f0ca443f527d8be5c9b75"
+    },
+    {
+      "archive_member": "authoring/ms_windows_11/assessments/automated/SV-253495.automated.yaml",
+      "cases": [
+        "SV-253495"
+      ],
+      "document_kind": "assessment",
+      "path": "focused-fixtures/source-backed/authoring/ms_windows_11/assessments/automated/SV-253495.automated.yaml",
+      "role": "assessment",
+      "sha256": "062d30d7801ec2258c50fdc5cd03786d004c1a6720a929cd90850c0789a1f3c3"
+    },
+    {
+      "archive_member": "authoring/ms_windows_11/rules/SV-253254.rule.yaml",
+      "cases": [
+        "SV-253254"
+      ],
+      "document_kind": "rule",
+      "path": "focused-fixtures/source-backed/authoring/ms_windows_11/rules/SV-253254.rule.yaml",
+      "role": "source_rule",
+      "sha256": "c5f9a4aa47c8df8027b93dd5f4293b8c23a24b2786471a54f0145abc7b03c650"
+    },
+    {
+      "archive_member": "authoring/ms_windows_11/rules/SV-253495.rule.yaml",
+      "cases": [
+        "SV-253495"
+      ],
+      "document_kind": "rule",
+      "path": "focused-fixtures/source-backed/authoring/ms_windows_11/rules/SV-253495.rule.yaml",
+      "role": "source_rule",
+      "sha256": "c448cc13df2f8e0b825fd4115fc13b3c7bd215e8115bc533924d5bdb16712b30"
+    },
+    {
+      "archive_member": "authoring/ms_windows_server_dns/assessments/automated/SV-259345.automated.yaml",
+      "cases": [
+        "SV-259345"
+      ],
+      "document_kind": "assessment",
+      "path": "focused-fixtures/source-backed/authoring/ms_windows_server_dns/assessments/automated/SV-259345.automated.yaml",
+      "role": "assessment",
+      "sha256": "9169a3cd3d74d5e15df76fcef328a69e8256099b5e4ab21b33a0c61440dcad37"
+    },
+    {
+      "archive_member": "authoring/ms_windows_server_dns/rules/SV-259345.rule.yaml",
+      "cases": [
+        "SV-259345"
+      ],
+      "document_kind": "rule",
+      "path": "focused-fixtures/source-backed/authoring/ms_windows_server_dns/rules/SV-259345.rule.yaml",
+      "role": "source_rule",
+      "sha256": "2aaf5f1acb98bf4263280e54d0197dfa4d8b6bc5b5deb84163192e0b5afba979"
+    },
+    {
+      "archive_member": "authoring/rhel_9/rules/SV-257851.rule.yaml",
+      "cases": [
+        "SV-257851"
+      ],
+      "document_kind": "rule",
+      "path": "focused-fixtures/source-backed/authoring/rhel_9/rules/SV-257851.rule.yaml",
+      "role": "source_rule",
+      "sha256": "a91e84ff4e927fbb0f1f06175e44e5dcd9b043f33a170d18bd7c93f819eaa391"
+    },
+    {
+      "archive_member": "authoring/rhel_9/rules/SV-257889.rule.yaml",
+      "cases": [
+        "SV-257889"
+      ],
+      "document_kind": "rule",
+      "path": "focused-fixtures/source-backed/authoring/rhel_9/rules/SV-257889.rule.yaml",
+      "role": "source_rule",
+      "sha256": "613e6ae7eb3a5807898ac282e1ea66f7ffc9dbda69aad356e93e1e1fa985bedd"
+    },
+    {
+      "archive_member": "authoring/shared/assessments/linux/other/home-mounted-nosuid-option.assessment.yaml",
+      "cases": [
+        "SV-257851"
+      ],
+      "document_kind": "assessment",
+      "path": "focused-fixtures/source-backed/authoring/shared/assessments/linux/other/home-mounted-nosuid-option.assessment.yaml",
+      "role": "assessment",
+      "sha256": "72bc301ed75c3269eef4ee2a1a0eff95c4e415e034458c9fb17978616fc75566"
+    },
+    {
+      "archive_member": "authoring/shared/assessments/linux/other/initialization-files-0740-less-permissive.assessment.yaml",
+      "cases": [
+        "SV-257889"
+      ],
+      "document_kind": "assessment",
+      "path": "focused-fixtures/source-backed/authoring/shared/assessments/linux/other/initialization-files-0740-less-permissive.assessment.yaml",
+      "role": "assessment",
+      "sha256": "088c6c406b53da222de4bcc595891664030145081b3c1389547b397c7335be27"
+    }
+  ],
+  "format": "scap-ng-editor-real-smoke/0.1",
+  "review_manifest_sha256": "199b91c2fc59f2bcc59fa3f60fab6fd7d3fcf3852094804a7eeaa9c02aa1b234",
+  "source_repository": "vanderpol/scap-ng",
+  "source_tag": "v0.4.0-joval-meeting-preview-20261015-r3",
+  "warning": "r3 scope vocabulary is a research candidate; contextual files may retain 0.3.0. Native 0.4 compilation, scanner semantics, optional foreach and procedural conditional rewrites are NOT proven."
+}

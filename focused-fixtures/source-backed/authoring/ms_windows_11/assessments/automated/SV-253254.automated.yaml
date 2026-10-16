@@ -1,0 +1,41 @@
+assessment:
+  id: SV-253254.automated
+  version: 2
+  assessment_title: WN11-00-000005 - Domain-joined systems must use Windows 11 Enterprise Edition 64-bit version.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    editionid-enterprise-or-enterprises-test:
+      test_title: EditionID is Enterprise or EnterpriseS
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SOFTWARE\Microsoft\Windows NT\CurrentVersion
+          name:
+            equals: EditionId
+        object_title: EditionID
+      states:
+      - and:
+        - type:
+            equals: string
+        - value:
+            equals: Enterprise
+      - and:
+        - type:
+            equals: string
+        - value:
+            equals: EnterpriseS
+      reported_elements: all
+      states_match: any
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: editionid-enterprise-or-enterprises-test
