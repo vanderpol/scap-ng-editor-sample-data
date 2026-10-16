@@ -1,0 +1,57 @@
+{
+  "format": "scap-ng-editor-focused-fixtures/0.1",
+  "created_for_issue": "https://github.com/vanderpol/scap-ng-editor-sample-data/issues/1",
+  "description": "Synthetic editor parser/round-trip fixtures only. These are not verified native Assessment schema examples, source-backed DISA STIGs, or scanner evidence.",
+  "schema_status": "no normative schema validity asserted",
+  "entries": [
+    {
+      "path": "focused-fixtures/source-preservation/annotated-draft.yaml",
+      "classification": "synthetic_editor_only",
+      "format": "yaml",
+      "parse_expected": "pass",
+      "schema_expected": "not_asserted",
+      "checks": [
+        "byte_identical_noop_open_save",
+        "comments_and_quote_style_preserved",
+        "unknown_fields_preserved",
+        "single_field_edit_does_not_touch_siblings"
+      ]
+    },
+    {
+      "path": "focused-fixtures/source-preservation/incomplete-draft.yaml",
+      "classification": "synthetic_editor_only",
+      "format": "yaml",
+      "parse_expected": "fail",
+      "schema_expected": "not_run",
+      "checks": [
+        "remains_editable",
+        "syntax_diagnostic_has_source_location",
+        "save_does_not_discard_text"
+      ]
+    },
+    {
+      "path": "focused-fixtures/source-preservation/annotated-draft.json",
+      "classification": "synthetic_editor_only",
+      "format": "json",
+      "parse_expected": "pass",
+      "schema_expected": "not_asserted",
+      "checks": [
+        "byte_identical_noop_open_save",
+        "unknown_fields_preserved",
+        "surgical_field_edit"
+      ]
+    }
+  ],
+  "pending_real_source_fixtures": {
+    "status": "blocked_until_pinned_release_assets_materialized_and_hash_verified",
+    "provenance_source": "https://github.com/vanderpol/scap-ng/releases/tag/v0.4.0-joval-meeting-preview-20261015-r3",
+    "candidates": [
+      "RHEL9 SV-257851",
+      "Windows11 SV-253254",
+      "Windows11 SV-253495",
+      "RHEL9 SV-257889",
+      "Apache SV-214228 or DNS SV-259345"
+    ],
+    "caution": "Record exact authoring ZIP digest, original member paths and closure dependencies; copy verbatim from immutable r3. Source-faithful foreach/if examples are not interchangeable with optional research illustrations."
+  }
+}
