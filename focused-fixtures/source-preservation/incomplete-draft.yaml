@@ -1,0 +1,5 @@
+# SYNTHETIC intentionally invalid YAML; must remain open, editable and saveable.
+assessment:
+  id: synthetic.invalid-draft
+  tests:
+    unfinished: [one, two
