@@ -23,6 +23,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          # Follow main so queued runs cannot push from a stale event SHA.
+          ref: main
           persist-credentials: true
       - uses: actions/setup-python@v5
         with:
