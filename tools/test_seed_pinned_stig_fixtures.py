@@ -50,6 +50,17 @@ class SeederTests(unittest.TestCase):
         for path, content in self.entries.items():
             self.assertEqual((self.output / path).read_bytes(), content.encode())
 
+    def test_real_source_folder_names_are_not_fixed(self):
+        original = self.entries.pop("authoring/windows_11/rules/SV-253254.rule.yaml")
+        self.entries["authoring/ms_windows_11_v2r10/rules/SV-253254.rule.yaml"] = original
+        original_assessment = self.entries.pop(
+            "authoring/windows_11/assessments/SV-253254.automated.yaml")
+        self.entries["authoring/ms_windows_11_v2r10/assessments/SV-253254.automated.yaml"] = original_assessment
+        self.build()
+        record = self.run_seed()
+        self.assertEqual(record["counts"]["cases"], 6)
+        self.assertTrue((self.output / "authoring/ms_windows_11_v2r10/rules/SV-253254.rule.yaml").exists())
+
     def test_wrong_digest_fails(self):
         self.build()
         self.review.write_text(json.dumps(
