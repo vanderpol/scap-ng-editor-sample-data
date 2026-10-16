@@ -63,11 +63,30 @@ def generate(source_zip, review_manifest, output, report):
             raise ValueError("Ambiguous Assessment ID " + ident)
         by_id[ident] = path
 
+    # Release authoring folder names are source-derived, not fixed research slugs.
+    # Resolve to exactly one known benchmark folder, as the main converter does.
+    def family_match(folder, benchmark):
+        name = folder.lower()
+        if benchmark == "rhel_9":
+            return "rhel" in name and "9" in name
+        if benchmark == "windows_11":
+            return "windows" in name and "11" in name and "server" not in name
+        if benchmark == "apache_2_4_unix":
+            return "apache" in name
+        if benchmark == "windows_server_dns":
+            return "windows" in name and "dns" in name
+        raise ValueError("Unknown benchmark selector " + benchmark)
+
     selected, cases, todo = {}, [], deque()
     for benchmark, sv, description in CASES:
-        name = f"authoring/{benchmark}/rules/{sv}.rule.yaml"
-        if name not in docs:
-            raise ValueError("Expected source Rule absent: " + name)
+        candidates = [
+            path for path in docs
+            if "/rules/" in path and Path(path).name == f"{sv}.rule.yaml"
+            and family_match(path.split("/")[1], benchmark)
+        ]
+        if len(candidates) != 1:
+            raise ValueError(f"Expected one source Rule {benchmark}/{sv}, found {candidates}")
+        name = candidates[0]
         rule = docs[name].get("rule")
         if not isinstance(rule, dict) or rule.get("id") != sv:
             raise ValueError("Rule source ID mismatch: " + name)
