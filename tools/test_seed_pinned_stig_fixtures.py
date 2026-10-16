@@ -71,7 +71,7 @@ class SeederTests(unittest.TestCase):
     def test_missing_rule_fails(self):
         del self.entries["authoring/rhel_9/rules/SV-257851.rule.yaml"]
         self.build()
-        with self.assertRaisesRegex(ValueError, "Rule absent"):
+        with self.assertRaisesRegex(ValueError, "Expected one source Rule"):
             self.run_seed()
 
     def test_missing_assessment_fails(self):
