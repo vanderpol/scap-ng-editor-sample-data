@@ -1,0 +1,11 @@
+{
+  "_fixture_note": "SYNTHETIC editor-only source-preservation fixture, not a normative SCAP-NG Assessment",
+  "assessment": {
+    "id": "synthetic.editor-json",
+    "mode": "automated",
+    "future_extension": {
+      "and": "field-name collision",
+      "value": 0
+    }
+  }
+}
