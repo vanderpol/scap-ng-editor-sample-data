@@ -1,0 +1,14 @@
+# SYNTHETIC editor-only source-preservation fixture; NOT a valid SCAP-NG assessment claim.
+# Open/save must preserve this comment, ordering, punctuation and scalar quoting.
+assessment:
+  id: 'synthetic.editor-preservation'  # intentionally single quoted
+  mode: automated
+  unfamiliar_future_field:
+    value: 0
+    and: "ordinary user key, not logical grammar"
+  literal_text: "a: b # preserved"
+  list:
+    - one
+    - "two"
+  # Do not remove the next explicit null.
+  nullable: null
