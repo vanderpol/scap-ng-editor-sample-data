@@ -4,6 +4,10 @@ External sample and scale-test content for `vanderpol/scap-ng-editor`.
 
 This repository exists so the editor can remain small, transferable, and independent of ownership of the SCAP-NG standards/content project.
 
+## Indexed official source-cache research
+
+[STIG + SCAP/OVAL publisher-verified preprocessing design](docs/STIG-SCAP-SOURCE-CACHE.md) ([issue #2](https://github.com/vanderpol/scap-ng-editor-sample-data/issues/2)) defines how to prepare lightweight per-Rule packets *once per changed official release*, keeping manual XCCDF and SCAP/OVAL source graphs separate but indexed together. **The cache is not populated or running yet.** A future [SCAP 1.4 authoring target](https://github.com/vanderpol/scap-ng-editor/issues/9) could reuse that same source library after the SCAP-NG editor works. The existing `stig-manual/` directory remains the NG-generated view, **not** the authoritative official publisher cache.
+
 ## Purpose
 
 The editor is expected to consume and edit the full complexity of real SCAP-NG content. This repository therefore contains substantial generated data, not only tiny unit-test fixtures.
