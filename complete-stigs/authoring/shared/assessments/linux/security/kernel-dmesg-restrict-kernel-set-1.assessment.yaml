@@ -1,0 +1,28 @@
+assessment:
+  id: ng.shared.kernel-dmesg-restrict-setting-in-kernel-is-set-to-1
+  version: 1
+  assessment_title: Linux must restrict access to the kernel message buffer.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    kernel-dmesg-restrict-setting-in-kernel-set-1-test:
+      test_title: kernel.dmesg_restrict setting in kernel is set to 1
+      capability: unix.sysctl
+      object:
+        capability: unix.sysctl
+        select:
+          name:
+            equals: kernel.dmesg_restrict
+        object_title: null
+      states:
+      - value:
+          require: at_least_one_exists_and_all_match
+          equals: 1
+      reported_elements: all
+      collected_items_require: all_exist_and_all_match
+  evaluate:
+    test: kernel-dmesg-restrict-setting-in-kernel-set-1-test

@@ -1,0 +1,25 @@
+assessment:
+  id: SV-253347.automated
+  version: 2
+  assessment_title: WN11-AU-000570 - Windows 11 must be configured to audit Detailed File Share Failures.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    detailed-file-share-set-failure-or-success-failure-test:
+      test_title: '''Detailed File Share'' is set to ''Failure'' or ''Success and Failure'''
+      capability: windows.auditeventpolicysubcategories
+      states:
+      - detailed_file_share:
+          equals: AUDIT_FAILURE
+      - detailed_file_share:
+          equals: AUDIT_SUCCESS_FAILURE
+      reported_elements: all
+      states_match: any
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: detailed-file-share-set-failure-or-success-failure-test

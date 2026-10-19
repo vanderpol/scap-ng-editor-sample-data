@@ -1,0 +1,26 @@
+assessment:
+  id: ng.shared.gssproxy
+  version: 1
+  assessment_title: Linux must not have the gssproxy package installed.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    gssproxy-test:
+      test_title: gssproxy
+      capability: linux.rpminfo
+      object:
+        capability: linux.rpminfo
+        select:
+          package_name:
+            equals: gssproxy
+        object_title: null
+        collect:
+          include_file_paths: false
+      reported_elements: all
+      collected_items_require: none_exist
+  evaluate:
+    test: gssproxy-test

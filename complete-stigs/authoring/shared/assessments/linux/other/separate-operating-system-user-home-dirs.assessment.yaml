@@ -1,0 +1,25 @@
+assessment:
+  id: ng.shared.a-separate-operating-system-filesystem-is-used-for-user-home-directories
+  version: 1
+  assessment_title: Linux must be configured so that a separate file system must be used for user home directories
+    (such as /home or an equivalent).
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    separate-operating-system-filesystem-used-user-home-directories-test:
+      test_title: A separate operating system filesystem is used for user home directories
+      capability: linux.partition
+      object:
+        capability: linux.partition
+        select:
+          mount_point:
+            matches_regex: .*\/home
+        object_title: null
+      reported_elements: all
+      collected_items_require: all_exist
+  evaluate:
+    test: separate-operating-system-filesystem-used-user-home-directories-test

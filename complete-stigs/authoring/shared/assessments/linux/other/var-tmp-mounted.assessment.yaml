@@ -1,0 +1,24 @@
+assessment:
+  id: ng.shared.var-tmp-is-mounted
+  version: 1
+  assessment_title: Linux must use a separate file system for /var/tmp.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    var-tmp-mounted-test:
+      test_title: /var/tmp is mounted
+      capability: linux.partition
+      object:
+        capability: linux.partition
+        select:
+          mount_point:
+            equals: /var/tmp
+        object_title: /var/tmp
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+  evaluate:
+    test: var-tmp-mounted-test

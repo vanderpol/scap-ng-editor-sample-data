@@ -1,0 +1,42 @@
+assessment:
+  id: ng.shared.network-security-ldap-client-signing-requirements-is-set-to-negotiate-si
+  version: 1
+  assessment_title: The system must be configured to the required LDAP client signing level.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    network-security-ldap-client-signing-requirements-set-negotiate-signing-or-test:
+      test_title: '''Network security: LDAP client signing requirements'' is set to ''Negotiate signing'' or ''Require
+        signing'''
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SYSTEM\CurrentControlSet\Services\LDAP
+          name:
+            equals: LDAPClientIntegrity
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 1
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 2
+      reported_elements: all
+      states_match: any
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: network-security-ldap-client-signing-requirements-set-negotiate-signing-or-test

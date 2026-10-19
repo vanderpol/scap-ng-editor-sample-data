@@ -1,0 +1,26 @@
+assessment:
+  id: ng.shared.package-openssl-pkcs11-is-installed
+  version: 1
+  assessment_title: Linux must have the openssl-pkcs11 package installed.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    package-openssl-pkcs11-installed-test:
+      test_title: package openssl-pkcs11 is installed
+      capability: linux.rpminfo
+      object:
+        capability: linux.rpminfo
+        select:
+          package_name:
+            equals: openssl-pkcs11
+        object_title: null
+        collect:
+          include_file_paths: false
+      reported_elements: all
+      collected_items_require: all_exist
+  evaluate:
+    test: package-openssl-pkcs11-installed-test

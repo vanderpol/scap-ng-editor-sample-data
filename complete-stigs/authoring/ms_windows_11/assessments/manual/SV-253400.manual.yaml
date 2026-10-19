@@ -1,0 +1,28 @@
+assessment:
+  id: SV-253400.manual
+  version: 1
+  assessment_title: The use of a hardware security device with Windows Hello for Business must be enabled.
+  mode: manual
+  purpose: assessment
+  class: compliance
+  procedure: 'Virtual desktop implementations currently may not support the use of TPMs. For virtual desktop implementations
+    where the virtual desktop instance is deleted or refreshed upon logoff, this is NA. If the following registry value does
+    not exist or is not configured as specified, this is a finding: Registry Hive: HKEY_LOCAL_MACHINE Registry Path: \SOFTWARE\Policies\Microsoft\PassportForWork\
+    Value Name: RequireSecurityDevice Type: REG_DWORD Value: 1'
+  response:
+    type: compliance
+    choices:
+    - value: pass
+      label: Pass
+      outcome: 'true'
+    - value: fail
+      label: Fail
+      outcome: 'false'
+    - value: unknown
+      label: Unknown
+      outcome: unknown
+    - value: not_applicable
+      label: Not applicable
+      outcome: not_applicable
+    allow_comment: true
+    allow_evidence: true

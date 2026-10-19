@@ -1,0 +1,27 @@
+assessment:
+  id: SV-258164.manual
+  version: 1
+  assessment_title: RHEL 9 audit system must audit local events.
+  mode: manual
+  purpose: assessment
+  class: compliance
+  procedure: 'Verify that the RHEL 9 audit system is configured to audit local events with the following command: $ sudo grep
+    local_events /etc/audit/auditd.conf local_events = yes If "local_events" isn''t set to "yes", if the command does not
+    return a line, or the line is commented out, this is a finding.'
+  response:
+    type: compliance
+    choices:
+    - value: pass
+      label: Pass
+      outcome: 'true'
+    - value: fail
+      label: Fail
+      outcome: 'false'
+    - value: unknown
+      label: Unknown
+      outcome: unknown
+    - value: not_applicable
+      label: Not applicable
+      outcome: not_applicable
+    allow_comment: true
+    allow_evidence: true

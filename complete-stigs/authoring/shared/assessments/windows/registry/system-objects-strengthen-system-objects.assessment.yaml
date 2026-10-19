@@ -1,0 +1,36 @@
+assessment:
+  id: ng.shared.system-objects-strengthen-default-permissions-of-internal-system-objects
+  version: 1
+  assessment_title: The default permissions of global system objects must be increased.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    system-objects-strengthen-default-permissions-internal-system-objects-e-g-test:
+      test_title: '''System objects: Strengthen default permissions of internal system objects (e.g. Symbolic links)''
+        is set to ''Enabled''.'
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SYSTEM\CurrentControlSet\Control\Session Manager
+          name:
+            equals: ProtectionMode
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 1
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: system-objects-strengthen-default-permissions-internal-system-objects-e-g-test

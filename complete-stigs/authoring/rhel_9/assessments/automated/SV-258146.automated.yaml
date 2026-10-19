@@ -1,0 +1,174 @@
+assessment:
+  id: SV-258146.automated
+  version: 2
+  assessment_title: RHEL-09-652040 - RHEL 9 must authenticate the remote logging server for offloading audit logs
+    via rsyslog.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    actionsendstreamdriverauthmode-x509-name-test:
+      test_title: ActionSendStreamDriverAuthMode == x509/name
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: independent.textfilecontent54
+              select:
+                full_path:
+                  equals: /etc/rsyslog.conf
+                pattern:
+                  matches_regex: ^\$ActionSendStreamDriverAuthMode\s+(\S+)\s*$
+                instance:
+                  greater_than_or_equal: 1
+              object_title: 'rsyslog.conf: ActionSendStreamDriverAuthMode'
+              filesystem: all
+              collect:
+                ignore_case: true
+                multiline: true
+                singleline: false
+                item_creation: all_object_elements_fullfilled
+            filters: []
+          - object:
+              capability: independent.textfilecontent54
+              select:
+                directory:
+                  equals: /etc/rsyslog.d
+                name:
+                  matches_regex: ^.*\.conf$
+                pattern:
+                  matches_regex: ^\$ActionSendStreamDriverAuthMode\s+(\S+)\s*$
+                instance:
+                  greater_than_or_equal: 1
+              object_title: 'rsyslog.d/*.conf: ActionSendStreamDriverAuthMode'
+              filesystem: all
+              collect:
+                ignore_case: true
+                multiline: true
+                singleline: false
+                item_creation: all_object_elements_fullfilled
+            filters: []
+        object_title: ActionSendStreamDriverAuthMode
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          equals: x509/name
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    streamdriverauthmode-set-x509-name-advanced-syntax-test:
+      test_title: StreamDriverAuthMode is set to x509/name (advanced syntax)
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: independent.textfilecontent54
+              select:
+                full_path:
+                  equals: /etc/rsyslog.conf
+                pattern:
+                  matches_regex: ^\*\.\*\s+action\((\s*(?:[^#\)]*(?:#.*$)?\n)*[^#\)]*)\)
+                instance:
+                  greater_than_or_equal: 1
+              object_title: 'rsyslog.conf: action for all messages'
+              filesystem: all
+              collect:
+                ignore_case: true
+                multiline: true
+                singleline: false
+                item_creation: all_object_elements_fullfilled
+            filters: []
+          - object:
+              capability: independent.textfilecontent54
+              select:
+                directory:
+                  equals: /etc/rsyslog.d
+                name:
+                  matches_regex: ^.*\.conf$
+                pattern:
+                  matches_regex: ^\*\.\*\s+action\((\s*(?:[^#\)]*(?:#.*$)?\n)*[^#\)]*)\)
+                instance:
+                  greater_than_or_equal: 1
+              object_title: 'rsyslog.d/*.conf: action for all messages'
+              filesystem: all
+              collect:
+                ignore_case: true
+                multiline: true
+                singleline: false
+                item_creation: all_object_elements_fullfilled
+            filters: []
+        object_title: 'rsyslog: action for all messages'
+      states:
+      - subexpression:
+          matches_regex: (?i)(?:^|\n)[^#]*\btype\s*=\s*"omfwd"
+      - subexpression:
+          matches_regex: (?i)(?:^|\n)[^#]*\bStreamDriver\.?AuthMode\s*=\s*"x509/name"
+      reported_elements: all
+      states_match: all
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_some_match
+    streamdriverauthmode-not-set-in-module-block-advanced-syntax-test:
+      test_title: StreamDriverAuthMode is not set in a module block (advanced syntax)
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: independent.textfilecontent54
+              select:
+                full_path:
+                  equals: /etc/rsyslog.conf
+                pattern:
+                  matches_regex: ^\s*module\((\s*(?:[^#\)]*(?:#.*$)?\n)*[^#\)]*)\)
+                instance:
+                  greater_than_or_equal: 1
+              object_title: 'rsyslog.conf: module blocks'
+              filesystem: all
+              collect:
+                ignore_case: true
+                multiline: true
+                singleline: false
+                item_creation: all_object_elements_fullfilled
+            filters: []
+          - object:
+              capability: independent.textfilecontent54
+              select:
+                directory:
+                  equals: /etc/rsyslog.d
+                name:
+                  matches_regex: ^.*\.conf$
+                pattern:
+                  matches_regex: ^\s*module\((\s*(?:[^#\)]*(?:#.*$)?\n)*[^#\)]*)\)
+                instance:
+                  greater_than_or_equal: 1
+              object_title: 'rsyslog.d/*.conf: module blocks'
+              filesystem: all
+              collect:
+                ignore_case: true
+                multiline: true
+                singleline: false
+                item_creation: all_object_elements_fullfilled
+            filters: []
+        object_title: 'rsyslog: module blocks'
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          matches_regex: (?i)(?:^|\n)[^#]*\bStreamDriver\.?AuthMode\b
+      reported_elements: all
+      collected_items_require: may_be_absent_and_none_match
+  evaluate:
+    all:
+    - any:
+      - test: actionsendstreamdriverauthmode-x509-name-test
+      - test: streamdriverauthmode-set-x509-name-advanced-syntax-test
+    - test: streamdriverauthmode-not-set-in-module-block-advanced-syntax-test

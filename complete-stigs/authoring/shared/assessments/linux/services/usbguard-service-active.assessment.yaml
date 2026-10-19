@@ -1,0 +1,30 @@
+assessment:
+  id: ng.shared.usbguard-service-is-active
+  version: 1
+  assessment_title: Linux must enable the USBGuard package.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    usbguard-service-active-test:
+      test_title: usbguard.service is active
+      capability: linux.systemdunitproperty
+      object:
+        capability: linux.systemdunitproperty
+        select:
+          unit:
+            equals: usbguard.service
+          property:
+            equals: ActiveState
+        object_title: usbguard.service ActiveState
+      states:
+      - value:
+          require: at_least_one_exists_and_all_match
+          equals: active
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: usbguard-service-active-test

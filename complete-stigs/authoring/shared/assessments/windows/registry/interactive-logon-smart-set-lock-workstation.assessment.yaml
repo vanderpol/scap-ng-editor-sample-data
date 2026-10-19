@@ -1,0 +1,41 @@
+assessment:
+  id: ng.shared.interactive-logon-smart-card-removal-behavior-is-set-to-lock-workstation
+  version: 1
+  assessment_title: The Smart Card removal option must be configured to Force Logoff or Lock Workstation.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    interactive-logon-smart-card-removal-behavior-set-lock-workstation-or-test:
+      test_title: '''Interactive logon: Smart card removal behavior'' is set to ''Lock Workstation'' or ''Force Logoff'''
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
+          name:
+            equals: SCRemoveOption
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: string
+        - value:
+            equals: '1'
+      - and:
+        - type:
+            equals: string
+        - value:
+            equals: '2'
+      reported_elements: all
+      states_match: any
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: interactive-logon-smart-card-removal-behavior-set-lock-workstation-or-test

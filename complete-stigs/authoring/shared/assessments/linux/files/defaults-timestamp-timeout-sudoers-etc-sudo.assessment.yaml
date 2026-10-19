@@ -1,0 +1,67 @@
+assessment:
+  id: ng.shared.defaults-timestamp-timeout-is-configured-to-0-in-etc-sudoers-or-etc-sudo
+  version: 1
+  assessment_title: Linux must require reauthentication when using the "sudo" command.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    defaults-timestamp-timeout-configured-0-in-etc-sudoers-or-etc-test:
+      test_title: Defaults timestamp_timeout is configured to 0 in /etc/sudoers or /etc/sudoers.d.
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: independent.textfilecontent54
+              select:
+                full_path:
+                  equals: /etc/sudoers
+                pattern:
+                  matches_regex: ^\s*Defaults\s+timestamp_timeout\s*=\s*([-\d]+)\s*$
+                instance:
+                  equals: 1
+              object_title: null
+              filesystem: all
+              collect:
+                ignore_case: true
+                multiline: true
+                singleline: false
+                item_creation: all_object_elements_fullfilled
+            filters: []
+          - object:
+              capability: independent.textfilecontent54
+              select:
+                directory:
+                  equals: /etc/sudoers.d
+                name:
+                  matches_regex: ^.*$
+                pattern:
+                  matches_regex: ^\s*Defaults\s+timestamp_timeout\s*=\s*([-\d]+)\s*$
+                instance:
+                  equals: 1
+              object_title: null
+              filesystem: all
+              traversal:
+                max_depth: null
+                recurse: symlinks_and_directories
+              collect:
+                ignore_case: true
+                multiline: true
+                singleline: false
+                item_creation: all_object_elements_fullfilled
+            filters: []
+        object_title: null
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          equals: 0
+      reported_elements: all
+      collected_items_require: only_one_exists_and_matches
+  evaluate:
+    test: defaults-timestamp-timeout-configured-0-in-etc-sudoers-or-etc-test

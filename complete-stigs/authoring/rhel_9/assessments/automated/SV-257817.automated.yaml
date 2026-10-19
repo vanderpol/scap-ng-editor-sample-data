@@ -1,0 +1,49 @@
+assessment:
+  id: SV-257817.automated
+  version: 13
+  assessment_title: RHEL 9 must implement nonexecutable data to protect its memory from unauthorized code execution.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    check-flags-in-proc-cpuinfo-test:
+      test_title: Check flags in /proc/cpuinfo.
+      capability: independent.shellcommand
+      object:
+        capability: independent.shellcommand
+        object_title: Check flags in /proc/cpuinfo.
+        collect:
+          shell: bash
+          command: grep ^flags /proc/cpuinfo | grep -Ev '([^[:alnum:]])(nx)([^[:alnum:]]|$)'
+          error_if_exit_status_not_0: false
+          error_if_stderr_exists: false
+      states:
+      - stdout_line:
+          require: none_exist
+          equals: ''
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    verify-execshield-enabled-in-grub-test:
+      test_title: Verify execshield is enabled in grub.
+      capability: independent.shellcommand
+      object:
+        capability: independent.shellcommand
+        object_title: Verify execshield is enabled in grub.
+        collect:
+          shell: bash
+          command: grubby --info=ALL | grep args | grep -E '([^[:alnum:]])(noexec)([^[:alnum:]])'
+          error_if_exit_status_not_0: false
+          error_if_stderr_exists: false
+      states:
+      - stdout_line:
+          require: none_exist
+          equals: ''
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    all:
+    - test: check-flags-in-proc-cpuinfo-test
+    - test: verify-execshield-enabled-in-grub-test

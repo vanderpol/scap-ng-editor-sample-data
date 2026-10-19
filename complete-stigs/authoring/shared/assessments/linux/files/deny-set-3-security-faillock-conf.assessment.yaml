@@ -1,0 +1,41 @@
+assessment:
+  id: ng.shared.deny-is-set-to-3-or-less-but-not-0-in-etc-security-faillock-conf
+  version: 1
+  assessment_title: Linux must automatically lock an account when three unsuccessful logon attempts occur.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    deny-set-3-or-less-but-not-0-in-etc-test:
+      test_title: deny is set to 3 or less but not 0 in /etc/security/faillock.conf
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/security/faillock.conf
+          pattern:
+            matches_regex: ^\s*deny\s*=\s*([\d]+)\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          less_than_or_equal: 3
+      - subexpression:
+          greater_than: 0
+      reported_elements: all
+      states_match: all
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: deny-set-3-or-less-but-not-0-in-etc-test

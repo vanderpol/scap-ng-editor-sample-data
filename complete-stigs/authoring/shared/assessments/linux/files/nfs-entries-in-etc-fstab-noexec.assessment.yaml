@@ -1,0 +1,39 @@
+assessment:
+  id: ng.shared.all-nfs-entries-in-etc-fstab-have-noexec
+  version: 1
+  assessment_title: Linux must prevent code from being executed on file systems that are imported via Network File
+    System (NFS).
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    all-nfs-entries-in-etc-fstab-have-noexec-test:
+      test_title: all nfs entries in /etc/fstab have noexec
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/fstab
+          pattern:
+            matches_regex: ^\s*[^#\s][^\s]*\s+[^\s]+\s+nfs[^\s]*\s+([^\s]+)
+          instance:
+            not_equal: 0
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          matches_regex: (^|,)noexec(,|$)
+      reported_elements: all
+      collected_items_require: may_be_absent_and_all_match
+  evaluate:
+    test: all-nfs-entries-in-etc-fstab-have-noexec-test

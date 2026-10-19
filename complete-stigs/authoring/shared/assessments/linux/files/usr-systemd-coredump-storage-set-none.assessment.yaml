@@ -1,0 +1,38 @@
+assessment:
+  id: ng.shared.usr-systemd-coredump-conf-storage-is-set-to-none
+  version: 1
+  assessment_title: Linux must disable storing core dumps.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    usr-systemd-coredump-conf-storage-set-none-test:
+      test_title: /usr/systemd/coredump.conf:Storage is set to none.
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/systemd/coredump.conf
+          pattern:
+            matches_regex: ^\s*Storage\s*=\s*(\w*)\s*(?:#.*)?$
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          equals: none
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: usr-systemd-coredump-conf-storage-set-none-test

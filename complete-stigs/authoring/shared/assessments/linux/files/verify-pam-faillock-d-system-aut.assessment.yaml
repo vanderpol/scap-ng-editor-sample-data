@@ -1,0 +1,45 @@
+assessment:
+  id: ng.shared.verify-the-pam-faillock-so-module-is-present-in-the-etc-pam-d-system-aut
+  version: 1
+  assessment_title: Linux must configure the use of the pam_faillock.so module in the /etc/pam.d/system-auth file.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    verify-pam-faillock-so-module-present-in-etc-pam-d-test:
+      test_title: Verify the pam_faillock.so module is present in the '/etc/pam.d/system-auth' file.
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/pam.d/system-auth
+          pattern:
+            matches_regex: .+
+          instance:
+            greater_than_or_equal: 1
+        object_title: 'Retrieve configuration from file: /etc/pam.d/system-auth.'
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: true
+          item_creation: all_object_elements_fullfilled
+      states:
+      - text:
+          matches_regex: \n\s*auth\s+required\s+pam_faillock.so\s+preauth\b
+      - text:
+          matches_regex: \n\s*auth\s+required\s+pam_faillock.so\s+authfail\b
+      - text:
+          matches_regex: \n\s*account\s+required\s+pam_faillock.so\b
+      - text:
+          matches_regex: \n\s*auth\s+required\s+pam_faillock.so\s+preauth(.*\n)*auth\s+(required|sufficient|requisite)\s+pam_unix.so
+      reported_elements: all
+      states_match: all
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: verify-pam-faillock-so-module-present-in-etc-pam-d-test

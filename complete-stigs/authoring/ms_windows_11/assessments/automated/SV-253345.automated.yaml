@@ -1,0 +1,25 @@
+assessment:
+  id: SV-253345.automated
+  version: 2
+  assessment_title: WN11-AU-000560 - Windows 11 must be configured to audit other Logon/Logoff Events Successes.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    audit-logon-set-failure-succss-failure-test:
+      test_title: '''Audit Logon'' is set to ''Failure'' and ''Succss and Failure'
+      capability: windows.auditeventpolicysubcategories
+      states:
+      - other_logon_logoff_events:
+          equals: AUDIT_SUCCESS
+      - other_logon_logoff_events:
+          equals: AUDIT_SUCCESS_FAILURE
+      reported_elements: all
+      states_match: any
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: audit-logon-set-failure-succss-failure-test

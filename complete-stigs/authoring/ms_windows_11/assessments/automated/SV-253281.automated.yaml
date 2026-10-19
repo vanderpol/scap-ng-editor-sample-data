@@ -1,0 +1,82 @@
+assessment:
+  id: SV-253281.automated
+  version: 18
+  assessment_title: A host-based firewall must be installed and enabled on the system.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    verify-3rd-party-firewall-installed-enabled-via-security-center-test:
+      test_title: Verify a 3rd party firewall is installed and enabled via Security Center.
+      capability: windows.cmdlet
+      object:
+        capability: windows.cmdlet
+        object_title: Gather FirewallProduct from SecurityCenter2
+        collect:
+          module_name: CimCmdlets
+          module_id: null
+          module_version: null
+          verb: Get
+          noun: CimInstance
+          parameters:
+            fields:
+              classname:
+                selection_match: all
+                equals: firewallproduct
+              namespace:
+                selection_match: all
+                equals: root\securitycenter2
+          select:
+            fields:
+              property:
+                selection_match: all
+                equals: displayname,productstate
+      states:
+      - value:
+          record:
+            fields:
+              productstate:
+                require: at_least_one_exists_and_all_match
+                equals: '266240'
+            require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_some_match
+    verify-windows-defender-firewall-enabled-test:
+      test_title: Verify Windows defender firewall is enabled.
+      capability: windows.cmdlet
+      object:
+        capability: windows.cmdlet
+        object_title: Gather FirewallProduct from NetSecurity
+        collect:
+          module_name: NetSecurity
+          module_id: null
+          module_version: null
+          verb: Get
+          noun: NetFirewallProfile
+          parameters:
+            fields:
+              policystore:
+                selection_match: all
+                equals: ActiveStore
+          select:
+            fields:
+              property:
+                selection_match: all
+                equals: name,enabled,defaultinboundaction,defaultoutboundaction,logfilename
+      states:
+      - value:
+          record:
+            fields:
+              enabled:
+                require: at_least_one_exists_and_all_match
+                equals: 'True'
+            require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_some_match
+  evaluate:
+    any:
+    - test: verify-3rd-party-firewall-installed-enabled-via-security-center-test
+    - test: verify-windows-defender-firewall-enabled-test

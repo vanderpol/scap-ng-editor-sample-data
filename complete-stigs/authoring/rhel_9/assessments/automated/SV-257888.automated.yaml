@@ -1,0 +1,31 @@
+assessment:
+  id: SV-257888.automated
+  version: 13
+  assessment_title: RHEL 9 permissions of cron configuration files and directories must not be modified from the operating
+    system defaults.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    confirm-permissions-cron-configuration-files-directories-match-operating-system-defaults-test:
+      test_title: Confirm permissions of cron configuration files and directories match the operating system defaults.
+      capability: independent.shellcommand
+      object:
+        capability: independent.shellcommand
+        object_title: Retrieve cron configuration files and directories which do not match the operating system defaults.
+        collect:
+          shell: bash
+          command: rpm --verify cronie crontabs | awk '! ($2 == "c" && $1 ~ /^.\..\.\.\.\..\./) {print $0}'
+          error_if_exit_status_not_0: false
+          error_if_stderr_exists: false
+      states:
+      - stdout_line:
+          require: none_exist
+          equals: ''
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: confirm-permissions-cron-configuration-files-directories-match-operating-system-defaults-test

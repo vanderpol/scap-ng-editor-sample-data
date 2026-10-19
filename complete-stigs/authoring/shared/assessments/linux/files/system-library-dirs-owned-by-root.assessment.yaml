@@ -1,0 +1,54 @@
+assessment:
+  id: ng.shared.system-library-directories-are-owned-by-root
+  version: 1
+  assessment_title: Linux library directories must be owned by root.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    system-library-directories-owned-by-root-test:
+      test_title: System Library directories are owned by root.
+      capability: unix.file
+      object:
+        capability: unix.file
+        object_title: All system-wide Library directories not owned by root
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: unix.file
+              select:
+                directory:
+                  datatype: string
+                  value_match: one
+                  equals:
+                  - /lib
+                  - /lib64
+                  - /usr/lib
+                  - /usr/lib64
+                name: null
+              object_title: All system-wide Library directories not owned by root
+              filesystem: all
+              traversal:
+                max_depth: null
+                recurse: symlinks_and_directories
+            filters:
+            - exclude:
+                type:
+                  require: at_least_one_exists_and_all_match
+                  equals: symbolic link
+            - exclude:
+                owner_uid:
+                  require: at_least_one_exists_and_all_match
+                  equals: 0
+            - exclude:
+                type:
+                  require: at_least_one_exists_and_all_match
+                  equals: file
+      reported_elements: all
+      collected_items_require: none_exist
+  evaluate:
+    test: system-library-directories-owned-by-root-test

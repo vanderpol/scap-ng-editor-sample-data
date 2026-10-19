@@ -1,0 +1,26 @@
+assessment:
+  id: SV-257836.automated
+  version: 1
+  assessment_title: RHEL-09-215065 - RHEL 9 must not have the quagga package installed.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    quagga-package-not-installed-test:
+      test_title: The quagga package is not installed
+      capability: linux.rpminfo
+      object:
+        capability: linux.rpminfo
+        select:
+          package_name:
+            equals: quagga
+        object_title: null
+        collect:
+          include_file_paths: false
+      reported_elements: all
+      collected_items_require: none_exist
+  evaluate:
+    test: quagga-package-not-installed-test

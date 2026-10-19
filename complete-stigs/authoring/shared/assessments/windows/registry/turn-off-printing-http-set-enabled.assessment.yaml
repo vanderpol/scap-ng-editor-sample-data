@@ -1,0 +1,35 @@
+assessment:
+  id: ng.shared.turn-off-printing-over-http-is-set-to-enabled
+  version: 1
+  assessment_title: Printing over HTTP must be prevented.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    turn-off-printing-over-http-set-enabled-test:
+      test_title: '''Turn off printing over HTTP'' is set to ''Enabled'''
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SOFTWARE\Policies\Microsoft\Windows NT\Printers
+          name:
+            equals: DisableHTTPPrinting
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 1
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: turn-off-printing-over-http-set-enabled-test

@@ -1,0 +1,35 @@
+assessment:
+  id: ng.shared.the-system-event-log-size-is-configured-to-32768-kb-or-greater
+  version: 1
+  assessment_title: The System event log size must be configured to 32768 KB or greater.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    system-event-log-size-configured-32768-kb-or-greater-test:
+      test_title: The System event log size is configured to 32768 KB or greater
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            case_insensitive_equals: SOFTWARE\Policies\Microsoft\Windows\EventLog\System
+          name:
+            case_insensitive_equals: MaxSize
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            greater_than_or_equal: 32768
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: system-event-log-size-configured-32768-kb-or-greater-test

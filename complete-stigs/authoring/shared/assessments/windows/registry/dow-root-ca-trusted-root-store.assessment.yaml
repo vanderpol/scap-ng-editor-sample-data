@@ -1,0 +1,169 @@
+assessment:
+  id: ng.shared.the-dow-root-ca-certificates-must-be-installed-in-the-trusted-root-store
+  version: 1
+  assessment_title: The DoW Root CA certificates must be installed in the Trusted Root Store.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    dod-root-ca-3-certificate-expiring-12-30-2029-installed-test:
+      test_title: The DoD Root CA 3 Certificate expiring 12/30/2029 is installed into the Trusted Root Store.
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: windows.registry
+              set:
+                operator: union
+                operands:
+                - object:
+                    capability: windows.registry
+                    select:
+                      hive:
+                        equals: local_machine
+                      key:
+                        equals: SOFTWARE\Microsoft\SystemCertificates\Root\Certificates\D73CA91102A2204A36459ED32213B467D7CE97FB
+                      name:
+                        matches_regex: ^.+$
+                    object_title: null
+                  filters: []
+                - object:
+                    capability: windows.registry
+                    select:
+                      hive:
+                        equals: local_machine
+                      key:
+                        equals: SOFTWARE\Microsoft\EnterpriseCertificates\Root\Certificates\D73CA91102A2204A36459ED32213B467D7CE97FB
+                      name:
+                        matches_regex: ^.+$
+                    object_title: null
+                  filters: []
+              object_title: null
+            filters: []
+          - object:
+              capability: windows.registry
+              select:
+                hive:
+                  equals: local_machine
+                key:
+                  equals: SOFTWARE\Policies\Microsoft\SystemCertificates\Root\Certificates\D73CA91102A2204A36459ED32213B467D7CE97FB
+                name:
+                  matches_regex: ^.+$
+              object_title: null
+            filters: []
+        object_title: null
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+    dod-root-ca-5-certificate-expiring-6-14-2041-installed-test:
+      test_title: The DoD Root CA 5 Certificate expiring 6/14/2041 is installed into the Trusted Root Store.
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: windows.registry
+              set:
+                operator: union
+                operands:
+                - object:
+                    capability: windows.registry
+                    select:
+                      hive:
+                        equals: local_machine
+                      key:
+                        equals: SOFTWARE\Microsoft\SystemCertificates\Root\Certificates\4ECB5CC3095670454DA1CBD410FC921F46B8564B
+                      name:
+                        matches_regex: ^.+$
+                    object_title: null
+                  filters: []
+                - object:
+                    capability: windows.registry
+                    select:
+                      hive:
+                        equals: local_machine
+                      key:
+                        equals: SOFTWARE\Microsoft\EnterpriseCertificates\Root\Certificates\4ECB5CC3095670454DA1CBD410FC921F46B8564B
+                      name:
+                        matches_regex: ^.+$
+                    object_title: null
+                  filters: []
+              object_title: null
+            filters: []
+          - object:
+              capability: windows.registry
+              select:
+                hive:
+                  equals: local_machine
+                key:
+                  equals: SOFTWARE\Policies\Microsoft\SystemCertificates\Root\Certificates\4ECB5CC3095670454DA1CBD410FC921F46B8564B
+                name:
+                  matches_regex: ^.+$
+              object_title: null
+            filters: []
+        object_title: null
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+    dod-root-ca-6-certificate-expiring-1-24-2053-installed-test:
+      test_title: The DoD Root CA 6 Certificate expiring 1/24/2053 is installed into the Trusted Root Store.
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: windows.registry
+              set:
+                operator: union
+                operands:
+                - object:
+                    capability: windows.registry
+                    select:
+                      hive:
+                        equals: local_machine
+                      key:
+                        equals: SOFTWARE\Microsoft\SystemCertificates\Root\Certificates\D37ECF61C0B4ED88681EF3630C4E2FC787B37AEF
+                      name:
+                        matches_regex: ^.+$
+                    object_title: null
+                  filters: []
+                - object:
+                    capability: windows.registry
+                    select:
+                      hive:
+                        equals: local_machine
+                      key:
+                        equals: SOFTWARE\Microsoft\EnterpriseCertificates\Root\Certificates\D37ECF61C0B4ED88681EF3630C4E2FC787B37AEF
+                      name:
+                        matches_regex: ^.+$
+                    object_title: null
+                  filters: []
+              object_title: null
+            filters: []
+          - object:
+              capability: windows.registry
+              select:
+                hive:
+                  equals: local_machine
+                key:
+                  equals: SOFTWARE\Policies\Microsoft\SystemCertificates\Root\Certificates\D37ECF61C0B4ED88681EF3630C4E2FC787B37AEF
+                name:
+                  matches_regex: ^.+$
+              object_title: null
+            filters: []
+        object_title: null
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+  evaluate:
+    all:
+    - test: dod-root-ca-3-certificate-expiring-12-30-2029-installed-test
+    - test: dod-root-ca-5-certificate-expiring-6-14-2041-installed-test
+    - test: dod-root-ca-6-certificate-expiring-1-24-2053-installed-test

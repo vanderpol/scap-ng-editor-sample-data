@@ -1,0 +1,34 @@
+assessment:
+  id: ng.shared.etc-audit-audit-rules-loginuid-immutable-option-is-present
+  version: 1
+  assessment_title: Linux audit system must protect logon UIDs from unauthorized change.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    etc-audit-audit-rules-loginuid-immutable-option-present-test:
+      test_title: '/etc/audit/audit.rules: --loginuid-immutable option is present'
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/audit/audit.rules
+          pattern:
+            matches_regex: ^--loginuid-immutable$
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+  evaluate:
+    test: etc-audit-audit-rules-loginuid-immutable-option-present-test

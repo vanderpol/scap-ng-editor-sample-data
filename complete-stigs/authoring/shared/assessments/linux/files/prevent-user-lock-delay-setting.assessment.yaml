@@ -1,0 +1,81 @@
+assessment:
+  id: ng.shared.linux-must-prevent-a-user-from-overriding-the-session-lock-delay-setting
+  version: 1
+  assessment_title: Linux must prevent a user from overriding the session lock-delay setting for the graphical user
+    interface.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  variables:
+    dconf-user-database-locks-directories-variable:
+      title: dconf user database locks directories
+      kind: local
+      datatype: string
+      expression:
+        concat:
+        - literal:
+            value: /etc/dconf/db/
+            datatype: string
+        - values:
+            object: dconf-user-databases-object
+            field: subexpression
+        - literal:
+            value: .d/locks
+            datatype: string
+  tests:
+    dconf-user-database-s-exist-test:
+      test_title: dconf user database(s) exist
+      capability: independent.textfilecontent54
+      object: dconf-user-databases-object
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+    org-gnome-desktop-screensaver-lock-delay-in-dconf-user-database-test:
+      test_title: /org/gnome/desktop/screensaver/lock-delay in dconf user database locks directories exists
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          directory:
+            datatype: string
+            value_match: one_or_more
+            equals:
+              variable: dconf-user-database-locks-directories-variable
+          name:
+            matches_regex: .*
+          pattern:
+            matches_regex: ^/org/gnome/desktop/screensaver/lock-delay$
+          instance:
+            greater_than_or_equal: 1
+        object_title: /org/gnome/desktop/screensaver/lock-delay in dconf user database locks directories
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+  evaluate:
+    all:
+    - test: dconf-user-database-s-exist-test
+    - test: org-gnome-desktop-screensaver-lock-delay-in-dconf-user-database-test
+  shared_objects:
+    dconf-user-databases-object:
+      capability: independent.textfilecontent54
+      select:
+        full_path:
+          equals: /etc/dconf/profile/user
+        pattern:
+          matches_regex: ^system-db:(\S+)\s*$
+        instance:
+          greater_than_or_equal: 1
+      object_title: dconf user databases
+      filesystem: all
+      collect:
+        ignore_case: false
+        multiline: true
+        singleline: false
+        item_creation: all_object_elements_fullfilled

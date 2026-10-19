@@ -1,0 +1,75 @@
+assessment:
+  id: ng.shared.zone-information-must-be-preserved-when-saving-attachments
+  version: 1
+  assessment_title: Zone information must be preserved when saving attachments.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    do-not-preserve-zone-information-in-file-attachments-set-not-test:
+      test_title: '''Do not preserve zone information in file attachments'' is set to ''Not Configured'' or ''Disabled'''
+      capability: windows.ntuser
+      object:
+        capability: windows.ntuser
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: windows.ntuser
+              select:
+                key:
+                  equals: Software\Microsoft\Windows\CurrentVersion\Policies\Attachments
+                name:
+                  equals: SaveZoneInformation
+              object_title: null
+              collect:
+                include_default: false
+                item_creation: key_and_name_exist
+            filters:
+            - exclude:
+                enabled:
+                  require: at_least_one_exists_and_all_match
+                  equals: false
+            - exclude:
+                days_since_modified:
+                  require: at_least_one_exists_and_all_match
+                  greater_than: 35
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 2
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: may_be_absent_and_all_match
+    current-user-do-not-preserve-zone-information-in-file-attachments-test:
+      test_title: For the current user, 'Do not preserve zone information in file attachments' is set to 'Not Configured'
+        or 'Disabled'
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: current_user
+          key:
+            equals: Software\Microsoft\Windows\CurrentVersion\Policies\Attachments
+          name:
+            equals: SaveZoneInformation
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 2
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: may_be_absent_and_all_match
+  evaluate:
+    all:
+    - test: do-not-preserve-zone-information-in-file-attachments-set-not-test
+    - test: current-user-do-not-preserve-zone-information-in-file-attachments-test

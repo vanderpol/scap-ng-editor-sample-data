@@ -1,0 +1,40 @@
+assessment:
+  id: ng.shared.gnome-idle-delay-must-not-be-set-to-0-or-greater-than-600
+  version: 1
+  assessment_title: Linux must automatically lock graphical user sessions after 10 minutes of inactivity.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    gnome-idle-delay-not-set-0-or-greater-than-600-test:
+      test_title: Gnome idle-delay must not be set to 0 or greater than 600
+      capability: independent.shellcommand
+      object:
+        capability: independent.shellcommand
+        object_title: Gather gsettings get org.gnome.desktop.session idle-delay
+        collect:
+          shell: bash
+          command: gsettings get org.gnome.desktop.session idle-delay
+          pattern: uint32\s+(\d+)
+          error_if_exit_status_not_0: false
+          error_if_stderr_exists: false
+      states:
+      - and:
+        - exit_status:
+            equals: 0
+        - subexpression:
+            not_equal: 0
+      - and:
+        - exit_status:
+            equals: 0
+        - subexpression:
+            less_than_or_equal: 600
+      reported_elements: all
+      states_match: all
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: gnome-idle-delay-not-set-0-or-greater-than-600-test

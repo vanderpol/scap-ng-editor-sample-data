@@ -1,0 +1,41 @@
+assessment:
+  id: ng.shared.the-machine-inactivity-limit-is-set-to-15-minutes-or-less
+  version: 1
+  assessment_title: The machine inactivity limit must be set to 15 minutes, locking the system with the screensaver.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    machine-inactivity-limit-set-15-minutes-or-less-test:
+      test_title: The machine inactivity limit is set to 15 minutes or less
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            case_insensitive_equals: Software\Microsoft\Windows\CurrentVersion\Policies\System
+          name:
+            case_insensitive_equals: InactivityTimeoutSecs
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            less_than_or_equal: 900
+      - and:
+        - type:
+            equals: dword
+        - value:
+            greater_than: 0
+      reported_elements: all
+      states_match: all
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: machine-inactivity-limit-set-15-minutes-or-less-test

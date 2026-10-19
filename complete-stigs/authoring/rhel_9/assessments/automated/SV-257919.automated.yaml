@@ -1,0 +1,58 @@
+assessment:
+  id: SV-257919.automated
+  version: 13
+  assessment_title: RHEL 9 system commands must be group-owned by root or a system account.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    files-in-system-command-directories-owned-by-root-group-or-test:
+      test_title: Files in System command directories are owned by root-group or a system group gid less than 1000.
+      capability: unix.file
+      object:
+        capability: unix.file
+        object_title: All system-command files not owned by root-group or system-group (id less than 1000)
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: unix.file
+              select:
+                directory:
+                  datatype: string
+                  value_match: one
+                  equals:
+                  - /bin
+                  - /sbin
+                  - /usr/bin
+                  - /usr/libexec
+                  - /usr/sbin
+                  - /usr/local/bin
+                  - /usr/local/sbin
+                name:
+                  matches_regex: .*
+              object_title: All system-command files not owned by root-group or system-group (id less than 1000)
+              filesystem: all
+              traversal:
+                max_depth: null
+                recurse: symlinks_and_directories
+            filters:
+            - exclude:
+                owner_gid:
+                  require: at_least_one_exists_and_all_match
+                  less_than: 1000
+            - exclude:
+                type:
+                  require: at_least_one_exists_and_all_match
+                  equals: symbolic link
+            - exclude:
+                type:
+                  require: at_least_one_exists_and_all_match
+                  equals: directory
+      reported_elements: all
+      collected_items_require: none_exist
+  evaluate:
+    test: files-in-system-command-directories-owned-by-root-group-or-test

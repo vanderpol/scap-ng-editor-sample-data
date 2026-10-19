@@ -1,0 +1,31 @@
+assessment:
+  id: ng.shared.restore-files-and-directories-administrators
+  version: 1
+  assessment_title: The "Restore files and directories" user right must only be assigned to the Administrators group.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    restore-files-directories-administrators-test:
+      test_title: Restore files and directories - Administrators
+      capability: windows.userright
+      object:
+        capability: windows.userright
+        select:
+          userright:
+            equals: SE_RESTORE_NAME
+        object_title: null
+      states:
+      - trustee_name:
+          equals: ''
+      - trustee_name:
+          case_insensitive_equals: Administrators
+      reported_elements: all
+      states_match: any
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: restore-files-directories-administrators-test

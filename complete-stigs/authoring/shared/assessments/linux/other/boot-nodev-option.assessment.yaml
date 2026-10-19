@@ -1,0 +1,28 @@
+assessment:
+  id: ng.shared.boot-has-nodev-option
+  version: 1
+  assessment_title: Linux must mount /boot with the nodev option.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    boot-has-nodev-option-test:
+      test_title: /boot has nodev option
+      capability: linux.partition
+      object:
+        capability: linux.partition
+        select:
+          mount_point:
+            equals: /boot
+        object_title: /boot
+      states:
+      - mount_options:
+          require: at_least_one_exists_and_some_match
+          equals: nodev
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: boot-has-nodev-option-test

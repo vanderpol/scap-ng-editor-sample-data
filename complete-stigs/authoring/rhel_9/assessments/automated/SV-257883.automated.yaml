@@ -1,0 +1,97 @@
+assessment:
+  id: SV-257883.automated
+  version: 13
+  assessment_title: RHEL 9 library directories must have mode 755 or less permissive.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    system-library-directories-have-mode-755-or-less-permissive-gwrite-test:
+      test_title: System Library directories have mode 755 or less permissive.(gwrite should be = false.)
+      capability: unix.file
+      object:
+        capability: unix.file
+        object_title: All system-wide Library Directories have 755 or better (gwrite should be = false.)
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: unix.file
+              select:
+                directory:
+                  datatype: string
+                  value_match: one
+                  equals:
+                  - /lib
+                  - /lib64
+                  - /usr/lib
+                  - /usr/lib64
+                name: null
+              object_title: All system-wide Library Directories have 755 or better (gwrite should be = false.)
+              filesystem: all
+              traversal:
+                max_depth: null
+                recurse: symlinks_and_directories
+            filters:
+            - exclude:
+                group_write:
+                  require: at_least_one_exists_and_all_match
+                  equals: false
+            - exclude:
+                type:
+                  require: at_least_one_exists_and_all_match
+                  equals: symbolic link
+            - exclude:
+                type:
+                  require: at_least_one_exists_and_all_match
+                  equals: file
+      reported_elements: all
+      collected_items_require: none_exist
+    system-library-directories-have-mode-755-or-less-permissive-owrite-test:
+      test_title: System Library directories have mode 755 or less permissive (owrite should be = false.)
+      capability: unix.file
+      object:
+        capability: unix.file
+        object_title: All system-wide Library Directories have 755 or better (owrite should be = false.)
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: unix.file
+              select:
+                directory:
+                  datatype: string
+                  value_match: one
+                  equals:
+                  - /lib
+                  - /lib64
+                  - /usr/lib
+                  - /usr/lib64
+                name: null
+              object_title: All system-wide Library Directories have 755 or better (owrite should be = false.)
+              filesystem: all
+              traversal:
+                max_depth: null
+                recurse: symlinks_and_directories
+            filters:
+            - exclude:
+                other_write:
+                  require: at_least_one_exists_and_all_match
+                  equals: false
+            - exclude:
+                type:
+                  require: at_least_one_exists_and_all_match
+                  equals: symbolic link
+            - exclude:
+                type:
+                  require: at_least_one_exists_and_all_match
+                  equals: file
+      reported_elements: all
+      collected_items_require: none_exist
+  evaluate:
+    all:
+    - test: system-library-directories-have-mode-755-or-less-permissive-gwrite-test
+    - test: system-library-directories-have-mode-755-or-less-permissive-owrite-test

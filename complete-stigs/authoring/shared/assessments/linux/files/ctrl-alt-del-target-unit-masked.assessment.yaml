@@ -1,0 +1,28 @@
+assessment:
+  id: ng.shared.the-ctrl-alt-del-target-unit-is-masked
+  version: 1
+  assessment_title: Linux must be configured so that the x86 Ctrl-Alt-Delete key sequence is disabled.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    ctrl-alt-del-target-unit-masked-test:
+      test_title: The ctrl-alt-del.target unit is masked.
+      capability: unix.symlink
+      object:
+        capability: unix.symlink
+        select:
+          full_path:
+            equals: /etc/systemd/system/ctrl-alt-del.target
+        object_title: null
+      states:
+      - canonical_path:
+          require: at_least_one_exists_and_all_match
+          equals: /dev/null
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: ctrl-alt-del-target-unit-masked-test

@@ -1,0 +1,27 @@
+assessment:
+  id: SV-257979.manual
+  version: 1
+  assessment_title: All RHEL 9 networked systems must have and implement SSH to protect the confidentiality and integrity
+    of transmitted and received information, as well as information during preparation for transmission.
+  mode: manual
+  purpose: assessment
+  class: compliance
+  procedure: 'Verify that "sshd" is active with the following command: $ systemctl is-active sshd active If the "sshd" service
+    is not active, this is a finding.'
+  response:
+    type: compliance
+    choices:
+    - value: pass
+      label: Pass
+      outcome: 'true'
+    - value: fail
+      label: Fail
+      outcome: 'false'
+    - value: unknown
+      label: Unknown
+      outcome: unknown
+    - value: not_applicable
+      label: Not applicable
+      outcome: not_applicable
+    allow_comment: true
+    allow_evidence: true

@@ -1,0 +1,33 @@
+assessment:
+  id: SV-253259.automated
+  version: 2
+  assessment_title: WN11-00-000030 - Windows 11 information systems must use BitLocker to encrypt all disks to protect
+    the confidentiality and integrity of all information at rest.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    bitlocker-enabled-on-all-fixed-drives-test:
+      test_title: BitLocker must be enabled on all fixed drives.
+      capability: windows.wmi.query
+      object:
+        capability: windows.wmi.query
+        object_title: BitLocker status
+        collect:
+          namespace: root\cimv2\security\microsoftvolumeencryption
+          query: SELECT protectionstatus FROM win32_encryptablevolume
+      states:
+      - result:
+          record:
+            fields:
+              protectionstatus:
+                require: at_least_one_exists_and_all_match
+                equals: '1'
+            require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: all_exist_and_all_match
+  evaluate:
+    test: bitlocker-enabled-on-all-fixed-drives-test

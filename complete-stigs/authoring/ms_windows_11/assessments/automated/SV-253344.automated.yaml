@@ -1,0 +1,25 @@
+assessment:
+  id: SV-253344.automated
+  version: 2
+  assessment_title: WN11-AU-000555 - Windows 11 must be configured to audit Other Policy Change Events Failures.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    other-policy-change-events-set-failure-or-success-failure-test:
+      test_title: '''Other Policy Change Events'' is set to ''Failure'' or ''Success and Failure'''
+      capability: windows.auditeventpolicysubcategories
+      states:
+      - other_policy_change_events:
+          equals: AUDIT_FAILURE
+      - other_policy_change_events:
+          equals: AUDIT_SUCCESS_FAILURE
+      reported_elements: all
+      states_match: any
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: other-policy-change-events-set-failure-or-success-failure-test

@@ -1,0 +1,47 @@
+rule:
+  id: SV-253403
+  version: r1137695
+  title: Local drives must be prevented from sharing with Remote Desktop Session Hosts.
+  severity: medium
+  role: full
+  weight: 10.0
+  discussion: Preventing users from sharing the local drives on their client computers to Remote Session Hosts that they access
+    helps reduce possible exposure of sensitive data.
+  rationale: null
+  extensions:
+    disa_stig:
+      documentable: false
+      false_positives: null
+      false_negatives: null
+      mitigations: null
+      potential_impacts: null
+      responsibility: null
+  warnings: []
+  identifiers:
+  - scheme: stig
+    value: WN11-CC-000275
+  - scheme: vulnerability
+    value: V-253403
+  - scheme: cci
+    value: CCI-001090
+  references:
+  - title: DPMS Target Microsoft Windows 11
+    publisher: DISA
+    type: DPMS Target
+    subject: Microsoft Windows 11
+    identifier: '5471'
+  requires: []
+  conflicts: []
+  applicability: []
+  parameters: {}
+  remediation:
+    guidance: Configure the policy value for Computer Configuration >> Administrative Templates >> Windows Components >> Remote
+      Desktop Services >> Remote Desktop Session Host >> Device and Resource Redirection >> "Do not allow drive redirection"
+      to "Enabled".
+  organizational_input_requirements: {}
+  assessment_choices:
+    automated:
+      assessment: ng.shared.do-not-allow-drive-redirection-is-set-to-enabled
+    manual:
+      assessment: SV-253403.manual
+  default_assessment_choice: automated

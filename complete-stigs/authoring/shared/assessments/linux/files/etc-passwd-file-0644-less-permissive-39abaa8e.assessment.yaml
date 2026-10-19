@@ -1,0 +1,44 @@
+assessment:
+  id: ng.shared.the-etc-passwd-file-has-mode-0644-or-less-permissive-39abaa8e
+  version: 1
+  assessment_title: Linux /etc/passwd- file must have mode 0644 or less permissive to prevent unauthorized access.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    etc-passwd-file-has-mode-0644-or-less-permissive-test:
+      test_title: The /etc/passwd- file has mode 0644 or less permissive
+      capability: unix.file
+      object:
+        capability: unix.file
+        select:
+          full_path:
+            equals: /etc/passwd-
+        object_title: null
+        filesystem: all
+      states:
+      - and:
+        - setuid:
+            equals: false
+        - setgid:
+            equals: false
+        - sticky:
+            equals: false
+        - owner_execute:
+            equals: false
+        - group_write:
+            equals: false
+        - group_execute:
+            equals: false
+        - other_write:
+            equals: false
+        - other_execute:
+            equals: false
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: may_be_absent_and_all_match
+  evaluate:
+    test: etc-passwd-file-has-mode-0644-or-less-permissive-test

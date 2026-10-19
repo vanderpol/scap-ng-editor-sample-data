@@ -1,0 +1,39 @@
+assessment:
+  id: ng.shared.firewallbackend-is-set-to-nftables-in-etc-firewalld-firewalld-conf
+  version: 1
+  assessment_title: Linux must protect against or limit the effects of denial-of-service (DoS) attacks by ensuring
+    rate-limiting measures on impacted network interfaces are implemented.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    firewallbackend-set-nftables-in-etc-firewalld-firewalld-conf-test:
+      test_title: FirewallBackend is set to nftables in /etc/firewalld/firewalld.conf.
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/firewalld/firewalld.conf
+          pattern:
+            matches_regex: ^\s*FirewallBackend\s*=\s*(\w+)\s*(?:#.*)?$
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          equals: nftables
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: firewallbackend-set-nftables-in-etc-firewalld-firewalld-conf-test

@@ -1,0 +1,50 @@
+assessment:
+  id: ng.shared.ssh-private-key-files-mode-600-or-less-permissive
+  version: 1
+  assessment_title: Linux SSH private host key files must have mode 0600 or less permissive.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    ssh-private-key-files-mode-600-or-less-permissive-test:
+      test_title: SSH private key files mode 600 or less permissive
+      capability: unix.file
+      object:
+        capability: unix.file
+        select:
+          directory:
+            equals: /etc/ssh
+          name:
+            matches_regex: ^ssh_host_.*_key$
+        object_title: SSH private key files
+        filesystem: all
+      states:
+      - and:
+        - setuid:
+            equals: false
+        - setgid:
+            equals: false
+        - sticky:
+            equals: false
+        - owner_execute:
+            equals: false
+        - group_read:
+            equals: false
+        - group_write:
+            equals: false
+        - group_execute:
+            equals: false
+        - other_read:
+            equals: false
+        - other_write:
+            equals: false
+        - other_execute:
+            equals: false
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: all_exist_and_all_match
+  evaluate:
+    test: ssh-private-key-files-mode-600-or-less-permissive-test

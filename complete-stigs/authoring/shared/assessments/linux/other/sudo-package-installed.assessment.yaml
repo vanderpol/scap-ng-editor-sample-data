@@ -1,0 +1,26 @@
+assessment:
+  id: ng.shared.sudo-package-is-installed
+  version: 1
+  assessment_title: Linux must have the sudo package installed.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    sudo-package-installed-test:
+      test_title: sudo package is installed
+      capability: linux.rpminfo
+      object:
+        capability: linux.rpminfo
+        select:
+          package_name:
+            equals: sudo
+        object_title: null
+        collect:
+          include_file_paths: false
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+  evaluate:
+    test: sudo-package-installed-test

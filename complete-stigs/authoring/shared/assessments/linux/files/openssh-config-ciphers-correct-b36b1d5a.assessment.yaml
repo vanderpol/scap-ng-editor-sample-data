@@ -1,0 +1,42 @@
+assessment:
+  id: ng.shared.openssh-config-ciphers-correct-b36b1d5a
+  version: 1
+  assessment_title: Linux SSH server must be configured to use only ciphers employing FIPS 140-3 validated cryptographic
+    hash algorithms to protect the confidentiality of SSH server connections.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    openssh-config-ciphers-correct-test:
+      test_title: openssh.config ciphers correct
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/crypto-policies/back-ends/opensshserver.config
+          pattern:
+            matches_regex: ^\s*(?i)Ciphers(?-i)[ \t]+(\S+)[\s]*(?:|(?:#.*))?$
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          equals: aes256-gcm@openssh.com,aes256-ctr,aes128-gcm@openssh.com,aes128-ctr
+      - subexpression:
+          equals: '"aes256-gcm@openssh.com,aes256-ctr,aes128-gcm@openssh.com,aes128-ctr"'
+      reported_elements: all
+      states_match: any
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: openssh-config-ciphers-correct-test

@@ -1,0 +1,96 @@
+assessment:
+  id: ng.shared.hardened-unc-paths-must-be-defined-to-require-mutual-authentication-and
+  version: 1
+  assessment_title: Hardened UNC Paths must be defined to require mutual authentication and integrity for at least
+    the \\*\SYSVOL and \\*\NETLOGON shares.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    mutual-authentication-integrity-sysvol-test:
+      test_title: Mutual Authentication and Integrity for \\*\SYSVOL
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SOFTWARE\Policies\Microsoft\Windows\NetworkProvider\HardenedPaths
+          name:
+            equals: \\*\SYSVOL
+        object_title: Hardened Path Config for \\*\SYSVOL
+      states:
+      - and:
+        - type:
+            equals: string
+        - value:
+            matches_regex: (^| *, *)RequireMutualAuthentication=1( *, *|$)
+      - and:
+        - type:
+            equals: string
+        - value:
+            require: at_least_one_exists_and_none_match
+            matches_regex: (^|[ *, *])RequireMutualAuthentication=(?!1( *, *|$))
+      - and:
+        - type:
+            equals: string
+        - value:
+            matches_regex: (^| *, *)RequireIntegrity=1( *, *|$)
+      - and:
+        - type:
+            equals: string
+        - value:
+            require: at_least_one_exists_and_none_match
+            matches_regex: (^| *, *)RequireIntegrity=(?!1( *, *|$))
+      reported_elements: all
+      states_match: all
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+    mutual-authentication-integrity-netlogon-test:
+      test_title: Mutual Authentication and Integrity for \\*\NETLOGON
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SOFTWARE\Policies\Microsoft\Windows\NetworkProvider\HardenedPaths
+          name:
+            equals: \\*\NETLOGON
+        object_title: Hardened Path Config for \\*\NETLOGON
+      states:
+      - and:
+        - type:
+            equals: string
+        - value:
+            matches_regex: (^| *, *)RequireMutualAuthentication=1( *, *|$)
+      - and:
+        - type:
+            equals: string
+        - value:
+            require: at_least_one_exists_and_none_match
+            matches_regex: (^|[ *, *])RequireMutualAuthentication=(?!1( *, *|$))
+      - and:
+        - type:
+            equals: string
+        - value:
+            matches_regex: (^| *, *)RequireIntegrity=1( *, *|$)
+      - and:
+        - type:
+            equals: string
+        - value:
+            require: at_least_one_exists_and_none_match
+            matches_regex: (^| *, *)RequireIntegrity=(?!1( *, *|$))
+      reported_elements: all
+      states_match: all
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    all:
+    - test: mutual-authentication-integrity-sysvol-test
+    - test: mutual-authentication-integrity-netlogon-test

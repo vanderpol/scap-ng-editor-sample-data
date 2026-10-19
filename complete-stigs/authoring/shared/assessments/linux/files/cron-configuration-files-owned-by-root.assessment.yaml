@@ -1,0 +1,34 @@
+assessment:
+  id: ng.shared.cron-configuration-files-are-group-owned-by-root
+  version: 1
+  assessment_title: Linux cron configuration files directory must be group-owned by root.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    cron-configuration-files-group-owned-by-root-test:
+      test_title: cron configuration files are group-owned by root
+      capability: unix.file
+      object:
+        capability: unix.file
+        select:
+          directory:
+            equals: /etc
+          name:
+            matches_regex: ^cron.*
+        object_title: null
+        filesystem: all
+        traversal:
+          max_depth: null
+          recurse: symlinks_and_directories
+      states:
+      - owner_gid:
+          require: at_least_one_exists_and_all_match
+          equals: 0
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: cron-configuration-files-group-owned-by-root-test

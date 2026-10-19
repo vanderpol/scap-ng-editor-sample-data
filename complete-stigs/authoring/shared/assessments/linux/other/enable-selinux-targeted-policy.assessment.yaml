@@ -1,0 +1,55 @@
+assessment:
+  id: ng.shared.linux-must-enable-the-selinux-targeted-policy
+  version: 1
+  assessment_title: Linux must enable the SELinux targeted policy.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    selinux-active-test:
+      test_title: selinux is active
+      capability: linux.partition
+      object:
+        capability: linux.partition
+        select:
+          mount_point:
+            equals: /sys/fs/selinux
+        object_title: /sys/fs/selinux
+      states:
+      - fs_type:
+          require: at_least_one_exists_and_all_match
+          equals: selinuxfs
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    etc-selinux-config-selinuxtype-targeted-test:
+      test_title: '/etc/selinux/config: SELINUXTYPE=targeted'
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/selinux/config
+          pattern:
+            matches_regex: ^\s*SELINUXTYPE\s*=\s*(\w+)\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          equals: targeted
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    all:
+    - test: selinux-active-test
+    - test: etc-selinux-config-selinuxtype-targeted-test

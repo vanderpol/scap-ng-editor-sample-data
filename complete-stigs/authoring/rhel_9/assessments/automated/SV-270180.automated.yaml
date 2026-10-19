@@ -1,0 +1,66 @@
+assessment:
+  id: SV-270180.automated
+  version: 1
+  assessment_title: RHEL-09-433016 - The RHEL 9 fapolicy module must be configured to employ a deny-all, permit-by-exception
+    policy to allow the execution of authorized software programs.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    etc-fapolicyd-fapolicyd-conf-permissive-0-test:
+      test_title: '/etc/fapolicyd/fapolicyd.conf: permissive = 0'
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/fapolicyd/fapolicyd.conf
+          pattern:
+            matches_regex: ^\s*permissive\s*=\s*(\d+)\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          equals: 0
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    etc-fapolicyd-compiled-rules-deny-all-test:
+      test_title: '/etc/fapolicyd/compiled.rules: deny all'
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/fapolicyd/compiled.rules
+          pattern:
+            matches_regex: (.*\S.*)\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: The last non-whitespace line of /etc/fapolicyd/compiled.rules
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: false
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          matches_regex: (?:^|\n)(?:deny|deny_log|deny_audit)[ \t]+perm=any[ \t]+all[ \t]+:[ \t]+all(?:$|\n)
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    all:
+    - test: etc-fapolicyd-fapolicyd-conf-permissive-0-test
+    - test: etc-fapolicyd-compiled-rules-deny-all-test

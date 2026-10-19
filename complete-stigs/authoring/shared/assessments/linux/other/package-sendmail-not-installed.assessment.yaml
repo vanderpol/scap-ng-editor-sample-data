@@ -1,0 +1,26 @@
+assessment:
+  id: ng.shared.package-sendmail-is-not-installed
+  version: 1
+  assessment_title: Linux must not have the sendmail package installed.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    package-sendmail-not-installed-test:
+      test_title: package sendmail is NOT installed
+      capability: linux.rpminfo
+      object:
+        capability: linux.rpminfo
+        select:
+          package_name:
+            equals: sendmail
+        object_title: null
+        collect:
+          include_file_paths: false
+      reported_elements: all
+      collected_items_require: none_exist
+  evaluate:
+    test: package-sendmail-not-installed-test

@@ -1,0 +1,27 @@
+assessment:
+  id: SV-257922.manual
+  version: 1
+  assessment_title: RHEL 9 library directories must be owned by root.
+  mode: manual
+  purpose: assessment
+  class: compliance
+  procedure: 'Verify the systemwide shared library directories are owned by "root" with the following command: $ sudo find
+    /lib /lib64 /usr/lib /usr/lib64 ! -user root -type d -exec stat -c "%U %n" {} \; If any systemwide shared library directory
+    is not owned by "root", this is a finding.'
+  response:
+    type: compliance
+    choices:
+    - value: pass
+      label: Pass
+      outcome: 'true'
+    - value: fail
+      label: Fail
+      outcome: 'false'
+    - value: unknown
+      label: Unknown
+      outcome: unknown
+    - value: not_applicable
+      label: Not applicable
+      outcome: not_applicable
+    allow_comment: true
+    allow_evidence: true

@@ -1,0 +1,47 @@
+assessment:
+  id: ng.shared.windows-account-lockout-duration-must-be-configured-to-15-minutes-or-gre
+  version: 1
+  assessment_title: Windows account lockout duration must be configured to 15 minutes or greater.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    account-lockout-threshold-not-set-0-test:
+      test_title: '''Account lockout threshold'' is not set to ''0'''
+      capability: windows.lockoutpolicy
+      states:
+      - lockout_threshold:
+          require: at_least_one_exists_and_all_match
+          greater_than: 0
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    account-lockout-duration-set-0-test:
+      test_title: '''Account lockout duration'' is set to ''0'''
+      capability: windows.lockoutpolicy
+      states:
+      - lockout_duration:
+          less_than_or_equal: 0
+      - lockout_duration:
+          equals: 4294967295
+      reported_elements: all
+      states_match: any
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+    account-lockout-duration-set-15-minutes-or-greater-test:
+      test_title: '''Account lockout duration'' is set to ''15 minutes'' or greater'
+      capability: windows.lockoutpolicy
+      states:
+      - lockout_duration:
+          require: at_least_one_exists_and_all_match
+          greater_than_or_equal: 900
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    all:
+    - test: account-lockout-threshold-not-set-0-test
+    - any:
+      - test: account-lockout-duration-set-0-test
+      - test: account-lockout-duration-set-15-minutes-or-greater-test

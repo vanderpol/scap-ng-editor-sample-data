@@ -1,0 +1,43 @@
+assessment:
+  id: ng.shared.the-system-accounts-in-etc-passwd-use-sbin-nologin
+  version: 1
+  assessment_title: Linux system accounts must not have an interactive login shell.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    system-accounts-in-etc-passwd-use-sbin-nologin-test:
+      test_title: The system accounts in /etc/passwd use /sbin/nologin.
+      capability: unix.password
+      object:
+        capability: unix.password
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: unix.password
+              select:
+                username:
+                  matches_regex: .+
+              object_title: null
+            filters:
+            - exclude:
+                user_id:
+                  require: at_least_one_exists_and_all_match
+                  greater_than_or_equal: 1000
+            - exclude:
+                user_id:
+                  require: at_least_one_exists_and_all_match
+                  equals: 0
+        object_title: only system accounts
+      states:
+      - login_shell:
+          require: at_least_one_exists_and_all_match
+          matches_regex: /sbin/nologin|/usr/sbin/nologin
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: system-accounts-in-etc-passwd-use-sbin-nologin-test

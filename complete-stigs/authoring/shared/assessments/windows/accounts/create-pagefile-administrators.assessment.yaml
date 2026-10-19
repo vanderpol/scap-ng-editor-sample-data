@@ -1,0 +1,31 @@
+assessment:
+  id: ng.shared.create-a-pagefile-administrators
+  version: 1
+  assessment_title: The "Create a pagefile" user right must only be assigned to the Administrators group.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    create-pagefile-administrators-test:
+      test_title: Create a pagefile - Administrators
+      capability: windows.userright
+      object:
+        capability: windows.userright
+        select:
+          userright:
+            equals: SE_CREATE_PAGEFILE_NAME
+        object_title: null
+      states:
+      - trustee_name:
+          equals: ''
+      - trustee_name:
+          case_insensitive_equals: Administrators
+      reported_elements: all
+      states_match: any
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: create-pagefile-administrators-test

@@ -1,0 +1,26 @@
+assessment:
+  id: ng.shared.fapolicyd-package-is-installed
+  version: 1
+  assessment_title: Linux must have the fapolicy module installed.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    fapolicyd-package-installed-test:
+      test_title: fapolicyd package is installed
+      capability: linux.rpminfo
+      object:
+        capability: linux.rpminfo
+        select:
+          package_name:
+            equals: fapolicyd
+        object_title: null
+        collect:
+          include_file_paths: false
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+  evaluate:
+    test: fapolicyd-package-installed-test

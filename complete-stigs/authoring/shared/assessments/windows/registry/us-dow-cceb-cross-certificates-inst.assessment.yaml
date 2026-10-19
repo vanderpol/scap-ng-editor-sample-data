@@ -1,0 +1,120 @@
+assessment:
+  id: ng.shared.the-us-dow-cceb-interoperability-root-ca-cross-certificates-must-be-inst
+  version: 1
+  assessment_title: The US DoW CCEB Interoperability Root CA cross-certificates must be installed in the Untrusted
+    Certificates Store on unclassified systems.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    us-dod-cceb-interoperability-root-ca-2-cross-certificate-expiring-test:
+      test_title: US DoD CCEB Interoperability Root CA 2 cross-certificate expiring 6/16/2028 is installed in the
+        Untrusted Certificates Store
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: windows.registry
+              set:
+                operator: union
+                operands:
+                - object:
+                    capability: windows.registry
+                    select:
+                      hive:
+                        equals: local_machine
+                      key:
+                        equals: SOFTWARE\Microsoft\SystemCertificates\Disallowed\Certificates\E582D22036CDAD1977C8249C2DC2943C12585D78
+                      name:
+                        matches_regex: ^.+$
+                    object_title: null
+                  filters: []
+                - object:
+                    capability: windows.registry
+                    select:
+                      hive:
+                        equals: local_machine
+                      key:
+                        equals: SOFTWARE\Microsoft\EnterpriseCertificates\Disallowed\Certificates\E582D22036CDAD1977C8249C2DC2943C12585D78
+                      name:
+                        matches_regex: ^.+$
+                    object_title: null
+                  filters: []
+              object_title: null
+            filters: []
+          - object:
+              capability: windows.registry
+              select:
+                hive:
+                  equals: local_machine
+                key:
+                  equals: SOFTWARE\Policies\Microsoft\SystemCertificates\Disallowed\Certificates\E582D22036CDAD1977C8249C2DC2943C12585D78
+                name:
+                  matches_regex: ^.+$
+              object_title: null
+            filters: []
+        object_title: null
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+    us-dod-cceb-interoperability-root-ca-2-cross-certificate-expiring-2-test:
+      test_title: US DoD CCEB Interoperability Root CA 2 cross-certificate expiring 6/8/2029 is installed in the Untrusted
+        Certificates Store
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: windows.registry
+              set:
+                operator: union
+                operands:
+                - object:
+                    capability: windows.registry
+                    select:
+                      hive:
+                        equals: local_machine
+                      key:
+                        equals: SOFTWARE\Microsoft\SystemCertificates\Disallowed\Certificates\410CD8D5D276EFCE2618B9671AC4B9CAA81E28B7
+                      name:
+                        matches_regex: ^.+$
+                    object_title: null
+                  filters: []
+                - object:
+                    capability: windows.registry
+                    select:
+                      hive:
+                        equals: local_machine
+                      key:
+                        equals: SOFTWARE\Microsoft\EnterpriseCertificates\Disallowed\Certificates\410CD8D5D276EFCE2618B9671AC4B9CAA81E28B7
+                      name:
+                        matches_regex: ^.+$
+                    object_title: null
+                  filters: []
+              object_title: null
+            filters: []
+          - object:
+              capability: windows.registry
+              select:
+                hive:
+                  equals: local_machine
+                key:
+                  equals: SOFTWARE\Policies\Microsoft\SystemCertificates\Disallowed\Certificates\410CD8D5D276EFCE2618B9671AC4B9CAA81E28B7
+                name:
+                  matches_regex: ^.+$
+              object_title: null
+            filters: []
+        object_title: null
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+  evaluate:
+    all:
+    - test: us-dod-cceb-interoperability-root-ca-2-cross-certificate-expiring-test
+    - test: us-dod-cceb-interoperability-root-ca-2-cross-certificate-expiring-2-test

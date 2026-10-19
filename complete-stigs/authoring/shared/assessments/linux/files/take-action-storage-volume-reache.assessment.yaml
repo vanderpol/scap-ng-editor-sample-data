@@ -1,0 +1,53 @@
+assessment:
+  id: ng.shared.linux-must-take-action-when-allocated-audit-record-storage-volume-reache
+  version: 1
+  assessment_title: Linux must take action when allocated audit record storage volume reaches 75 percent of the repository
+    maximum audit record storage capacity.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    etc-audit-auditd-conf-space-left-greater-than-or-equal-test:
+      test_title: '/etc/audit/auditd.conf: space_left greater than or equal to 25%'
+      capability: independent.textfilecontent54
+      object: independent-textfilecontent54-object
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          greater_than_or_equal: 25
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    etc-audit-auditd-conf-space-left-less-than-100-test:
+      test_title: '/etc/audit/auditd.conf: space_left less than 100%'
+      capability: independent.textfilecontent54
+      object: independent-textfilecontent54-object
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          less_than: 100
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    all:
+    - test: etc-audit-auditd-conf-space-left-greater-than-or-equal-test
+    - test: etc-audit-auditd-conf-space-left-less-than-100-test
+  shared_objects:
+    independent-textfilecontent54-object:
+      capability: independent.textfilecontent54
+      select:
+        full_path:
+          equals: /etc/audit/auditd.conf
+        pattern:
+          matches_regex: (?i)^\s*space_left\s*=\s*([\d]+)%\s*(?:#.*)?$
+        instance:
+          greater_than_or_equal: 1
+      object_title: null
+      filesystem: all
+      collect:
+        ignore_case: false
+        multiline: true
+        singleline: false
+        item_creation: all_object_elements_fullfilled

@@ -1,0 +1,27 @@
+assessment:
+  id: SV-258118.manual
+  version: 1
+  assessment_title: RHEL 9 must not be configured to bypass password requirements for privilege escalation.
+  mode: manual
+  purpose: assessment
+  class: compliance
+  procedure: 'Verify the operating system is not configured to bypass password requirements for privilege escalation with
+    the following command: $ sudo grep pam_succeed_if /etc/pam.d/sudo If any occurrences of "pam_succeed_if" are returned,
+    this is a finding.'
+  response:
+    type: compliance
+    choices:
+    - value: pass
+      label: Pass
+      outcome: 'true'
+    - value: fail
+      label: Fail
+      outcome: 'false'
+    - value: unknown
+      label: Unknown
+      outcome: unknown
+    - value: not_applicable
+      label: Not applicable
+      outcome: not_applicable
+    allow_comment: true
+    allow_evidence: true

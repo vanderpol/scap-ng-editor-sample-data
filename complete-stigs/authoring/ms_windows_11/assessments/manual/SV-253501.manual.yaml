@@ -1,0 +1,29 @@
+assessment:
+  id: SV-253501.manual
+  version: 1
+  assessment_title: The "Manage auditing and security log" user right must only be assigned to the Administrators group.
+  mode: manual
+  purpose: assessment
+  class: compliance
+  procedure: 'Verify the effective setting in Local Group Policy Editor. Run "gpedit.msc". Navigate to Local Computer Policy
+    >> Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> User Rights Assignment. If any
+    groups or accounts other than the following are granted the "Manage auditing and security log" user right, this is a finding:
+    Administrators If the organization has an "Auditors" group the assignment of this group to the user right would not be
+    a finding.'
+  response:
+    type: compliance
+    choices:
+    - value: pass
+      label: Pass
+      outcome: 'true'
+    - value: fail
+      label: Fail
+      outcome: 'false'
+    - value: unknown
+      label: Unknown
+      outcome: unknown
+    - value: not_applicable
+      label: Not applicable
+      outcome: not_applicable
+    allow_comment: true
+    allow_evidence: true

@@ -1,0 +1,35 @@
+assessment:
+  id: ng.shared.allow-administrators-group-to-make-remote-calls-to-sam
+  version: 1
+  assessment_title: Remote calls to the Security Account Manager (SAM) must be restricted to Administrators.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    allow-administrators-group-make-remote-calls-sam-test:
+      test_title: Allow Administrators group to make remote calls to SAM
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            case_insensitive_equals: SYSTEM\CurrentControlSet\Control\Lsa
+          name:
+            case_insensitive_equals: RestrictRemoteSAM
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: string
+        - value:
+            equals: O:BAG:BAD:(A;;RC;;;BA)
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: allow-administrators-group-make-remote-calls-sam-test

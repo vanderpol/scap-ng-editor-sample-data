@@ -1,0 +1,35 @@
+assessment:
+  id: ng.shared.network-access-do-not-allow-anonymous-enumeration-of-sam-accounts-and-sh
+  version: 1
+  assessment_title: Anonymous enumeration of shares must be restricted.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    network-access-do-not-allow-anonymous-enumeration-sam-accounts-shares-test:
+      test_title: '''Network access: Do not allow anonymous enumeration of SAM accounts and shares'' is set to ''Enabled'''
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SYSTEM\CurrentControlSet\Control\Lsa
+          name:
+            equals: restrictanonymous
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 1
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: network-access-do-not-allow-anonymous-enumeration-sam-accounts-shares-test

@@ -1,0 +1,55 @@
+assessment:
+  id: ng.shared.linux-must-mount-var-with-the-nodev-option
+  version: 1
+  assessment_title: Linux must mount /var with the nodev option.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    var-mounted-nodev-option-test:
+      test_title: /var is mounted with the nodev option.
+      capability: linux.partition
+      object:
+        capability: linux.partition
+        select:
+          mount_point:
+            equals: /var
+        object_title: null
+      states:
+      - mount_options:
+          require: at_least_one_exists_and_some_match
+          equals: nodev
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    var-configured-in-etc-fstab-nodev-option-test:
+      test_title: /var is configured in /etc/fstab with the nodev option.
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/fstab
+          pattern:
+            matches_regex: ^\s*[^#\s]+\s+/var\s+\S+\s+(\S+)\s+\S+\s+\S+\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          matches_regex: (^|,)nodev(,|$)
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    all:
+    - test: var-mounted-nodev-option-test
+    - test: var-configured-in-etc-fstab-nodev-option-test

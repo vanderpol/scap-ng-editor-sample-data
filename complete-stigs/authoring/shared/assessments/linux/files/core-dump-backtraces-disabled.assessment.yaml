@@ -1,0 +1,38 @@
+assessment:
+  id: ng.shared.core-dump-backtraces-are-disabled
+  version: 1
+  assessment_title: Linux must disable core dump backtraces.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    core-dump-backtraces-disabled-test:
+      test_title: core dump backtraces are disabled
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/systemd/coredump.conf
+          pattern:
+            matches_regex: ^\s*ProcessSizeMax\s*=\s*(\w*)\s*(?:#.*)?$
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          equals: '0'
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: core-dump-backtraces-disabled-test

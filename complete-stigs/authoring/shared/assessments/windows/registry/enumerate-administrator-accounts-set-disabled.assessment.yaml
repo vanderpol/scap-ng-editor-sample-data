@@ -1,0 +1,35 @@
+assessment:
+  id: ng.shared.enumerate-administrator-accounts-on-elevation-is-set-to-disabled
+  version: 1
+  assessment_title: Administrator accounts must not be enumerated during elevation.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    enumerate-administrator-accounts-on-elevation-set-disabled-test:
+      test_title: '''Enumerate administrator accounts on elevation'' is set to ''Disabled'''
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\CredUI
+          name:
+            equals: EnumerateAdministrators
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 0
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: enumerate-administrator-accounts-on-elevation-set-disabled-test

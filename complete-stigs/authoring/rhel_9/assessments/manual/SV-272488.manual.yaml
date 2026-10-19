@@ -1,0 +1,28 @@
+assessment:
+  id: SV-272488.manual
+  version: 1
+  assessment_title: RHEL 9 must have the Postfix package installed.
+  mode: manual
+  purpose: assessment
+  class: compliance
+  procedure: 'Note: If the admin can demonstrate that there is another system/service to send audit failure notifications
+    to the administrator/ISSO, this control is not applicable. Verify RHEL 9 has the Postfix package installed with the following
+    command: $ sudo dnf list --installed postfix Example output: postfix.x86_64 2:3.5.25-1.el9 If the "postfix" package is
+    not installed, this is a finding.'
+  response:
+    type: compliance
+    choices:
+    - value: pass
+      label: Pass
+      outcome: 'true'
+    - value: fail
+      label: Fail
+      outcome: 'false'
+    - value: unknown
+      label: Unknown
+      outcome: unknown
+    - value: not_applicable
+      label: Not applicable
+      outcome: not_applicable
+    allow_comment: true
+    allow_evidence: true

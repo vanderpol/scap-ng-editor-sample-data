@@ -1,0 +1,64 @@
+assessment:
+  id: ng.shared.etc-ssh-sshd-config-or-etc-ssh-sshd-config-d-strictmodes-yes
+  version: 1
+  assessment_title: Linux SSH daemon must perform strict mode checking of home directory configuration files.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    etc-ssh-sshd-config-or-etc-ssh-sshd-config-d-test:
+      test_title: /etc/ssh/sshd_config or /etc/ssh/sshd_config.d/*:StrictModes == yes
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: independent.textfilecontent54
+              select:
+                full_path:
+                  equals: /etc/ssh/sshd_config
+                pattern:
+                  matches_regex: ^\s*(?i)StrictModes(?-i)[ \t]+([\w\"]+)[\s]*(?:|(?:#.*))?$
+                instance:
+                  greater_than_or_equal: 1
+              object_title: null
+              filesystem: all
+              collect:
+                ignore_case: false
+                multiline: true
+                singleline: false
+                item_creation: all_object_elements_fullfilled
+            filters: []
+          - object:
+              capability: independent.textfilecontent54
+              select:
+                directory:
+                  equals: /etc/ssh/sshd_config.d
+                name:
+                  matches_regex: .+
+                pattern:
+                  matches_regex: ^\s*(?i)StrictModes(?-i)[ \t]+([\w\"]+)[\s]*(?:|(?:#.*))?$
+                instance:
+                  greater_than_or_equal: 1
+              object_title: null
+              filesystem: all
+              collect:
+                ignore_case: false
+                multiline: true
+                singleline: false
+                item_creation: all_object_elements_fullfilled
+            filters: []
+        object_title: null
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          matches_regex: ^(yes|"yes")$
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: etc-ssh-sshd-config-or-etc-ssh-sshd-config-d-test

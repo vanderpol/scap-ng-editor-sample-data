@@ -1,0 +1,38 @@
+assessment:
+  id: ng.shared.system-auth-pam-pwquality
+  version: 1
+  assessment_title: Linux must ensure the password complexity module is enabled in the system-auth file.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    system-auth-pam-pwquality-test:
+      test_title: system-auth pam_pwquality
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/pam.d/system-auth
+          pattern:
+            matches_regex: ^\s*password\s+(?:required|requisite)\s+(.*)$
+          instance:
+            greater_than_or_equal: 1
+        object_title: system-auth password required, requisite
+        filesystem: all
+        collect:
+          ignore_case: true
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          matches_regex: ^pam_pwquality.so(\s|$)
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_some_match
+  evaluate:
+    test: system-auth-pam-pwquality-test

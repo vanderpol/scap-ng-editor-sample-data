@@ -1,0 +1,115 @@
+assessment:
+  id: SV-253394.automated
+  version: 2
+  assessment_title: WN11-CC-000206 - Windows Update must not obtain updates from other PCs on the internet.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    downloadmode-set-enabled-http-only-lan-group-simple-or-bypass-test:
+      test_title: '''DownloadMode'' is set to ''Enabled'' with ''HTTP only, LAN, Group, Simple or Bypass'' selected.'
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: Software\Policies\Microsoft\Windows\DeliveryOptimization
+          name:
+            equals: DODownloadMode
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 0
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 1
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 2
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 99
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 100
+      reported_elements: all
+      states_match: any
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+    system-windows-standalone-workstation-or-server-test:
+      test_title: The system is a Windows Standalone Workstation or Server
+      capability: windows.wmi.query
+      object:
+        capability: windows.wmi.query
+        object_title: null
+        collect:
+          namespace: root\cimv2
+          query: SELECT DomainRole FROM win32_computersystem
+      states:
+      - result:
+          record:
+            fields:
+              domainrole:
+                require: at_least_one_exists_and_all_match
+                equals: '0'
+            require: at_least_one_exists_and_all_match
+      - result:
+          record:
+            fields:
+              domainrole:
+                require: at_least_one_exists_and_all_match
+                equals: '2'
+            require: at_least_one_exists_and_all_match
+      reported_elements: all
+      states_match: any
+      collected_items_require: at_least_one_exists_and_all_match
+    downloadmode-set-enabled-http-only-or-lan-selected-test:
+      test_title: '''DownloadMode'' is set to ''Enabled'' with ''HTTP only or LAN'' selected.'
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config
+          name:
+            equals: DODownloadMode
+        object_title: DownloadMode set through the Settings App
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 0
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 1
+      reported_elements: all
+      states_match: any
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    any:
+    - test: downloadmode-set-enabled-http-only-lan-group-simple-or-bypass-test
+    - all:
+      - test: system-windows-standalone-workstation-or-server-test
+      - test: downloadmode-set-enabled-http-only-or-lan-selected-test

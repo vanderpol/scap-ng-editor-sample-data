@@ -1,0 +1,72 @@
+assessment:
+  id: ng.shared.all-local-interactive-user-home-directories-are-0750-or-less
+  version: 1
+  assessment_title: Linux local interactive user home directories must have mode 0750 or less permissive.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    all-local-interactive-user-home-directories-0750-or-less-test:
+      test_title: All local interactive user home directories are 0750 or less
+      capability: unix.file
+      object:
+        capability: unix.file
+        for_each:
+          item: user
+          in: local-interactive-users-without-nologin-object
+        select:
+          directory:
+            from: user.home_dir
+          name: null
+        object_title: home directories of local interactive users without nologin
+        filesystem: all
+      states:
+      - and:
+        - setuid:
+            equals: false
+        - setgid:
+            equals: false
+        - sticky:
+            equals: false
+        - group_write:
+            equals: false
+        - other_read:
+            equals: false
+        - other_write:
+            equals: false
+        - other_execute:
+            equals: false
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: may_be_absent_and_all_match
+  evaluate:
+    test: all-local-interactive-user-home-directories-0750-or-less-test
+  shared_objects:
+    local-interactive-users-without-nologin-object:
+      capability: unix.password
+      object_title: Local interactive users without nologin
+      set:
+        operator: union
+        operands:
+        - object:
+            capability: unix.password
+            select:
+              username:
+                matches_regex: .*
+            object_title: Local interactive users without nologin
+          filters:
+          - exclude:
+              login_shell:
+                require: at_least_one_exists_and_all_match
+                matches_regex: ^.*nologin.*$
+          - exclude:
+              user_id:
+                require: at_least_one_exists_and_all_match
+                less_than: 1000
+          - exclude:
+              user_id:
+                require: at_least_one_exists_and_all_match
+                equals: 65534

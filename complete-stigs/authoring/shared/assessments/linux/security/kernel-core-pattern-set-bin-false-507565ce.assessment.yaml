@@ -1,0 +1,28 @@
+assessment:
+  id: ng.shared.kernel-core-pattern-setting-in-kernel-is-set-to-bin-false-507565ce
+  version: 1
+  assessment_title: Linux must disable the kernel.core_pattern.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    kernel-core-pattern-setting-in-kernel-set-bin-false-test:
+      test_title: kernel.core_pattern setting in kernel is set to |/bin/false
+      capability: unix.sysctl
+      object:
+        capability: unix.sysctl
+        select:
+          name:
+            equals: kernel.core_pattern
+        object_title: null
+      states:
+      - value:
+          require: at_least_one_exists_and_all_match
+          equals: '|/bin/false'
+      reported_elements: all
+      collected_items_require: all_exist_and_all_match
+  evaluate:
+    test: kernel-core-pattern-setting-in-kernel-set-bin-false-test

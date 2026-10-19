@@ -1,0 +1,28 @@
+{
+  "format": "scap-ng-editor-complete-stigs/1",
+  "classification": "preview_authoring_not_authoritative_disastig_or_scanner_results",
+  "source_repository": "vanderpol/scap-ng",
+  "source_tag": "v0.4.0-joval-meeting-preview-20261015-r3",
+  "source_asset": "scap-ng-v0.4-joval-six-stig-yaml.zip",
+  "source_sha256": "03d64157ee295b81defe6f96cf7a3123410010ef4422d76bf5b7bb3ddbf30c9d",
+  "review_manifest_sha256": "199b91c2fc59f2bcc59fa3f60fab6fd7d3fcf3852094804a7eeaa9c02aa1b234",
+  "description": "Two complete, selected STIG Rule sets from a pinned SCAP-NG r3 six-STIG research authoring release.",
+  "stig_count": 2,
+  "rule_count": 702,
+  "assessment_count": 1363,
+  "unresolved_assessment_refs": [],
+  "stigs": [
+    {
+      "id": "ms_windows_11",
+      "name": "Windows 11",
+      "rule_count": 257,
+      "index_path": "complete-stigs/ms_windows_11/index.json"
+    },
+    {
+      "id": "rhel_9",
+      "name": "RHEL 9",
+      "rule_count": 445,
+      "index_path": "complete-stigs/rhel_9/index.json"
+    }
+  ]
+}

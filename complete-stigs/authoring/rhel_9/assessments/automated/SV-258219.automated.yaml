@@ -1,0 +1,58 @@
+assessment:
+  id: SV-258219.automated
+  version: 2
+  assessment_title: RHEL-09-654225 - RHEL 9 must generate audit records for all account creations, modifications,
+    disabling, and termination events that affect /etc/group.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    audit-32-bit-invocations-etc-group-test:
+      test_title: Audit 32-bit invocations of /etc/group
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/audit/audit.rules
+          pattern:
+            matches_regex: ^\s*-a\s+(always,exit|exit,always)\s+-F\s+arch=b32?\s+-F\s+path=/etc/group\s+-F\s*perm=([rx]*w[rx]*a[rx]*|[rx]*a[rx]*w[rx]*)(\s+(-k\s+|-F\s+key=)\S+)?\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: all_exist
+    audit-64-bit-invocations-etc-group-test:
+      test_title: Audit 64-bit invocations of /etc/group
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/audit/audit.rules
+          pattern:
+            matches_regex: ^\s*-a\s+(always,exit|exit,always)\s+-F\s+arch=b64?\s+-F\s+path=/etc/group\s+-F\s*perm=([rx]*w[rx]*a[rx]*|[rx]*a[rx]*w[rx]*)(\s+(-k\s+|-F\s+key=)\S+)?\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: all_exist
+  evaluate:
+    all:
+    - test: audit-32-bit-invocations-etc-group-test
+    - test: audit-64-bit-invocations-etc-group-test

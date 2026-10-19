@@ -1,0 +1,26 @@
+assessment:
+  id: ng.shared.package-rsyslog-gnutls-is-installed
+  version: 1
+  assessment_title: Linux must have the packages required for encrypting offloaded audit logs installed.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    package-rsyslog-gnutls-installed-test:
+      test_title: package rsyslog-gnutls is installed
+      capability: linux.rpminfo
+      object:
+        capability: linux.rpminfo
+        select:
+          package_name:
+            equals: rsyslog-gnutls
+        object_title: null
+        collect:
+          include_file_paths: false
+      reported_elements: all
+      collected_items_require: all_exist
+  evaluate:
+    test: package-rsyslog-gnutls-installed-test

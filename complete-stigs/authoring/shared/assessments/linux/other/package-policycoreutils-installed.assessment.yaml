@@ -1,0 +1,26 @@
+assessment:
+  id: ng.shared.package-policycoreutils-is-installed
+  version: 1
+  assessment_title: Linux must have policycoreutils package installed.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    package-policycoreutils-installed-test:
+      test_title: package policycoreutils is installed
+      capability: linux.rpminfo
+      object:
+        capability: linux.rpminfo
+        select:
+          package_name:
+            equals: policycoreutils
+        object_title: null
+        collect:
+          include_file_paths: false
+      reported_elements: all
+      collected_items_require: all_exist
+  evaluate:
+    test: package-policycoreutils-installed-test

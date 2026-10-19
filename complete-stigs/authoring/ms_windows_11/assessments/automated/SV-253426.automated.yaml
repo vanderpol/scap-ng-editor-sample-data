@@ -1,0 +1,36 @@
+assessment:
+  id: SV-253426.automated
+  version: 2
+  assessment_title: WN11-EP-000310 - Windows 11 Kernel (Direct Memory Access) DMA Protection must be enabled.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    enumeration-policy-external-devices-incompatible-kernel-dma-protection-set-enabled-test:
+      test_title: '''Enumeration policy for external devices incompatible with Kernel DMA Protection'' is set to ''Enabled''
+        with ''Enumeration Policy'' set to ''Block All'''
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SOFTWARE\Policies\Microsoft\Windows\Kernel DMA Protection
+          name:
+            equals: DeviceEnumerationPolicy
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 0
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: enumeration-policy-external-devices-incompatible-kernel-dma-protection-set-enabled-test

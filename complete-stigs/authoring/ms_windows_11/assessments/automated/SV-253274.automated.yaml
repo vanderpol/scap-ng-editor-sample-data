@@ -1,0 +1,188 @@
+assessment:
+  id: SV-253274.automated
+  version: 18
+  assessment_title: Permissions for system files and directories must conform to minimum requirements.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    network-access-let-everyone-permissions-apply-anonymous-users-set-disabled-test:
+      test_title: 'Network access: Let Everyone permissions apply to anonymous users is set to ''Disabled'''
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SYSTEM\CurrentControlSet\Control\Lsa
+          name:
+            equals: everyoneincludesanonymous
+        object_title: everyoneincludesanonymous must be configured
+      states:
+      - value:
+          require: at_least_one_exists_and_all_match
+          equals: 0
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_only_one_matches
+    system-drive-root-directory-permissions-conform-minimum-requirements-test:
+      test_title: System drive root directory permissions must conform to minimum requirements.
+      capability: independent.shellcommand
+      object:
+        capability: independent.shellcommand
+        object_title: Run Icacls command against system drive root directory
+        collect:
+          shell: powershell
+          command: icacls($env:SystemDrive + '\')
+          pattern: ':'
+          error_if_exit_status_not_0: false
+          error_if_stderr_exists: false
+      states:
+      - and:
+        - exit_status:
+            equals: 0
+        - stdout_line:
+            datatype: string
+            value_match: one_or_more
+            matches_regex:
+            - (?i)S-1-15-3-65536-1888954469-739942743-1668119174-2468466756-4239452838-1296943325-355587736-700089176:\(S,RD,X,RA\)
+            - (?i)NT AUTHORITY\\SYSTEM:\(OI\)\(CI\)\(F\)
+            - (?i)BUILTIN\\Administrators:\(OI\)\(CI\)\(F\)
+            - (?i)BUILTIN\\Users:\(OI\)\(CI\)\(RX\)
+            - (?i)NT AUTHORITY\\Authenticated Users:\(OI\)\(CI\)\(IO\)\(M\)
+            - (?i)NT AUTHORITY\\Authenticated Users:\(AD\)
+            - (?i)Mandatory Label\\High Mandatory Level:\(OI\)\(NP\)\(IO\)\(NW\)
+        - stderr_line:
+            require: none_exist
+            equals: ''
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    windows-installation-directory-permissions-conform-minimum-requirements-test:
+      test_title: Windows installation directory permissions must conform to minimum requirements.
+      capability: independent.shellcommand
+      object:
+        capability: independent.shellcommand
+        object_title: Run Icacls command against Windows install directory
+        collect:
+          shell: powershell
+          command: icacls($env:windir)
+          pattern: ':'
+          error_if_exit_status_not_0: false
+          error_if_stderr_exists: false
+      states:
+      - and:
+        - exit_status:
+            equals: 0
+        - stdout_line:
+            datatype: string
+            value_match: one_or_more
+            matches_regex:
+            - (?i)NT SERVICE\\TrustedInstaller:\(F\)
+            - (?i)NT SERVICE\\TrustedInstaller:\(CI\)\(IO\)\(F\)
+            - (?i)NT AUTHORITY\\SYSTEM:\(M\)
+            - (?i)NT AUTHORITY\\SYSTEM:\(OI\)\(CI\)\(IO\)\(F\)
+            - (?i)BUILTIN\\Administrators:\(M\)
+            - (?i)BUILTIN\\Administrators:\(OI\)\(CI\)\(IO\)\(F\)
+            - (?i)BUILTIN\\Users:\(RX\)
+            - (?i)BUILTIN\\Users:\(OI\)\(CI\)\(IO\)\(GR,GE\)
+            - (?i)CREATOR OWNER:\(OI\)\(CI\)\(IO\)\(F\)
+            - (?i)APPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES:\(RX\)
+            - (?i)APPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES:\(OI\)\(CI\)\(IO\)\(GR,GE\)
+            - (?i)APPLICATION PACKAGE AUTHORITY\\ALL RESTRICTED APPLICATION PACKAGES:\(RX\)
+            - (?i)APPLICATION PACKAGE AUTHORITY\\ALL RESTRICTED APPLICATION PACKAGES:\(OI\)\(CI\)\(IO\)\(GR,GE\)
+        - stderr_line:
+            require: none_exist
+            equals: ''
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    program-files-directory-permissions-conform-minimum-requirements-test:
+      test_title: Program Files directory permissions must conform to minimum requirements.
+      capability: independent.shellcommand
+      object:
+        capability: independent.shellcommand
+        object_title: Run Icacls command against Program Files directory
+        collect:
+          shell: powershell
+          command: icacls (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion" -Name ProgramFilesDir).ProgramFilesDir
+          pattern: ':'
+          error_if_exit_status_not_0: false
+          error_if_stderr_exists: false
+      states:
+      - and:
+        - exit_status:
+            equals: 0
+        - stdout_line:
+            datatype: string
+            value_match: one_or_more
+            matches_regex:
+            - (?i)NT SERVICE\\TrustedInstaller:\(F\)
+            - (?i)NT SERVICE\\TrustedInstaller:\(CI\)\(IO\)\(F\)
+            - (?i)NT AUTHORITY\\SYSTEM:\(M\)
+            - (?i)NT AUTHORITY\\SYSTEM:\(OI\)\(CI\)\(IO\)\(F\)
+            - (?i)BUILTIN\\Administrators:\(M\)
+            - (?i)BUILTIN\\Administrators:\(OI\)\(CI\)\(IO\)\(F\)
+            - (?i)BUILTIN\\Users:\(RX\)
+            - (?i)BUILTIN\\Users:\(OI\)\(CI\)\(IO\)\(GR,GE\)
+            - (?i)CREATOR OWNER:\(OI\)\(CI\)\(IO\)\(F\)
+            - (?i)APPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES:\(RX\)
+            - (?i)APPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES:\(OI\)\(CI\)\(IO\)\(GR,GE\)
+            - (?i)APPLICATION PACKAGE AUTHORITY\\ALL RESTRICTED APPLICATION PACKAGES:\(RX\)
+            - (?i)APPLICATION PACKAGE AUTHORITY\\ALL RESTRICTED APPLICATION PACKAGES:\(OI\)\(CI\)\(IO\)\(GR,GE\)
+        - stderr_line:
+            require: none_exist
+            equals: ''
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    program-files-x86-directory-permissions-conform-minimum-requirements-test:
+      test_title: Program Files (x86) directory permissions must conform to minimum requirements.
+      capability: independent.shellcommand
+      object:
+        capability: independent.shellcommand
+        object_title: Run Icacls command against Program Files (x86) directory
+        collect:
+          shell: powershell
+          command: icacls (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion" -Name 'ProgramFilesDir
+            (x86)').'ProgramFilesDir (x86)'
+          pattern: ':'
+          error_if_exit_status_not_0: false
+          error_if_stderr_exists: false
+      states:
+      - and:
+        - exit_status:
+            equals: 0
+        - stdout_line:
+            datatype: string
+            value_match: one_or_more
+            matches_regex:
+            - (?i)NT SERVICE\\TrustedInstaller:\(F\)
+            - (?i)NT SERVICE\\TrustedInstaller:\(CI\)\(IO\)\(F\)
+            - (?i)NT AUTHORITY\\SYSTEM:\(M\)
+            - (?i)NT AUTHORITY\\SYSTEM:\(OI\)\(CI\)\(IO\)\(F\)
+            - (?i)BUILTIN\\Administrators:\(M\)
+            - (?i)BUILTIN\\Administrators:\(OI\)\(CI\)\(IO\)\(F\)
+            - (?i)BUILTIN\\Users:\(RX\)
+            - (?i)BUILTIN\\Users:\(OI\)\(CI\)\(IO\)\(GR,GE\)
+            - (?i)CREATOR OWNER:\(OI\)\(CI\)\(IO\)\(F\)
+            - (?i)APPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES:\(RX\)
+            - (?i)APPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES:\(OI\)\(CI\)\(IO\)\(GR,GE\)
+            - (?i)APPLICATION PACKAGE AUTHORITY\\ALL RESTRICTED APPLICATION PACKAGES:\(RX\)
+            - (?i)APPLICATION PACKAGE AUTHORITY\\ALL RESTRICTED APPLICATION PACKAGES:\(OI\)\(CI\)\(IO\)\(GR,GE\)
+        - stderr_line:
+            require: none_exist
+            equals: ''
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    all:
+    - test: network-access-let-everyone-permissions-apply-anonymous-users-set-disabled-test
+    - test: system-drive-root-directory-permissions-conform-minimum-requirements-test
+    - test: windows-installation-directory-permissions-conform-minimum-requirements-test
+    - test: program-files-directory-permissions-conform-minimum-requirements-test
+    - test: program-files-x86-directory-permissions-conform-minimum-requirements-test

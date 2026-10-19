@@ -1,0 +1,26 @@
+assessment:
+  id: ng.shared.the-policycoreutils-python-utils-package-is-installed
+  version: 1
+  assessment_title: Linux policycoreutils-python-utils package must be installed.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    policycoreutils-python-utils-package-installed-test:
+      test_title: The policycoreutils-python-utils package is installed
+      capability: linux.rpminfo
+      object:
+        capability: linux.rpminfo
+        select:
+          package_name:
+            equals: policycoreutils-python-utils
+        object_title: null
+        collect:
+          include_file_paths: false
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+  evaluate:
+    test: policycoreutils-python-utils-package-installed-test

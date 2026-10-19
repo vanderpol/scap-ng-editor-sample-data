@@ -1,0 +1,33 @@
+assessment:
+  id: ng.shared.the-period-of-time-before-the-bad-logon-counter-is-reset-must-be-configu
+  version: 1
+  assessment_title: The period of time before the bad logon counter is reset must be configured to 15 minutes.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    reset-account-lockout-counter-after-set-at-least-required-value-test:
+      test_title: '''Reset account lockout counter after'' is set to at least the required value'
+      capability: windows.lockoutpolicy
+      states:
+      - lockout_observation_window:
+          require: at_least_one_exists_and_all_match
+          greater_than_or_equal: 900
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    account-lockout-threshold-not-set-0-test:
+      test_title: '''Account lockout threshold'' is not set to ''0'''
+      capability: windows.lockoutpolicy
+      states:
+      - lockout_threshold:
+          require: at_least_one_exists_and_all_match
+          greater_than: 0
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    all:
+    - test: reset-account-lockout-counter-after-set-at-least-required-value-test
+    - test: account-lockout-threshold-not-set-0-test

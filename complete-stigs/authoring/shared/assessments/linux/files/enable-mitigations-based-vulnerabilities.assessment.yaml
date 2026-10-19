@@ -1,0 +1,67 @@
+assessment:
+  id: ng.shared.linux-must-enable-mitigations-against-processor-based-vulnerabilities
+  version: 1
+  assessment_title: Linux must enable mitigations against processor-based vulnerabilities.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    bls-options-contain-pti-on-test:
+      test_title: BLS options contain pti=on
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          directory:
+            equals: /boot/loader/entries
+          name:
+            matches_regex: ^.*\.conf$
+          pattern:
+            matches_regex: ^options\s+(.*)$
+          instance:
+            greater_than_or_equal: 1
+        object_title: BLS options
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          matches_regex: (^|\s)pti=on(\s|$)
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    grub-cmdline-linux-arguments-in-etc-default-grub-contain-pti-test:
+      test_title: The GRUB_CMDLINE_LINUX arguments in /etc/default/grub contain pti=on
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/default/grub
+          pattern:
+            matches_regex: ^GRUB_CMDLINE_LINUX="(.*)"
+          instance:
+            greater_than_or_equal: 1
+        object_title: /etc/default/grub GRUB_CMDLINE_LINUX
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          matches_regex: (^|\s)pti=on(\s|$)
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    all:
+    - test: bls-options-contain-pti-on-test
+    - test: grub-cmdline-linux-arguments-in-etc-default-grub-contain-pti-test

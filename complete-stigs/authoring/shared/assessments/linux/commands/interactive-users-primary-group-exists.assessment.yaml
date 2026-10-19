@@ -1,0 +1,31 @@
+assessment:
+  id: ng.shared.interactive-users-must-have-a-primary-group-that-exists
+  version: 1
+  assessment_title: Linux interactive users must have a primary group that exists.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    interactive-users-have-primary-group-that-exists-test:
+      test_title: Interactive users must have a primary group that exists.
+      capability: independent.shellcommand
+      object:
+        capability: independent.shellcommand
+        object_title: Return any user who does not have a valid primary group
+        collect:
+          shell: bash
+          command: pwck -r
+          pattern: no group
+          error_if_exit_status_not_0: false
+          error_if_stderr_exists: false
+      states:
+      - stdout_line:
+          require: none_exist
+          equals: ''
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: interactive-users-have-primary-group-that-exists-test

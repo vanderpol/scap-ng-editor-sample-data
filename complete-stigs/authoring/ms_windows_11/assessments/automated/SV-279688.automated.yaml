@@ -1,0 +1,35 @@
+assessment:
+  id: SV-279688.automated
+  version: 1
+  assessment_title: WN11-00-000126 - Windows 11 systems must block consumer account user authentication.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    prevent-enabling-lock-screen-camera-set-enabled-test:
+      test_title: '''Prevent enabling lock screen camera'' is set to ''Enabled'''
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            case_insensitive_equals: SOFTWARE\Policies\Microsoft\MicrosoftAccount
+          name:
+            case_insensitive_equals: DisableUserAuth
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 1
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: prevent-enabling-lock-screen-camera-set-enabled-test

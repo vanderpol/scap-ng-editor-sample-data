@@ -1,0 +1,34 @@
+assessment:
+  id: ng.shared.check-etc-security-faillock-conf-for-the-audit-setting
+  version: 1
+  assessment_title: Linux must log username information when unsuccessful logon attempts occur.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    check-etc-security-faillock-conf-audit-setting-test:
+      test_title: check /etc/security/faillock.conf for the audit setting
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/security/faillock.conf
+          pattern:
+            matches_regex: ^\s*audit\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: all_exist
+  evaluate:
+    test: check-etc-security-faillock-conf-audit-setting-test

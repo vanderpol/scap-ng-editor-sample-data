@@ -1,0 +1,152 @@
+assessment:
+  id: SV-256893.automated
+  version: 1
+  assessment_title: WN11-CC-000391 - Internet Explorer must be disabled for Windows 11.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    internet-explorer-11-optional-feature-disabled-or-not-installed-test:
+      test_title: Internet Explorer 11 optional feature disabled or not installed
+      capability: windows.wmi.query
+      object:
+        capability: windows.wmi.query
+        object_title: null
+        collect:
+          namespace: root\cimv2
+          query: SELECT installstate FROM win32_optionalfeature WHERE name = 'Internet-Explorer-Optional-amd64'
+      states:
+      - result:
+          record:
+            fields:
+              installstate:
+                require: at_least_one_exists_and_some_match
+                equals: '2'
+            require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: may_be_absent_and_all_match
+    os-windows-enterprise-ltsc-test:
+      test_title: The OS is Windows Enterprise LTSC
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SOFTWARE\Microsoft\Windows NT\CurrentVersion
+          name:
+            equals: EditionId
+        object_title: EditionID
+      states:
+      - and:
+        - type:
+            equals: string
+        - value:
+            equals: EnterpriseS
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    internet-explorer-11-disabled-as-standalone-browser-test:
+      test_title: Internet Explorer 11 is disabled as a standalone browser
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SOFTWARE\Policies\Microsoft\Internet Explorer\Main
+          name:
+            equals: NotifyDisableIEOptions
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 0
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 1
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 2
+      reported_elements: all
+      states_match: any
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+    64-bit-microsoft-edge-installed-test:
+      test_title: 64-bit Microsoft Edge is installed
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: windows.registry
+              select:
+                hive:
+                  equals: local_machine
+                key:
+                  equals: SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall
+                name:
+                  equals: DisplayName
+              object_title: 64-bit DisplayName registry value
+              traversal:
+                max_depth: 1
+            filters:
+            - include:
+                value:
+                  require: at_least_one_exists_and_all_match
+                  equals: Microsoft Edge
+        object_title: 64-bit DisplayName equals Microsoft Edge
+      reported_elements: all
+      collected_items_require: none_exist
+    32-bit-microsoft-edge-installed-test:
+      test_title: 32-bit Microsoft Edge is installed
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: windows.registry
+              select:
+                hive:
+                  equals: local_machine
+                key:
+                  equals: SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall
+                name:
+                  equals: DisplayName
+              object_title: 32-bit DisplayName registry value
+              traversal:
+                max_depth: 1
+            filters:
+            - include:
+                value:
+                  require: at_least_one_exists_and_all_match
+                  equals: Microsoft Edge
+        object_title: 32-bit DisplayName equals Microsoft Edge
+      reported_elements: all
+      collected_items_require: none_exist
+  evaluate:
+    any:
+    - test: internet-explorer-11-optional-feature-disabled-or-not-installed-test
+    - test: os-windows-enterprise-ltsc-test
+    - all:
+      - test: internet-explorer-11-disabled-as-standalone-browser-test
+      - any:
+        - not:
+            test: 64-bit-microsoft-edge-installed-test
+        - not:
+            test: 32-bit-microsoft-edge-installed-test

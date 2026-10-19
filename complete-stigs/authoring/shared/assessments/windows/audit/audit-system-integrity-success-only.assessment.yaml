@@ -1,0 +1,25 @@
+assessment:
+  id: ng.shared.audit-system-integrity-success-only
+  version: 1
+  assessment_title: The system must be configured to audit System - System Integrity successes.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    audit-system-integrity-success-only-test:
+      test_title: Audit - System Integrity - Success only
+      capability: windows.auditeventpolicysubcategories
+      states:
+      - system_integrity:
+          equals: AUDIT_SUCCESS
+      - system_integrity:
+          equals: AUDIT_SUCCESS_FAILURE
+      reported_elements: all
+      states_match: any
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: audit-system-integrity-success-only-test

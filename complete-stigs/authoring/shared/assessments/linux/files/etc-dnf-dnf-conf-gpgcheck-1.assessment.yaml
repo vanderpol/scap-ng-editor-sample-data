@@ -1,0 +1,39 @@
+assessment:
+  id: ng.shared.etc-dnf-dnf-conf-gpgcheck-1
+  version: 1
+  assessment_title: Linux must check the GPG signature of software packages originating from external software repositories
+    before installation.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    etc-dnf-dnf-conf-gpgcheck-1-test:
+      test_title: /etc/dnf/dnf.conf gpgcheck=1
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/dnf/dnf.conf
+          pattern:
+            matches_regex: ^gpgcheck=(.*)$
+          instance:
+            greater_than_or_equal: 1
+        object_title: /etc/dnf/dnf.conf gpgcheck
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          equals: '1'
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: etc-dnf-dnf-conf-gpgcheck-1-test

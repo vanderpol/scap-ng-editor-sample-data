@@ -1,0 +1,34 @@
+assessment:
+  id: SV-253480.automated
+  version: 2
+  assessment_title: WN11-UR-000010 - The "Access this computer from the network" user right must only be assigned
+    to the Administrators and Remote Desktop Users groups.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    access-this-computer-from-network-administrators-remote-desktop-users-test:
+      test_title: Access this computer from the network - Administrators, Remote Desktop Users
+      capability: windows.userright
+      object:
+        capability: windows.userright
+        select:
+          userright:
+            equals: SE_NETWORK_LOGON_NAME
+        object_title: null
+      states:
+      - trustee_name:
+          equals: ''
+      - trustee_name:
+          case_insensitive_equals: Administrators
+      - trustee_name:
+          case_insensitive_equals: Remote Desktop Users
+      reported_elements: all
+      states_match: any
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: access-this-computer-from-network-administrators-remote-desktop-users-test

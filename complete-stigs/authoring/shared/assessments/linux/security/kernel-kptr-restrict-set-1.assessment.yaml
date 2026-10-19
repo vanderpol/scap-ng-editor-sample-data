@@ -1,0 +1,28 @@
+assessment:
+  id: ng.shared.kernel-kptr-restrict-is-set-to-1
+  version: 1
+  assessment_title: Linux must restrict exposed kernel pointer addresses access.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    kernel-kptr-restrict-set-1-test:
+      test_title: kernel.kptr_restrict is set to 1
+      capability: unix.sysctl
+      object:
+        capability: unix.sysctl
+        select:
+          name:
+            equals: kernel.kptr_restrict
+        object_title: null
+      states:
+      - value:
+          require: at_least_one_exists_and_all_match
+          equals: 1
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: kernel-kptr-restrict-set-1-test

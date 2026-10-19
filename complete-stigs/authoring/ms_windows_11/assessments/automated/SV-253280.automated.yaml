@@ -1,0 +1,58 @@
+assessment:
+  id: SV-253280.automated
+  version: 18
+  assessment_title: Software certificate installation files must be removed from Windows 11.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    software-certificate-installation-files-removed-p12-files-test:
+      test_title: Software certificate installation files must be removed. .p12 files
+      capability: windows.file
+      object:
+        capability: windows.file
+        object_title: Search for .p12 files
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: windows.file
+              select:
+                directory:
+                  matches_regex: .*
+                name:
+                  matches_regex: \.[Pp]12$
+              object_title: Search for .p12 files
+              filesystem: all
+            filters:
+            - exclude:
+                full_path:
+                  require: at_least_one_exists_and_all_match
+                  matches_regex: '[Aa]dobe.+Preflight\.p12$'
+            - exclude:
+                full_path:
+                  require: at_least_one_exists_and_all_match
+                  matches_regex: '[Ee]wallet\.p12$'
+      reported_elements: all
+      collected_items_require: none_exist
+    software-certificate-installation-files-removed-pfx-files-test:
+      test_title: Software certificate installation files must be removed. .pfx files
+      capability: windows.file
+      object:
+        capability: windows.file
+        select:
+          directory:
+            matches_regex: .*
+          name:
+            matches_regex: \.[Pp][Ff][Xx]$
+        object_title: Search for .pfx files
+        filesystem: all
+      reported_elements: all
+      collected_items_require: none_exist
+  evaluate:
+    all:
+    - test: software-certificate-installation-files-removed-p12-files-test
+    - test: software-certificate-installation-files-removed-pfx-files-test

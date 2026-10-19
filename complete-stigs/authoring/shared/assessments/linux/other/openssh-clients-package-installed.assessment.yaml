@@ -1,0 +1,26 @@
+assessment:
+  id: ng.shared.openssh-clients-package-is-installed
+  version: 1
+  assessment_title: Linux must have the openssh-clients package installed.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    openssh-clients-package-installed-test:
+      test_title: openssh-clients package is installed
+      capability: linux.rpminfo
+      object:
+        capability: linux.rpminfo
+        select:
+          package_name:
+            equals: openssh-clients
+        object_title: null
+        collect:
+          include_file_paths: false
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+  evaluate:
+    test: openssh-clients-package-installed-test

@@ -1,0 +1,28 @@
+assessment:
+  id: ng.shared.kernel-perf-event-paranoid-setting-in-kernel-is-set-to-2
+  version: 1
+  assessment_title: Linux must prevent kernel profiling by nonprivileged users.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    kernel-perf-event-paranoid-setting-in-kernel-set-2-test:
+      test_title: kernel.perf_event_paranoid setting in kernel is set to 2
+      capability: unix.sysctl
+      object:
+        capability: unix.sysctl
+        select:
+          name:
+            equals: kernel.perf_event_paranoid
+        object_title: null
+      states:
+      - value:
+          require: at_least_one_exists_and_all_match
+          equals: 2
+      reported_elements: all
+      collected_items_require: all_exist_and_all_match
+  evaluate:
+    test: kernel-perf-event-paranoid-setting-in-kernel-set-2-test

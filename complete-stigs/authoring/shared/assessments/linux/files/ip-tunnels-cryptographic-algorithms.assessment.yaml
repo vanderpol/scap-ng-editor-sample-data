@@ -1,0 +1,81 @@
+assessment:
+  id: ng.shared.linux-ip-tunnels-must-use-140-3-approved-cryptographic-algorithms
+  version: 1
+  assessment_title: Linux IP tunnels must use 140-3 approved cryptographic algorithms.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    ipsec-conf-includes-crypto-policy-test:
+      test_title: ipsec.conf includes crypto-policy
+      capability: independent.textfilecontent54
+      object: etc-ipsec-conf-includes-object
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          equals: /etc/crypto-policies/back-ends/libreswan.config
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_some_match
+    ipsec-conf-includes-etc-ipsec-d-conf-test:
+      test_title: ipsec.conf includes /etc/ipsec.d/*.conf
+      capability: independent.textfilecontent54
+      object: etc-ipsec-conf-includes-object
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          equals: /etc/ipsec.d/*.conf
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_some_match
+    etc-ipsec-d-conf-includes-crypto-policy-test:
+      test_title: /etc/ipsec.d/*.conf includes crypto-policy
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          directory:
+            equals: /etc/ipsec.d
+          name:
+            matches_regex: ^.*\.conf$
+          pattern:
+            matches_regex: ^\s*include\s+(.*)\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: /etc/ipsec.d/*.conf includes
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          equals: /etc/crypto-policies/back-ends/libreswan.config
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_some_match
+  evaluate:
+    any:
+    - test: ipsec-conf-includes-crypto-policy-test
+    - all:
+      - test: ipsec-conf-includes-etc-ipsec-d-conf-test
+      - test: etc-ipsec-d-conf-includes-crypto-policy-test
+  shared_objects:
+    etc-ipsec-conf-includes-object:
+      capability: independent.textfilecontent54
+      select:
+        full_path:
+          equals: /etc/ipsec.conf
+        pattern:
+          matches_regex: ^\s*include\s+(.*)\s*$
+        instance:
+          greater_than_or_equal: 1
+      object_title: /etc/ipsec.conf includes
+      filesystem: all
+      collect:
+        ignore_case: false
+        multiline: true
+        singleline: false
+        item_creation: all_object_elements_fullfilled

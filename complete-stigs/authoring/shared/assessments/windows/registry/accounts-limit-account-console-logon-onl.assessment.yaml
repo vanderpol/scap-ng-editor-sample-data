@@ -1,0 +1,35 @@
+assessment:
+  id: ng.shared.accounts-limit-local-account-use-of-blank-passwords-to-console-logon-onl
+  version: 1
+  assessment_title: Local accounts with blank passwords must be restricted to prevent access from the network.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    accounts-limit-local-account-use-blank-passwords-console-logon-only-test:
+      test_title: '''Accounts: Limit local account use of blank passwords to console logon only'' is set to ''Enabled'''
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SYSTEM\CurrentControlSet\Control\Lsa
+          name:
+            equals: LimitBlankPasswordUse
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 1
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: accounts-limit-local-account-use-blank-passwords-console-logon-only-test

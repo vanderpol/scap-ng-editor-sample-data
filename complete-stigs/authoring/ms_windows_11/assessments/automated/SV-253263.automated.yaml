@@ -1,0 +1,59 @@
+assessment:
+  id: SV-253263.automated
+  version: 2
+  assessment_title: WN11-00-000040 - Windows 11 systems must be maintained at a supported servicing level.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    os-version-equal-or-greater-than-6-3-test:
+      test_title: The OS Version is equal to or greater than 6.3
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SOFTWARE\Microsoft\Windows NT\CurrentVersion
+          name:
+            equals: CurrentVersion
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: string
+        - value:
+            version_greater_than_or_equal: '6.3'
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    os-build-equal-or-greater-than-22621-test:
+      test_title: The OS Build is equal to or greater than 22621
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SOFTWARE\Microsoft\Windows NT\CurrentVersion
+          name:
+            equals: CurrentBuildNumber
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: string
+        - value:
+            version_greater_than_or_equal: '22621'
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    all:
+    - test: os-version-equal-or-greater-than-6-3-test
+    - test: os-build-equal-or-greater-than-22621-test

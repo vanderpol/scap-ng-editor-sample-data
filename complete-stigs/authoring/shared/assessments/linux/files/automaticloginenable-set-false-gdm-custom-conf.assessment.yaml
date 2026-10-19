@@ -1,0 +1,38 @@
+assessment:
+  id: ng.shared.automaticloginenable-is-set-to-false-in-etc-gdm-custom-conf
+  version: 1
+  assessment_title: Linux must not allow unattended or automatic logon via the graphical user interface.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    automaticloginenable-set-false-in-etc-gdm-custom-conf-test:
+      test_title: AutomaticLoginEnable is set to false in /etc/gdm/custom.conf.
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/gdm/custom.conf
+          pattern:
+            matches_regex: ^\s*\[daemon\]\s+[#\s\w=]*^\s*AutomaticLoginEnable=(\w+)\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          equals: 'false'
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: automaticloginenable-set-false-in-etc-gdm-custom-conf-test

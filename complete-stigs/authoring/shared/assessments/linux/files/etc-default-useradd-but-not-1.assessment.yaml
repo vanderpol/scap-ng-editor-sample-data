@@ -1,0 +1,42 @@
+assessment:
+  id: ng.shared.etc-default-useradd-inactive-is-set-to-35-or-less-but-not-1
+  version: 1
+  assessment_title: Linux must disable account identifiers (individuals, groups, roles, and devices) after 35 days
+    of inactivity.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    etc-default-useradd-inactive-set-35-or-less-but-not-test:
+      test_title: '/etc/default/useradd: INACTIVE is set to 35 or less, but not -1'
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/default/useradd
+          pattern:
+            matches_regex: (?i)^\s*INACTIVE\s*=\s*(-?\d+)\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          greater_than_or_equal: 0
+      - subexpression:
+          less_than_or_equal: 35
+      reported_elements: all
+      states_match: all
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: etc-default-useradd-inactive-set-35-or-less-but-not-test

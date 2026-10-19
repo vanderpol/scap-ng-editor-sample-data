@@ -1,0 +1,94 @@
+assessment:
+  id: ng.shared.linux-must-force-a-frequent-session-key-renegotiation-for-ssh-connection
+  version: 1
+  assessment_title: Linux must force a frequent session key renegotiation for SSH connections to the server.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    etc-ssh-sshd-config-rekeylimit-max-data-time-greater-than-test:
+      test_title: /etc/ssh/sshd_config:RekeyLimit max data and time are greater than zero.
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/ssh/sshd_config
+          pattern:
+            matches_regex: ^\s*RekeyLimit\s+\d+[kmg]?\s+\d+[smdhw]?\s*
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: true
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - text:
+          require: at_least_one_exists_and_all_match
+          matches_regex: ^(?i)\s*RekeyLimit\s+[1-9][0-9]*[kmg]?\s+([1-9][0-9]*[smhdw]?)+\s*$
+      reported_elements: all
+      collected_items_require: all_exist_and_all_match
+    sshd-config-includes-sshd-config-d-test:
+      test_title: sshd_config includes sshd_config.d
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/ssh/sshd_config
+          pattern:
+            matches_regex: ^\s*include\s+(.*)\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: sshd_config includes
+        filesystem: all
+        collect:
+          ignore_case: true
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          equals: /etc/ssh/sshd_config.d/*.conf
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_some_match
+    etc-ssh-sshd-config-d-rekeylimit-max-data-time-greater-test:
+      test_title: /etc/ssh/sshd_config.d:RekeyLimit max data and time are greater than zero.
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          directory:
+            equals: /etc/ssh/sshd_config.d
+          name:
+            matches_regex: ^.+\.conf$
+          pattern:
+            matches_regex: ^\s*RekeyLimit\s+\d+[kmg]?\s+\d+[smdhw]?\s*
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: true
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - text:
+          require: at_least_one_exists_and_all_match
+          matches_regex: ^(?i)\s*RekeyLimit\s+[1-9][0-9]*[kmg]?\s+([1-9][0-9]*[smhdw]?)+\s*$
+      reported_elements: all
+      collected_items_require: all_exist_and_all_match
+  evaluate:
+    any:
+    - test: etc-ssh-sshd-config-rekeylimit-max-data-time-greater-than-test
+    - all:
+      - test: sshd-config-includes-sshd-config-d-test
+      - test: etc-ssh-sshd-config-d-rekeylimit-max-data-time-greater-test

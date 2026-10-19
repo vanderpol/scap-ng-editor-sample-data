@@ -1,0 +1,25 @@
+assessment:
+  id: SV-253349.automated
+  version: 2
+  assessment_title: WN11-AU-000580 - Windows 11 must be configured to audit MPSSVC Rule-Level Policy Change Failures.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    audit-mpssvc-rule-level-policy-change-set-success-success-failure-test:
+      test_title: '''Audit MPSSVC Rule-Level Policy Change'' is set to ''Success'' and ''Success and Failure'''
+      capability: windows.auditeventpolicysubcategories
+      states:
+      - mpssvc_rule_level_policy_change:
+          equals: AUDIT_SUCCESS_FAILURE
+      - mpssvc_rule_level_policy_change:
+          equals: AUDIT_FAILURE
+      reported_elements: all
+      states_match: any
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: audit-mpssvc-rule-level-policy-change-set-success-success-failure-test

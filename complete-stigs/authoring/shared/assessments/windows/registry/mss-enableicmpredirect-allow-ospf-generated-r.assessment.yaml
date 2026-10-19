@@ -1,0 +1,37 @@
+assessment:
+  id: ng.shared.mss-enableicmpredirect-allow-icmp-redirects-to-override-ospf-generated-r
+  version: 1
+  assessment_title: The system must be configured to prevent Internet Control Message Protocol (ICMP) redirects from
+    overriding Open Shortest Path First (OSPF) generated routes.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    mss-enableicmpredirect-allow-icmp-redirects-override-ospf-generated-routes-set-test:
+      test_title: '''MSS: (EnableICMPRedirect) Allow ICMP redirects to override OSPF generated routes'' is set to
+        ''Disabled'''
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SYSTEM\CurrentControlSet\Services\Tcpip\Parameters
+          name:
+            equals: EnableICMPRedirect
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 0
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: mss-enableicmpredirect-allow-icmp-redirects-override-ospf-generated-routes-set-test

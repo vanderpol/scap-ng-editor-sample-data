@@ -1,0 +1,36 @@
+assessment:
+  id: ng.shared.prevent-internet-explorer-security-prompt-for-windows-installer-scripts
+  version: 1
+  assessment_title: Users must be notified if a web-based program attempts to install software.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    prevent-internet-explorer-security-prompt-windows-installer-scripts-set-not-test:
+      test_title: '''Prevent Internet Explorer security prompt for Windows Installer scripts'' is set to ''Not Configured''
+        or ''Disabled'''
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: Software\Policies\Microsoft\Windows\Installer
+          name:
+            equals: SafeForScripting
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 0
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: may_be_absent_and_all_match
+  evaluate:
+    test: prevent-internet-explorer-security-prompt-windows-installer-scripts-set-not-test

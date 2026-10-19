@@ -1,0 +1,25 @@
+assessment:
+  id: ng.shared.audit-authentication-policy-change-is-set-to-success-or-success-and-fail
+  version: 1
+  assessment_title: The system must be configured to audit Policy Change - Authentication Policy Change successes.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    audit-authentication-policy-change-set-success-or-success-failure-test:
+      test_title: '''Audit Authentication Policy Change'' is set to ''Success'' or ''Success and Failure'''
+      capability: windows.auditeventpolicysubcategories
+      states:
+      - authentication_policy_change:
+          equals: AUDIT_SUCCESS
+      - authentication_policy_change:
+          equals: AUDIT_SUCCESS_FAILURE
+      reported_elements: all
+      states_match: any
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: audit-authentication-policy-change-set-success-or-success-failure-test

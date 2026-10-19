@@ -1,0 +1,39 @@
+assessment:
+  id: ng.shared.nfs-mounts-are-mounted-with-nosuid
+  version: 1
+  assessment_title: Linux must prevent files with the setuid and setgid bit set from being executed on file systems
+    that are imported via Network File System (NFS).
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    nfs-mounts-mounted-nosuid-test:
+      test_title: NFS mounts are mounted with nosuid
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/fstab
+          pattern:
+            matches_regex: ^\s*[^#\s][^\s]*\s+[^\s]+\s+nfs[^\s]*\s+([^\s]+)
+          instance:
+            greater_than_or_equal: 1
+        object_title: /etc/fstab, uncommented, nfs, capturing options
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          matches_regex: (^|,)nosuid(,|$)
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: nfs-mounts-mounted-nosuid-test

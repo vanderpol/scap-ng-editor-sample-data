@@ -1,0 +1,76 @@
+assessment:
+  id: ng.shared.linux-must-mount-var-log-with-the-nosuid-option
+  version: 1
+  assessment_title: Linux must mount /var/log with the nosuid option.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  variables:
+    mount-options-var-log-in-etc-fstab-variable:
+      title: Mount options for /var/log in /etc/fstab
+      kind: local
+      datatype: string
+      expression:
+        split:
+          value:
+            values:
+              object: independent-textfilecontent54-object
+              field: subexpression
+          delimiter: ','
+  tests:
+    var-log-mounted-nosuid-option-test:
+      test_title: /var/log is mounted with the nosuid option
+      capability: linux.partition
+      object:
+        capability: linux.partition
+        select:
+          mount_point:
+            equals: /var/log
+        object_title: null
+      states:
+      - mount_options:
+          require: at_least_one_exists_and_some_match
+          equals: nosuid
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    var-log-configured-nosuid-option-in-etc-fstab-test:
+      test_title: /var/log is configured with the nosuid option in /etc/fstab
+      capability: variable.value
+      states:
+      - value:
+          require: at_least_one_exists_and_some_match
+          equals: nosuid
+      reported_elements: all
+      variable: mount-options-var-log-in-etc-fstab-variable
+      collected_items_require: at_least_one_exists_and_all_match
+    var-log-configured-in-etc-fstab-test:
+      test_title: /var/log is configured in /etc/fstab
+      capability: independent.textfilecontent54
+      object: independent-textfilecontent54-object
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+  evaluate:
+    all:
+    - test: var-log-mounted-nosuid-option-test
+    - test: var-log-configured-nosuid-option-in-etc-fstab-test
+    - test: var-log-configured-in-etc-fstab-test
+  shared_objects:
+    independent-textfilecontent54-object:
+      capability: independent.textfilecontent54
+      select:
+        full_path:
+          equals: /etc/fstab
+        pattern:
+          matches_regex: ^\s*[^#\s]+\s+/var/log\s+\S+\s+(\S+)\s+\S+\s+\S+\s*$
+        instance:
+          equals: 1
+      object_title: null
+      filesystem: all
+      collect:
+        ignore_case: false
+        multiline: true
+        singleline: false
+        item_creation: all_object_elements_fullfilled

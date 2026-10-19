@@ -1,0 +1,47 @@
+assessment:
+  id: SV-253372.automated
+  version: 2
+  assessment_title: WN11-CC-000085 - Early Launch Antimalware, Boot-Start Driver Initialization Policy must prevent
+    boot drivers.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    boot-start-driver-initialization-policy-not-set-enabled-all-selected-test:
+      test_title: '''Boot-Start Driver Initialization Policy'' is not set to ''Enabled'' with ''All'' selected'
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: System\CurrentControlSet\Policies\EarlyLaunch
+          name:
+            equals: DriverLoadPolicy
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 1
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 3
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 8
+      reported_elements: all
+      states_match: any
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: boot-start-driver-initialization-policy-not-set-enabled-all-selected-test

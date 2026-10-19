@@ -1,0 +1,26 @@
+assessment:
+  id: ng.shared.package-iprutils-is-not-installed
+  version: 1
+  assessment_title: Linux must not have the iprutils package installed.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    package-iprutils-not-installed-test:
+      test_title: package iprutils is NOT installed
+      capability: linux.rpminfo
+      object:
+        capability: linux.rpminfo
+        select:
+          package_name:
+            equals: iprutils
+        object_title: null
+        collect:
+          include_file_paths: false
+      reported_elements: all
+      collected_items_require: none_exist
+  evaluate:
+    test: package-iprutils-not-installed-test

@@ -1,0 +1,53 @@
+assessment:
+  id: SV-253399.automated
+  version: 3
+  assessment_title: WN11-CC-000252 - Windows 11 must be configured to disable Windows Game Recording and Broadcasting.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    allowgamedvr-disabled-test:
+      test_title: AllowGameDVR is disabled
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: windows.registry
+              select:
+                hive:
+                  equals: local_machine
+                key:
+                  equals: SOFTWARE\Policies\Microsoft\Windows\GameDVR
+                name:
+                  equals: AllowGameDVR
+              object_title: Group Policy registry entry for AllowGameDVR
+            filters: []
+          - object:
+              capability: windows.registry
+              select:
+                hive:
+                  equals: local_machine
+                key:
+                  equals: SOFTWARE\Microsoft\PolicyManager\current\device\ApplicationManagement
+                name:
+                  equals: AllowGameDVR
+              object_title: Intune registry entry for AllowGameDVR
+            filters: []
+        object_title: Registry entries for AllowGameDVR
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 0
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: allowgamedvr-disabled-test

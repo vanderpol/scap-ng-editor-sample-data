@@ -1,0 +1,26 @@
+assessment:
+  id: SV-253273.manual
+  version: 1
+  assessment_title: Accounts must be configured to require password expiration.
+  mode: manual
+  purpose: assessment
+  class: compliance
+  procedure: Run "Computer Management". Navigate to System Tools >> Local Users and Groups >> Users. Double-click each active
+    account. If "Password never expires" is selected for any account, this is a finding.
+  response:
+    type: compliance
+    choices:
+    - value: pass
+      label: Pass
+      outcome: 'true'
+    - value: fail
+      label: Fail
+      outcome: 'false'
+    - value: unknown
+      label: Unknown
+      outcome: unknown
+    - value: not_applicable
+      label: Not applicable
+      outcome: not_applicable
+    allow_comment: true
+    allow_evidence: true

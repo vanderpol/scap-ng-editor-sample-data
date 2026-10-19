@@ -1,0 +1,33 @@
+assessment:
+  id: ng.shared.windows-must-be-configured-to-audit-object-access-other-object-access-ev-dab65807
+  version: 1
+  assessment_title: Windows must be configured to audit Object Access - Other Object Access Events failures.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    audit-other-object-access-events-set-failure-test:
+      test_title: '''Audit Other Object Access Events'' is set to ''Failure'''
+      capability: windows.auditeventpolicysubcategories
+      states:
+      - other_object_access_events:
+          require: at_least_one_exists_and_all_match
+          equals: AUDIT_FAILURE
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    audit-other-object-access-events-set-success-failure-test:
+      test_title: '''Audit Other Object Access Events'' is set to ''Success'' and ''Failure'''
+      capability: windows.auditeventpolicysubcategories
+      states:
+      - other_object_access_events:
+          require: at_least_one_exists_and_all_match
+          equals: AUDIT_SUCCESS_FAILURE
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    any:
+    - test: audit-other-object-access-events-set-failure-test
+    - test: audit-other-object-access-events-set-success-failure-test

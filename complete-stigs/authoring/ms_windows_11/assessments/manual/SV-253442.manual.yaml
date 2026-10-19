@@ -1,0 +1,27 @@
+assessment:
+  id: SV-253442.manual
+  version: 1
+  assessment_title: The maximum age for machine account passwords must be configured to 30 days or less.
+  mode: manual
+  purpose: assessment
+  class: compliance
+  procedure: '(remove)This is the default configuration for this setting (30 days). If the following registry value does not
+    exist or is not configured as specified, this is a finding: Registry Hive: HKEY_LOCAL_MACHINE Registry Path: \SYSTEM\CurrentControlSet\Services\Netlogon\Parameters\
+    Value Name: MaximumPasswordAge Value Type: REG_DWORD Value: 0x0000001e (30) (or less, excluding 0)'
+  response:
+    type: compliance
+    choices:
+    - value: pass
+      label: Pass
+      outcome: 'true'
+    - value: fail
+      label: Fail
+      outcome: 'false'
+    - value: unknown
+      label: Unknown
+      outcome: unknown
+    - value: not_applicable
+      label: Not applicable
+      outcome: not_applicable
+    allow_comment: true
+    allow_evidence: true

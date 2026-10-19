@@ -1,0 +1,56 @@
+assessment:
+  id: ng.shared.the-server-message-block-smb-v1-protocol-must-be-disabled-on-the-smb-ser
+  version: 1
+  assessment_title: The Server Message Block (SMB) v1 protocol must be disabled on the SMB server.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    smb-1-0-cifs-file-sharing-support-feature-not-installed-test:
+      test_title: '''SMB 1.0/CIFS File Sharing Support'' feature is not installed'
+      capability: windows.wmi.query
+      object:
+        capability: windows.wmi.query
+        object_title: null
+        collect:
+          namespace: root\cimv2
+          query: SELECT installstate FROM win32_optionalfeature WHERE name = 'SMB1Protocol'
+      states:
+      - result:
+          record:
+            fields:
+              installstate:
+                require: at_least_one_exists_and_some_match
+                equals: '2'
+            require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: all_exist_and_all_match
+    configure-smbv1-server-set-disabled-test:
+      test_title: '''Configure SMBv1 Server'' is set to ''Disabled'''
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters
+          name:
+            equals: SMB1
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 0
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    any:
+    - test: smb-1-0-cifs-file-sharing-support-feature-not-installed-test
+    - test: configure-smbv1-server-set-disabled-test

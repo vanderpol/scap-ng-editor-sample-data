@@ -1,0 +1,28 @@
+assessment:
+  id: ng.shared.user-max-user-namespaces-is-set-to-0-in-kernel
+  version: 1
+  assessment_title: Linux must disable the use of user namespaces.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    user-max-user-namespaces-set-0-in-kernel-test:
+      test_title: user.max_user_namespaces is set to 0 in kernel
+      capability: unix.sysctl
+      object:
+        capability: unix.sysctl
+        select:
+          name:
+            equals: user.max_user_namespaces
+        object_title: null
+      states:
+      - value:
+          require: at_least_one_exists_and_all_match
+          equals: 0
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: user-max-user-namespaces-set-0-in-kernel-test

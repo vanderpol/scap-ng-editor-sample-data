@@ -1,0 +1,60 @@
+assessment:
+  id: ng.shared.for-pki-based-authentication-the-os-must-validate-certificates-by-constr
+  version: 1
+  assessment_title: Linux, for PKI-based authentication, must validate certificates by constructing a certification
+    path (which includes status information) to an accepted trust anchor.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    pki-based-authentication-os-validate-certificates-by-constructing-certification-path-test:
+      test_title: For PKI-based authentication, the OS must validate certificates by constructing a certification
+        path (which includes status information) to an accepted trust anchor.
+      capability: independent.shellcommand
+      object:
+        capability: independent.shellcommand
+        object_title: Check that the system has a valid DOD root CA installed
+        collect:
+          shell: bash
+          command: openssl x509 -text -in /etc/sssd/pki/sssd_auth_ca_db.pem
+          pattern: 'Issuer:'
+          error_if_exit_status_not_0: false
+          error_if_stderr_exists: false
+      states:
+      - and:
+        - exit_status:
+            equals: 0
+        - stdout_line:
+            matches_regex: CN\s*=\s*DoD\s+Root\s+CA
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    pki-based-authentication-os-validate-certificates-by-constructing-certification-path-2-test:
+      test_title: For PKI-based authentication, the OS must validate certificates by constructing a certification
+        path (which includes status information) to an accepted trust anchor.
+      capability: independent.shellcommand
+      object:
+        capability: independent.shellcommand
+        object_title: Check that the root certicate is date/time valid
+        collect:
+          shell: bash
+          command: openssl x509 -in /etc/sssd/pki/sssd_auth_ca_db.pem -checkend 0
+          pattern: expire
+          error_if_exit_status_not_0: false
+          error_if_stderr_exists: false
+      states:
+      - and:
+        - exit_status:
+            equals: 0
+        - stdout_line:
+            matches_regex: Certificate will not expire
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    all:
+    - test: pki-based-authentication-os-validate-certificates-by-constructing-certification-path-test
+    - test: pki-based-authentication-os-validate-certificates-by-constructing-certification-path-2-test

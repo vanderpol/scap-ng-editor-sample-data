@@ -1,0 +1,38 @@
+assessment:
+  id: ng.shared.umask-is-set-to-077-in-etc-bashrc
+  version: 1
+  assessment_title: Linux must define default permissions for the bash shell.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    umask-set-077-in-etc-bashrc-test:
+      test_title: UMASK is set to 077 in /etc/bashrc
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/bashrc
+          pattern:
+            matches_regex: ^[^#]*\s*(?i)umask\s*(\d+)\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          equals: '077'
+      reported_elements: all
+      collected_items_require: all_exist_and_all_match
+  evaluate:
+    test: umask-set-077-in-etc-bashrc-test

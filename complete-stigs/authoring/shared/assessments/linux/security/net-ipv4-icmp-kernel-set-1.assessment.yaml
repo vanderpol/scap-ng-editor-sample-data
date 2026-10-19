@@ -1,0 +1,29 @@
+assessment:
+  id: ng.shared.net-ipv4-icmp-ignore-bogus-error-responses-setting-in-kernel-is-set-to-1
+  version: 1
+  assessment_title: Linux must limit the number of bogus Internet Control Message Protocol (ICMP) response errors
+    logs.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    net-ipv4-icmp-ignore-bogus-error-responses-setting-in-kernel-test:
+      test_title: net.ipv4.icmp_ignore_bogus_error_responses setting in kernel is set to 1
+      capability: unix.sysctl
+      object:
+        capability: unix.sysctl
+        select:
+          name:
+            equals: net.ipv4.icmp_ignore_bogus_error_responses
+        object_title: null
+      states:
+      - value:
+          require: at_least_one_exists_and_all_match
+          equals: 1
+      reported_elements: all
+      collected_items_require: all_exist_and_all_match
+  evaluate:
+    test: net-ipv4-icmp-ignore-bogus-error-responses-setting-in-kernel-test

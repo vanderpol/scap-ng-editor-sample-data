@@ -1,0 +1,35 @@
+assessment:
+  id: ng.shared.domain-member-disable-machine-account-password-changes-is-set-to-disable
+  version: 1
+  assessment_title: The computer account password must not be prevented from being reset.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    domain-member-disable-machine-account-password-changes-set-disabled-test:
+      test_title: '''Domain member: Disable machine account password changes'' is set to ''Disabled'''
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SYSTEM\CurrentControlSet\Services\Netlogon\Parameters
+          name:
+            equals: DisablePasswordChange
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 0
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: domain-member-disable-machine-account-password-changes-set-disabled-test

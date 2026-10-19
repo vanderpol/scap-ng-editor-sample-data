@@ -1,0 +1,199 @@
+assessment:
+  id: ng.shared.linux-must-use-the-invoking-user-s-password-for-privilege-escalation-whe
+  version: 1
+  assessment_title: Linux must use the invoking user's password for privilege escalation when using sudo.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  variables:
+    sudoers-d-config-files-variable:
+      title: sudoers.d config files
+      kind: local
+      datatype: string
+      expression:
+        values:
+          object:
+            capability: unix.file
+            select:
+              directory:
+                equals: /etc/sudoers.d
+              name:
+                matches_regex: ^[^.]*[^.~]$
+            object_title: /etc/sudoers.d config files, excluding files ending with ~ or containing .
+            filesystem: all
+          field: filepath
+  tests:
+    defaults-targetpw-in-etc-sudoers-test:
+      test_title: Defaults !targetpw in /etc/sudoers
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/sudoers
+          pattern:
+            matches_regex: ^\s*Defaults\s+!targetpw\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: /etc/sudoers Defaults !targetpw
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+    defaults-rootpw-in-etc-sudoers-test:
+      test_title: Defaults !rootpw in /etc/sudoers
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/sudoers
+          pattern:
+            matches_regex: ^\s*Defaults\s+!rootpw\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: /etc/sudoers Defaults !rootpw
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+    defaults-runaspw-in-etc-sudoers-test:
+      test_title: Defaults !runaspw in /etc/sudoers
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/sudoers
+          pattern:
+            matches_regex: ^\s*Defaults\s+!runaspw\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: /etc/sudoers Defaults !runaspw
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+    etc-sudoers-d-included-in-etc-sudoers-test:
+      test_title: /etc/sudoers.d included in /etc/sudoers
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/sudoers
+          pattern:
+            matches_regex: ^\s*[#@]includedir\s+(\S+)\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: /etc/sudoers includedir
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          equals: /etc/sudoers.d
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_some_match
+    defaults-targetpw-in-etc-sudoers-d-test:
+      test_title: Defaults !targetpw in /etc/sudoers.d
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            datatype: string
+            value_match: one_or_more
+            equals:
+              variable: sudoers-d-config-files-variable
+          pattern:
+            matches_regex: ^\s*Defaults\s+!targetpw\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: /etc/sudoers.d Defaults !targetpw
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+    defaults-rootpw-in-etc-sudoers-d-test:
+      test_title: Defaults !rootpw in /etc/sudoers.d
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            datatype: string
+            value_match: one_or_more
+            equals:
+              variable: sudoers-d-config-files-variable
+          pattern:
+            matches_regex: ^\s*Defaults\s+!rootpw\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: /etc/sudoers.d Defaults !rootpw
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+    defaults-runaspw-in-etc-sudoers-d-test:
+      test_title: Defaults !runaspw in /etc/sudoers.d
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            datatype: string
+            value_match: one_or_more
+            equals:
+              variable: sudoers-d-config-files-variable
+          pattern:
+            matches_regex: ^\s*Defaults\s+!runaspw\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: /etc/sudoers.d Defaults !runaspw
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+  evaluate:
+    any:
+    - all:
+      - test: defaults-targetpw-in-etc-sudoers-test
+      - test: defaults-rootpw-in-etc-sudoers-test
+      - test: defaults-runaspw-in-etc-sudoers-test
+    - all:
+      - test: etc-sudoers-d-included-in-etc-sudoers-test
+      - test: defaults-targetpw-in-etc-sudoers-d-test
+      - test: defaults-rootpw-in-etc-sudoers-d-test
+      - test: defaults-runaspw-in-etc-sudoers-d-test

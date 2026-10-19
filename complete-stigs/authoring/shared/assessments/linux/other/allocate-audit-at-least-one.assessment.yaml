@@ -1,0 +1,73 @@
+assessment:
+  id: ng.shared.linux-must-allocate-audit-record-storage-capacity-to-store-at-least-one
+  version: 1
+  assessment_title: Linux must allocate audit record storage capacity to store at least one week's worth of audit
+    records.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  variables:
+    audit-partition-total-size-in-bytes-variable:
+      title: audit partition total size in bytes
+      kind: local
+      datatype: string
+      expression:
+        arithmetic:
+          operation: multiply
+          operands:
+          - values:
+              object: linux-partition-object
+              field: block_size
+          - values:
+              object: linux-partition-object
+              field: total_space
+  tests:
+    there-separate-file-system-audit-data-directory-test:
+      test_title: There is a separate file system for audit data directory.
+      capability: linux.partition
+      object: linux-partition-object
+      reported_elements: all
+      collected_items_require: all_exist
+    audit-file-system-total-space-10gib-test:
+      test_title: Audit file system total space >= 10GiB
+      capability: variable.value
+      states:
+      - value:
+          require: at_least_one_exists_and_all_match
+          greater_than_or_equal: 10737418240
+      reported_elements: all
+      variable: audit-partition-total-size-in-bytes-variable
+      collected_items_require: all_exist_and_all_match
+  evaluate:
+    all:
+    - test: there-separate-file-system-audit-data-directory-test
+    - test: audit-file-system-total-space-10gib-test
+  shared_objects:
+    independent-textfilecontent54-object:
+      capability: independent.textfilecontent54
+      select:
+        full_path:
+          equals: /etc/audit/auditd.conf
+        pattern:
+          matches_regex: ^\s*log_file\s*=\s*(\S+)/\S+\s*$
+        instance:
+          greater_than_or_equal: 1
+      object_title: null
+      filesystem: all
+      collect:
+        ignore_case: true
+        multiline: true
+        singleline: false
+        item_creation: all_object_elements_fullfilled
+    linux-partition-object:
+      capability: linux.partition
+      for_each:
+        item: match
+        in: independent-textfilecontent54-object
+      select:
+        mount_point:
+          from: match.subexpression
+      object_title: null

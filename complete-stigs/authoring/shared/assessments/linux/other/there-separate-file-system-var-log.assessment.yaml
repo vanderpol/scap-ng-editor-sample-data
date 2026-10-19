@@ -1,0 +1,24 @@
+assessment:
+  id: ng.shared.there-is-a-separate-file-system-for-var-log
+  version: 1
+  assessment_title: Linux must use a separate file system for /var/log.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    there-separate-file-system-var-log-test:
+      test_title: There is a separate file system for /var/log.
+      capability: linux.partition
+      object:
+        capability: linux.partition
+        select:
+          mount_point:
+            equals: /var/log
+        object_title: null
+      reported_elements: all
+      collected_items_require: all_exist
+  evaluate:
+    test: there-separate-file-system-var-log-test

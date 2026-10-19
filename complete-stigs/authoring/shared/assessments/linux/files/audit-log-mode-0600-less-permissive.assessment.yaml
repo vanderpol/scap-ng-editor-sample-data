@@ -1,0 +1,76 @@
+assessment:
+  id: ng.shared.audit-log-is-mode-0600-or-less-permissive
+  version: 1
+  assessment_title: Linux audit logs file must have mode 0600 or less permissive to prevent unauthorized access to
+    the audit log.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  variables:
+    audit-log-location-from-etc-audit-auditd-conf-variable:
+      title: Audit log location from /etc/audit/auditd.conf
+      kind: local
+      datatype: string
+      expression:
+        values:
+          object:
+            capability: independent.textfilecontent54
+            select:
+              full_path:
+                equals: /etc/audit/auditd.conf
+              pattern:
+                matches_regex: ^\s*log_file\s*=\s*(\S+)\s*(?:#.*)?$
+              instance:
+                greater_than_or_equal: 1
+            object_title: Audit log file
+            filesystem: all
+            collect:
+              ignore_case: false
+              multiline: true
+              singleline: false
+              item_creation: all_object_elements_fullfilled
+          field: subexpression
+  tests:
+    audit-log-mode-0600-or-less-permissive-test:
+      test_title: Audit log is mode 0600 or less permissive
+      capability: unix.file
+      object:
+        capability: unix.file
+        select:
+          full_path:
+            datatype: string
+            value_match: all
+            equals:
+              variable: audit-log-location-from-etc-audit-auditd-conf-variable
+        object_title: Audit log file location
+        filesystem: all
+      states:
+      - and:
+        - setuid:
+            equals: false
+        - setgid:
+            equals: false
+        - sticky:
+            equals: false
+        - owner_execute:
+            equals: false
+        - group_read:
+            equals: false
+        - group_write:
+            equals: false
+        - group_execute:
+            equals: false
+        - other_read:
+            equals: false
+        - other_write:
+            equals: false
+        - other_execute:
+            equals: false
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: audit-log-mode-0600-or-less-permissive-test

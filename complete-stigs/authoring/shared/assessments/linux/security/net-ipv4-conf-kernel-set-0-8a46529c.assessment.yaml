@@ -1,0 +1,28 @@
+assessment:
+  id: ng.shared.net-ipv4-conf-all-send-redirects-setting-in-kernel-is-set-to-0
+  version: 1
+  assessment_title: Linux must not send Internet Control Message Protocol (ICMP) redirects.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    net-ipv4-conf-all-send-redirects-setting-in-kernel-set-test:
+      test_title: net.ipv4.conf.all.send_redirects setting in kernel is set to 0
+      capability: unix.sysctl
+      object:
+        capability: unix.sysctl
+        select:
+          name:
+            equals: net.ipv4.conf.all.send_redirects
+        object_title: null
+      states:
+      - value:
+          require: at_least_one_exists_and_all_match
+          equals: 0
+      reported_elements: all
+      collected_items_require: all_exist_and_all_match
+  evaluate:
+    test: net-ipv4-conf-all-send-redirects-setting-in-kernel-set-test

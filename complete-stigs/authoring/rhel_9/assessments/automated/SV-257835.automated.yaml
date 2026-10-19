@@ -1,0 +1,35 @@
+assessment:
+  id: SV-257835.automated
+  version: 2
+  assessment_title: RHEL-09-215060 - The Trivial File Transfer Protocol (TFTP) server must not be installed unless
+    it is required, and if required, the RHEL 9 TFTP daemon must be configured to operate in secure mode.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    usr-lib-systemd-system-tftp-service-execstart-has-s-option-test:
+      test_title: '/usr/lib/systemd/system/tftp.service: ExecStart has a -s option with a subdirectory assigned'
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /usr/lib/systemd/system/tftp.service
+          pattern:
+            matches_regex: ^ExecStart[ \t]*=[ \t]*\/usr\/sbin\/in\.tftpd[ \t]*-s[ \t]+/\S+[ \t]*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+  evaluate:
+    test: usr-lib-systemd-system-tftp-service-execstart-has-s-option-test

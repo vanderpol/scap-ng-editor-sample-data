@@ -1,0 +1,124 @@
+assessment:
+  id: ng.shared.linux-must-allow-only-the-information-system-security-manager-issm-or-in
+  version: 1
+  assessment_title: Linux must allow only the information system security manager (ISSM) (or individuals or roles
+    appointed by the ISSM) to select which auditable events are to be audited.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    etc-audit-auditd-conf-has-mode-0600-or-less-permissive-test:
+      test_title: /etc/audit/auditd.conf has mode 0600 or less permissive
+      capability: unix.file
+      object:
+        capability: unix.file
+        select:
+          full_path:
+            equals: /etc/audit/auditd.conf
+        object_title: null
+        filesystem: all
+      states:
+      - and:
+        - setuid:
+            equals: false
+        - setgid:
+            equals: false
+        - sticky:
+            equals: false
+        - owner_execute:
+            equals: false
+        - group_read:
+            equals: false
+        - group_write:
+            equals: false
+        - group_execute:
+            equals: false
+        - other_read:
+            equals: false
+        - other_write:
+            equals: false
+        - other_execute:
+            equals: false
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    rules-files-in-etc-audit-rules-d-have-mode-0600-test:
+      test_title: .rules files in /etc/audit/rules.d have mode 0600 or less permissive
+      capability: unix.file
+      object:
+        capability: unix.file
+        select:
+          directory:
+            equals: /etc/audit/rules.d
+          name:
+            matches_regex: .rules$
+        object_title: null
+        filesystem: all
+      states:
+      - and:
+        - setuid:
+            equals: false
+        - setgid:
+            equals: false
+        - sticky:
+            equals: false
+        - owner_execute:
+            equals: false
+        - group_read:
+            equals: false
+        - group_write:
+            equals: false
+        - group_execute:
+            equals: false
+        - other_read:
+            equals: false
+        - other_write:
+            equals: false
+        - other_execute:
+            equals: false
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    etc-audit-audit-rules-has-mode-0600-or-less-permissive-test:
+      test_title: /etc/audit/audit.rules has mode 0600 or less permissive
+      capability: unix.file
+      object:
+        capability: unix.file
+        select:
+          full_path:
+            equals: /etc/audit/audit.rules
+        object_title: null
+        filesystem: all
+      states:
+      - and:
+        - setuid:
+            equals: false
+        - setgid:
+            equals: false
+        - sticky:
+            equals: false
+        - owner_execute:
+            equals: false
+        - group_read:
+            equals: false
+        - group_write:
+            equals: false
+        - group_execute:
+            equals: false
+        - other_read:
+            equals: false
+        - other_write:
+            equals: false
+        - other_execute:
+            equals: false
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    all:
+    - test: etc-audit-auditd-conf-has-mode-0600-or-less-permissive-test
+    - test: rules-files-in-etc-audit-rules-d-have-mode-0600-test
+    - test: etc-audit-audit-rules-has-mode-0600-or-less-permissive-test

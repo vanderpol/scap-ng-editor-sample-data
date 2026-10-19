@@ -1,0 +1,25 @@
+assessment:
+  id: ng.shared.sensitive-privilege-use-is-set-to-failure-or-success-and-failure
+  version: 1
+  assessment_title: The system must be configured to audit Privilege Use - Sensitive Privilege Use failures.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    sensitive-privilege-use-set-failure-or-success-failure-test:
+      test_title: '''Sensitive Privilege Use'' is set to ''Failure'' or ''Success and Failure'''
+      capability: windows.auditeventpolicysubcategories
+      states:
+      - sensitive_privilege_use:
+          equals: AUDIT_FAILURE
+      - sensitive_privilege_use:
+          equals: AUDIT_SUCCESS_FAILURE
+      reported_elements: all
+      states_match: any
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: sensitive-privilege-use-set-failure-or-success-failure-test

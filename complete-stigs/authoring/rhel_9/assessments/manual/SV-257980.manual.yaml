@@ -1,0 +1,27 @@
+assessment:
+  id: SV-257980.manual
+  version: 1
+  assessment_title: RHEL 9 must have the openssh-clients package installed.
+  mode: manual
+  purpose: assessment
+  class: compliance
+  procedure: 'Verify that RHEL 9 has the openssh-clients package installed with the following command: $ dnf list --installed
+    openssh-clients Example output: openssh-clients.x86_64 8.7p1-8.el9 If the "openssh-clients" package is not installed,
+    this is a finding.'
+  response:
+    type: compliance
+    choices:
+    - value: pass
+      label: Pass
+      outcome: 'true'
+    - value: fail
+      label: Fail
+      outcome: 'false'
+    - value: unknown
+      label: Unknown
+      outcome: unknown
+    - value: not_applicable
+      label: Not applicable
+      outcome: not_applicable
+    allow_comment: true
+    allow_evidence: true

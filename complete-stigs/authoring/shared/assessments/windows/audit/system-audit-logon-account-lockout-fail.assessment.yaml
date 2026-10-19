@@ -1,0 +1,33 @@
+assessment:
+  id: ng.shared.the-system-must-be-configured-to-audit-logon-logoff-account-lockout-fail
+  version: 1
+  assessment_title: The system must be configured to audit Logon/Logoff - Account Lockout failures.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    audit-account-lockout-set-failure-test:
+      test_title: '''Audit Account Lockout'' is set to ''Failure'''
+      capability: windows.auditeventpolicysubcategories
+      states:
+      - account_lockout:
+          require: at_least_one_exists_and_all_match
+          equals: AUDIT_FAILURE
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    audit-account-lockout-set-success-failure-test:
+      test_title: '''Audit Account Lockout'' is set to ''Success'' and ''Failure'''
+      capability: windows.auditeventpolicysubcategories
+      states:
+      - account_lockout:
+          require: at_least_one_exists_and_all_match
+          equals: AUDIT_SUCCESS_FAILURE
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    any:
+    - test: audit-account-lockout-set-failure-test
+    - test: audit-account-lockout-set-success-failure-test

@@ -1,0 +1,30 @@
+assessment:
+  id: ng.shared.var-log-directory-is-group-owned-by-root
+  version: 1
+  assessment_title: Linux /var/log directory must be group-owned by root.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    var-log-directory-group-owned-by-root-test:
+      test_title: /var/log directory is group-owned by root.
+      capability: unix.file
+      object:
+        capability: unix.file
+        select:
+          directory:
+            equals: /var/log
+          name: null
+        object_title: /var/log directory
+        filesystem: all
+      states:
+      - owner_gid:
+          require: at_least_one_exists_and_all_match
+          equals: 0
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: var-log-directory-group-owned-by-root-test

@@ -1,0 +1,41 @@
+assessment:
+  id: ng.shared.domain-member-maximum-machine-account-password-age-is-set-to-30-or-less
+  version: 1
+  assessment_title: The maximum age for machine account passwords must be configured to 30 days or less.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    domain-member-maximum-machine-account-password-age-set-30-or-test:
+      test_title: '''Domain member: Maximum machine account password age'' is set to 30 or less (but not 0).'
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SYSTEM\CurrentControlSet\Services\Netlogon\Parameters
+          name:
+            equals: MaximumPasswordAge
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            greater_than: 0
+      - and:
+        - type:
+            equals: dword
+        - value:
+            less_than_or_equal: 30
+      reported_elements: all
+      states_match: all
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: domain-member-maximum-machine-account-password-age-set-30-or-test

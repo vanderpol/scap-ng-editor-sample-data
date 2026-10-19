@@ -1,0 +1,107 @@
+assessment:
+  id: ng.shared.linux-must-be-configured-to-disable-the-asynchronous-transfer-mode-atm-k
+  version: 1
+  assessment_title: Linux must be configured to disable the Asynchronous Transfer Mode (ATM) kernel module.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    etc-modprobe-d-contains-file-that-contains-install-atm-bin-test:
+      test_title: /etc/modprobe.d contains a file that contains 'install atm /bin/false'
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          directory:
+            equals: /etc/modprobe.d
+          name:
+            matches_regex: .*
+          pattern:
+            matches_regex: ^[ \t]*install[ \t]+atm[ \t]+/bin/false[ \t]*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+    etc-modprobe-d-contains-file-that-contains-blacklist-atm-test:
+      test_title: /etc/modprobe.d contains a file that contains 'blacklist atm'
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          directory:
+            equals: /etc/modprobe.d
+          name:
+            matches_regex: .*
+          pattern:
+            matches_regex: ^[ \t]*blacklist[ \t]+atm[ \t]*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+    etc-modprobe-conf-contains-file-that-contains-install-atm-bin-test:
+      test_title: /etc/modprobe.conf contains a file that contains 'install atm /bin/false'
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/modprobe.conf
+          pattern:
+            matches_regex: ^[ \t]*install[ \t]+atm[ \t]+/bin/false[ \t]*$
+          instance:
+            equals: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+    etc-modprobe-conf-contains-file-that-contains-blacklist-atm-test:
+      test_title: /etc/modprobe.conf contains a file that contains 'blacklist atm'
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/modprobe.conf
+          pattern:
+            matches_regex: ^[ \t]*blacklist[ \t]+atm[ \t]*$
+          instance:
+            equals: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+  evaluate:
+    any:
+    - all:
+      - test: etc-modprobe-d-contains-file-that-contains-install-atm-bin-test
+      - test: etc-modprobe-d-contains-file-that-contains-blacklist-atm-test
+    - all:
+      - test: etc-modprobe-conf-contains-file-that-contains-install-atm-bin-test
+      - test: etc-modprobe-conf-contains-file-that-contains-blacklist-atm-test

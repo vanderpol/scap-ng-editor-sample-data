@@ -1,0 +1,105 @@
+assessment:
+  id: SV-253491.automated
+  version: 2
+  assessment_title: WN11-UR-000070 - The "Deny access to this computer from the network" user right on workstations
+    must be configured to prevent access from highly privileged domain accounts and local accounts on domain systems
+    and unauthenticated access on all systems.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    system-windows-domain-member-workstation-test:
+      test_title: The system is a Windows Domain Member Workstation
+      capability: windows.wmi.query
+      object: windows-wmi57-object
+      states:
+      - result:
+          record:
+            fields:
+              domainrole:
+                require: at_least_one_exists_and_all_match
+                equals: '1'
+            require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    deny-access-this-computer-from-network-local-account-test:
+      test_title: Deny access to this computer from the network - Local account
+      capability: windows.userright
+      object: windows-userright-object
+      states:
+      - trustee_name:
+          require: at_least_one_exists_and_all_match
+          matches_regex: ^(?i)(NT Authority\\)?Local account$
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_some_match
+    deny-access-this-computer-from-network-guests-test:
+      test_title: Deny access to this computer from the network - Guests
+      capability: windows.userright
+      object: windows-userright-object
+      states:
+      - trustee_name:
+          require: at_least_one_exists_and_all_match
+          case_insensitive_equals: Guests
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_some_match
+    deny-access-this-computer-from-network-domain-admins-test:
+      test_title: Deny access to this computer from the network - Domain Admins
+      capability: windows.userright
+      object: windows-userright-object
+      states:
+      - trustee_name:
+          require: at_least_one_exists_and_all_match
+          matches_regex: ^(?i)(.+\\)?Domain Admins$
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_some_match
+    deny-access-this-computer-from-network-enterprise-admins-test:
+      test_title: Deny access to this computer from the network - Enterprise Admins
+      capability: windows.userright
+      object: windows-userright-object
+      states:
+      - trustee_name:
+          require: at_least_one_exists_and_all_match
+          matches_regex: ^(?i)(.+\\)?Enterprise Admins$
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_some_match
+    system-windows-standalone-workstation-test:
+      test_title: The system is a Windows Standalone Workstation
+      capability: windows.wmi.query
+      object: windows-wmi57-object
+      states:
+      - result:
+          record:
+            fields:
+              domainrole:
+                require: at_least_one_exists_and_all_match
+                equals: '0'
+            require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    any:
+    - all:
+      - test: system-windows-domain-member-workstation-test
+      - test: deny-access-this-computer-from-network-local-account-test
+      - test: deny-access-this-computer-from-network-guests-test
+      - test: deny-access-this-computer-from-network-domain-admins-test
+      - test: deny-access-this-computer-from-network-enterprise-admins-test
+    - all:
+      - test: system-windows-standalone-workstation-test
+      - test: deny-access-this-computer-from-network-guests-test
+  shared_objects:
+    windows-wmi57-object:
+      capability: windows.wmi.query
+      object_title: null
+      collect:
+        namespace: root\cimv2
+        query: SELECT DomainRole FROM win32_computersystem
+    windows-userright-object:
+      capability: windows.userright
+      select:
+        userright:
+          equals: SE_DENY_NETWORK_LOGON_NAME
+      object_title: null

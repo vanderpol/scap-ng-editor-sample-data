@@ -1,0 +1,29 @@
+assessment:
+  id: SV-253422.manual
+  version: 1
+  assessment_title: Windows 11 must be configured to prevent Windows apps from being activated by voice while the system is
+    locked.
+  mode: manual
+  purpose: assessment
+  class: compliance
+  procedure: 'The setting is NA when the "Allow voice activation" policy is configured to disallow applications to be activated
+    with voice for all users. If the following registry value does not exist or is not configured as specified, this is a
+    finding: Registry Hive: HKEY_LOCAL_MACHINE Registry Path: \SOFTWARE\Policies\Microsoft\Windows\AppPrivacy\ Value Name:
+    LetAppsActivateWithVoice Type: REG_DWORD Value: 0x00000002 (2)'
+  response:
+    type: compliance
+    choices:
+    - value: pass
+      label: Pass
+      outcome: 'true'
+    - value: fail
+      label: Fail
+      outcome: 'false'
+    - value: unknown
+      label: Unknown
+      outcome: unknown
+    - value: not_applicable
+      label: Not applicable
+      outcome: not_applicable
+    allow_comment: true
+    allow_evidence: true

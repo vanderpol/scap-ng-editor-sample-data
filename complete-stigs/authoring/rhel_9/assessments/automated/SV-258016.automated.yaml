@@ -1,0 +1,33 @@
+assessment:
+  id: SV-258016.automated
+  version: 13
+  assessment_title: RHEL 9 must disable the graphical user interface autorun function unless required.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    verify-rhel-9-disables-graphical-user-interface-autorun-function-test:
+      test_title: Verify RHEL 9 disables the graphical user interface autorun function.
+      capability: independent.shellcommand
+      object:
+        capability: independent.shellcommand
+        object_title: Retrieve the gsettings autorun-never setting.
+        collect:
+          shell: bash
+          command: gsettings get org.gnome.desktop.media-handling autorun-never
+          error_if_exit_status_not_0: false
+          error_if_stderr_exists: false
+      states:
+      - and:
+        - exit_status:
+            equals: 0
+        - stdout_line:
+            equals: 'true'
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: verify-rhel-9-disables-graphical-user-interface-autorun-function-test

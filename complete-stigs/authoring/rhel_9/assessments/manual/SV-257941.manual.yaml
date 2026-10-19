@@ -1,0 +1,27 @@
+assessment:
+  id: SV-257941.manual
+  version: 1
+  assessment_title: RHEL 9 network interfaces must not be in promiscuous mode.
+  mode: manual
+  purpose: assessment
+  class: compliance
+  procedure: 'Verify network interfaces are not in promiscuous mode with the following command: $ ip link | grep -i promisc
+    If network interfaces are found on the system in promiscuous mode and their use has not been approved by the ISSO and
+    documented, this is a finding.'
+  response:
+    type: compliance
+    choices:
+    - value: pass
+      label: Pass
+      outcome: 'true'
+    - value: fail
+      label: Fail
+      outcome: 'false'
+    - value: unknown
+      label: Unknown
+      outcome: unknown
+    - value: not_applicable
+      label: Not applicable
+      outcome: not_applicable
+    allow_comment: true
+    allow_evidence: true

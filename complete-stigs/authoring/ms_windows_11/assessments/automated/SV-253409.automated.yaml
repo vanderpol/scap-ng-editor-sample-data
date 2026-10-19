@@ -1,0 +1,53 @@
+assessment:
+  id: SV-253409.automated
+  version: 3
+  assessment_title: WN11-CC-000305 - Indexing of encrypted files must be turned off.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    allowindexingencryptedstoresoritems-disabled-test:
+      test_title: AllowIndexingEncryptedStoresOrItems is disabled
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: windows.registry
+              select:
+                hive:
+                  equals: local_machine
+                key:
+                  equals: SOFTWARE\Policies\Microsoft\Windows\Windows Search
+                name:
+                  equals: AllowIndexingEncryptedStoresOrItems
+              object_title: Registry entry for AllowIndexingEncryptedStoresOrItems used by Group Policy
+            filters: []
+          - object:
+              capability: windows.registry
+              select:
+                hive:
+                  equals: local_machine
+                key:
+                  equals: SOFTWARE\Microsoft\Policymanager\current\device\search
+                name:
+                  equals: AllowIndexingEncryptedStoresOrItems
+              object_title: Registry entry for AllowIndexingEncryptedStoresOrItems used by Intune
+            filters: []
+        object_title: Registry entries for AllowIndexingEncryptedStoresOrItems
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 0
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: allowindexingencryptedstoresoritems-disabled-test

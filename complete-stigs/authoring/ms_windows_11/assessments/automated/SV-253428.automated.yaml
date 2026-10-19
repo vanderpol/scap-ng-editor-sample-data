@@ -1,0 +1,118 @@
+assessment:
+  id: SV-253428.automated
+  version: 2
+  assessment_title: WN11-PK-000010 - The External Root CA certificates must be installed in the Trusted Root Store
+    on unclassified systems.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    eca-root-ca-4-certificate-expiring-12-30-2029-installed-test:
+      test_title: ECA Root CA 4 certificate expiring 12/30/2029 is installed in the Trusted Root Store
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: windows.registry
+              set:
+                operator: union
+                operands:
+                - object:
+                    capability: windows.registry
+                    select:
+                      hive:
+                        equals: local_machine
+                      key:
+                        equals: SOFTWARE\Microsoft\SystemCertificates\Root\Certificates\73E8BB08E337D6A5A6AEF90CFFDD97D9176CB582
+                      name:
+                        matches_regex: ^.+$
+                    object_title: null
+                  filters: []
+                - object:
+                    capability: windows.registry
+                    select:
+                      hive:
+                        equals: local_machine
+                      key:
+                        equals: SOFTWARE\Microsoft\EnterpriseCertificates\Root\Certificates\73E8BB08E337D6A5A6AEF90CFFDD97D9176CB582
+                      name:
+                        matches_regex: ^.+$
+                    object_title: null
+                  filters: []
+              object_title: null
+            filters: []
+          - object:
+              capability: windows.registry
+              select:
+                hive:
+                  equals: local_machine
+                key:
+                  equals: SOFTWARE\Policies\Microsoft\SystemCertificates\Root\Certificates\73E8BB08E337D6A5A6AEF90CFFDD97D9176CB582
+                name:
+                  matches_regex: ^.+$
+              object_title: null
+            filters: []
+        object_title: null
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+    eca-root-ca-5-certificate-expiring-03-12-2050-installed-test:
+      test_title: ECA Root CA 5 certificate expiring 03/12/2050 is installed in the Trusted Root Store
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: windows.registry
+              set:
+                operator: union
+                operands:
+                - object:
+                    capability: windows.registry
+                    select:
+                      hive:
+                        equals: local_machine
+                      key:
+                        equals: SOFTWARE\Microsoft\SystemCertificates\Root\Certificates\DB00E5B7CC9393031FE8A61DF66C657C7462BB21
+                      name:
+                        matches_regex: ^.+$
+                    object_title: null
+                  filters: []
+                - object:
+                    capability: windows.registry
+                    select:
+                      hive:
+                        equals: local_machine
+                      key:
+                        equals: SOFTWARE\Microsoft\EnterpriseCertificates\Root\Certificates\DB00E5B7CC9393031FE8A61DF66C657C7462BB21
+                      name:
+                        matches_regex: ^.+$
+                    object_title: null
+                  filters: []
+              object_title: null
+            filters: []
+          - object:
+              capability: windows.registry
+              select:
+                hive:
+                  equals: local_machine
+                key:
+                  equals: SOFTWARE\Policies\Microsoft\SystemCertificates\Root\Certificates\DB00E5B7CC9393031FE8A61DF66C657C7462BB21
+                name:
+                  matches_regex: ^.+$
+              object_title: null
+            filters: []
+        object_title: null
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+  evaluate:
+    all:
+    - test: eca-root-ca-4-certificate-expiring-12-30-2029-installed-test
+    - test: eca-root-ca-5-certificate-expiring-03-12-2050-installed-test

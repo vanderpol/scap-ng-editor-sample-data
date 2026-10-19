@@ -1,0 +1,25 @@
+assessment:
+  id: ng.shared.audit-security-group-management-is-set-to-success-or-success-and-failure
+  version: 1
+  assessment_title: The system must be configured to audit Account Management - Security Group Management successes.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    audit-security-group-management-set-success-or-success-failure-test:
+      test_title: '''Audit Security Group Management'' is set to ''Success'' or ''Success and Failure'''
+      capability: windows.auditeventpolicysubcategories
+      states:
+      - security_group_management:
+          equals: AUDIT_SUCCESS
+      - security_group_management:
+          equals: AUDIT_SUCCESS_FAILURE
+      reported_elements: all
+      states_match: any
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: audit-security-group-management-set-success-or-success-failure-test

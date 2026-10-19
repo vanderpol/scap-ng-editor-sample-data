@@ -1,0 +1,28 @@
+assessment:
+  id: ng.shared.no-network-interfaces-are-in-promiscuous-mode
+  version: 1
+  assessment_title: Linux network interfaces must not be in promiscuous mode.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    no-network-interfaces-in-promiscuous-mode-test:
+      test_title: no network interfaces are in promiscuous mode
+      capability: unix.interface
+      object:
+        capability: unix.interface
+        select:
+          name:
+            matches_regex: .*
+        object_title: All Interfaces
+      states:
+      - flag:
+          require: at_least_one_exists_and_none_match
+          matches_regex: (^|\s)PROMISC(\s|$)
+      reported_elements: all
+      collected_items_require: may_be_absent_and_all_match
+  evaluate:
+    test: no-network-interfaces-in-promiscuous-mode-test

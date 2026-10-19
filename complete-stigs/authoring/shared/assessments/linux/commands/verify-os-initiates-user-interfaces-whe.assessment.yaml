@@ -1,0 +1,34 @@
+assessment:
+  id: ng.shared.verify-the-os-initiates-a-session-lock-for-graphical-user-interfaces-whe
+  version: 1
+  assessment_title: Linux must initiate a session lock for graphical user interfaces when the screensaver is activated.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    verify-os-initiates-session-lock-graphical-user-interfaces-when-screensaver-test:
+      test_title: Verify the OS initiates a session lock for graphical user interfaces when the screensaver is activated.
+      capability: independent.shellcommand
+      object:
+        capability: independent.shellcommand
+        object_title: Retrieve the gnome screensaver lock-delay setting.
+        collect:
+          shell: bash
+          command: gsettings get org.gnome.desktop.screensaver lock-delay
+          pattern: uint32\s(\d+)$
+          error_if_exit_status_not_0: false
+          error_if_stderr_exists: false
+      states:
+      - and:
+        - exit_status:
+            equals: 0
+        - subexpression:
+            less_than_or_equal: 5
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: verify-os-initiates-session-lock-graphical-user-interfaces-when-screensaver-test

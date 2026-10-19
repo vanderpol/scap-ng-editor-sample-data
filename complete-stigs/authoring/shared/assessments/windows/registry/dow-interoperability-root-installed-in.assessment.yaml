@@ -1,0 +1,120 @@
+assessment:
+  id: ng.shared.the-dow-interoperability-root-ca-cross-certificates-must-be-installed-in
+  version: 1
+  assessment_title: The DoW Interoperability Root CA cross-certificates must be installed in the Untrusted Certificates
+    Store on unclassified systems.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    dod-interoperability-root-ca-2-certificate-expiring-10-9-2027-test:
+      test_title: DoD Interoperability Root CA 2 certificate expiring 10/9/2027 is installed in the Untrusted Certificates
+        Store
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: windows.registry
+              set:
+                operator: union
+                operands:
+                - object:
+                    capability: windows.registry
+                    select:
+                      hive:
+                        equals: local_machine
+                      key:
+                        equals: SOFTWARE\Microsoft\SystemCertificates\Disallowed\Certificates\EC3C9B8B017892CAC3A13C7C9AAD52E7F7B0ABE4
+                      name:
+                        matches_regex: ^.+$
+                    object_title: null
+                  filters: []
+                - object:
+                    capability: windows.registry
+                    select:
+                      hive:
+                        equals: local_machine
+                      key:
+                        equals: SOFTWARE\Microsoft\EnterpriseCertificates\Disallowed\Certificates\EC3C9B8B017892CAC3A13C7C9AAD52E7F7B0ABE4
+                      name:
+                        matches_regex: ^.+$
+                    object_title: null
+                  filters: []
+              object_title: null
+            filters: []
+          - object:
+              capability: windows.registry
+              select:
+                hive:
+                  equals: local_machine
+                key:
+                  equals: SOFTWARE\Policies\Microsoft\SystemCertificates\Disallowed\Certificates\EC3C9B8B017892CAC3A13C7C9AAD52E7F7B0ABE4
+                name:
+                  matches_regex: ^.+$
+              object_title: null
+            filters: []
+        object_title: null
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+    dod-interoperability-root-ca-2-certificate-expiring-6-9-2029-test:
+      test_title: DoD Interoperability Root CA 2 certificate expiring 6/9/2029 is installed in the Untrusted Certificates
+        Store
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: windows.registry
+              set:
+                operator: union
+                operands:
+                - object:
+                    capability: windows.registry
+                    select:
+                      hive:
+                        equals: local_machine
+                      key:
+                        equals: SOFTWARE\Microsoft\SystemCertificates\Disallowed\Certificates\F3EE5E2442ADB5B246CAA286C29F6349F4202EC5
+                      name:
+                        matches_regex: ^.+$
+                    object_title: null
+                  filters: []
+                - object:
+                    capability: windows.registry
+                    select:
+                      hive:
+                        equals: local_machine
+                      key:
+                        equals: SOFTWARE\Microsoft\EnterpriseCertificates\Disallowed\Certificates\F3EE5E2442ADB5B246CAA286C29F6349F4202EC5
+                      name:
+                        matches_regex: ^.+$
+                    object_title: null
+                  filters: []
+              object_title: null
+            filters: []
+          - object:
+              capability: windows.registry
+              select:
+                hive:
+                  equals: local_machine
+                key:
+                  equals: SOFTWARE\Policies\Microsoft\SystemCertificates\Disallowed\Certificates\F3EE5E2442ADB5B246CAA286C29F6349F4202EC5
+                name:
+                  matches_regex: ^.+$
+              object_title: null
+            filters: []
+        object_title: null
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+  evaluate:
+    all:
+    - test: dod-interoperability-root-ca-2-certificate-expiring-10-9-2027-test
+    - test: dod-interoperability-root-ca-2-certificate-expiring-6-9-2029-test

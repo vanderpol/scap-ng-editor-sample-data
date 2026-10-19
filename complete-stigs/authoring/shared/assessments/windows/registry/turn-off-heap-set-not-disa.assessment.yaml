@@ -1,0 +1,35 @@
+assessment:
+  id: ng.shared.turn-off-heap-termination-on-corruption-is-set-to-not-configured-or-disa
+  version: 1
+  assessment_title: File Explorer heap termination on corruption must be disabled.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    turn-off-heap-termination-on-corruption-set-not-configured-or-test:
+      test_title: '''Turn off heap termination on corruption'' is set to ''Not Configured'' or ''Disabled'''
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SOFTWARE\Policies\Microsoft\Windows\Explorer
+          name:
+            equals: NoHeapTerminationOnCorruption
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 0
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: may_be_absent_and_all_match
+  evaluate:
+    test: turn-off-heap-termination-on-corruption-set-not-configured-or-test

@@ -1,0 +1,74 @@
+assessment:
+  id: SV-253477.automated
+  version: 2
+  assessment_title: WN11-UC-000015 - Toast notifications to the lock screen must be turned off.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    turn-off-toast-notifications-on-lock-screen-set-enabled-test:
+      test_title: '''Turn off toast notifications on the lock screen'' is set to ''Enabled'''
+      capability: windows.ntuser
+      object:
+        capability: windows.ntuser
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: windows.ntuser
+              select:
+                key:
+                  equals: Software\Policies\Microsoft\Windows\CurrentVersion\PushNotifications
+                name:
+                  equals: NoToastApplicationNotificationOnLockScreen
+              object_title: null
+              collect:
+                include_default: false
+                item_creation: key_and_name_exist
+            filters:
+            - exclude:
+                enabled:
+                  require: at_least_one_exists_and_all_match
+                  equals: false
+            - exclude:
+                days_since_modified:
+                  require: at_least_one_exists_and_all_match
+                  greater_than: 35
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 1
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: all_exist_and_all_match
+    current-user-turn-off-toast-notifications-on-lock-screen-set-test:
+      test_title: For the current user, 'Turn off toast notifications on the lock screen' is set to 'Enabled'
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: current_user
+          key:
+            equals: Software\Policies\Microsoft\Windows\CurrentVersion\PushNotifications
+          name:
+            equals: NoToastApplicationNotificationOnLockScreen
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 1
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    all:
+    - test: turn-off-toast-notifications-on-lock-screen-set-enabled-test
+    - test: current-user-turn-off-toast-notifications-on-lock-screen-set-test

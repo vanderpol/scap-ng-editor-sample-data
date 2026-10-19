@@ -1,0 +1,40 @@
+assessment:
+  id: ng.shared.the-system-disables-the-gui-automount-feature
+  version: 1
+  assessment_title: Linux must disable the graphical user interface automount function unless required.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    system-disables-gui-automount-feature-test:
+      test_title: The system disables the GUI automount feature.
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          directory:
+            equals: /etc/dconf/db/local.d
+          name:
+            equals: 00-security-settings
+          pattern:
+            matches_regex: ^\s*\[org\/gnome\/desktop\/media-handling]\s*\n+[^\[]*automount-open\s*=\s*(\w+)$
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          equals: 'false'
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: system-disables-gui-automount-feature-test

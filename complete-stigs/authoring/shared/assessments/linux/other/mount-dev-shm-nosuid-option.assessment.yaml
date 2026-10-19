@@ -1,0 +1,55 @@
+assessment:
+  id: ng.shared.linux-must-mount-dev-shm-with-the-nosuid-option
+  version: 1
+  assessment_title: Linux must mount /dev/shm with the nosuid option.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    if-dev-shm-mounted-it-mounted-nosuid-option-test:
+      test_title: If /dev/shm is mounted, it is mounted with the nosuid option
+      capability: linux.partition
+      object:
+        capability: linux.partition
+        select:
+          mount_point:
+            equals: /dev/shm
+        object_title: null
+      states:
+      - mount_options:
+          require: at_least_one_exists_and_some_match
+          equals: nosuid
+      reported_elements: all
+      collected_items_require: may_be_absent_and_all_match
+    if-dev-shm-configured-in-etc-fstab-it-configured-nosuid-test:
+      test_title: If /dev/shm is configured in /etc/fstab, it is configured with the nosuid option
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/fstab
+          pattern:
+            matches_regex: ^\s*[^#\s]+\s+/dev/shm\s+\S+\s+(\S+)\s+\S+\s+\S+\s*$
+          instance:
+            equals: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          matches_regex: (?:^nosuid$|^nosuid,|,nosuid$|,nosuid,)
+      reported_elements: all
+      collected_items_require: may_be_absent_and_all_match
+  evaluate:
+    all:
+    - test: if-dev-shm-mounted-it-mounted-nosuid-option-test
+    - test: if-dev-shm-configured-in-etc-fstab-it-configured-nosuid-test

@@ -1,0 +1,41 @@
+assessment:
+  id: ng.shared.etc-dconf-db-local-d-banner-message-enable-is-set-to-true
+  version: 1
+  assessment_title: Linux must be configured to enable the display of the Standard Mandatory DOD Notice and Consent
+    Banner before granting local or remote access to the system via a graphical user logon.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    etc-dconf-db-local-d-banner-message-enable-set-true-test:
+      test_title: /etc/dconf/db/local.d/*/banner-message-enable is set to true
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          directory:
+            equals: /etc/dconf/db/local.d
+          name:
+            matches_regex: .*
+          pattern:
+            matches_regex: ^\s*banner-message-enable\s*=\s*(\w+)$
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          equals: 'true'
+      reported_elements: all
+      collected_items_require: all_exist_and_all_match
+  evaluate:
+    test: etc-dconf-db-local-d-banner-message-enable-set-true-test

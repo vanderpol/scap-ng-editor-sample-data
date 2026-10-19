@@ -1,0 +1,36 @@
+assessment:
+  id: ng.shared.set-client-connection-encryption-level-is-set-to-enabled-and-high-level
+  version: 1
+  assessment_title: Remote Desktop Services must be configured with the client connection encryption set to the required
+    level.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    set-client-connection-encryption-level-set-enabled-high-level-test:
+      test_title: '''Set client connection encryption level'' is set to ''Enabled'' and ''High Level'''
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: Software\Policies\Microsoft\Windows NT\Terminal Services
+          name:
+            equals: MinEncryptionLevel
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 3
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: set-client-connection-encryption-level-set-enabled-high-level-test

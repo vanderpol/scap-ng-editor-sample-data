@@ -1,0 +1,27 @@
+assessment:
+  id: SV-257861.manual
+  version: 1
+  assessment_title: RHEL 9 must prevent files with the setuid and setgid bit set from being executed on the /boot directory.
+  mode: manual
+  purpose: assessment
+  class: compliance
+  procedure: 'Verify the /boot directory is mounted with the "nosuid" option with the following command: $ mount | grep ''\s/boot\s''
+    /dev/sda1 on /boot type xfs (rw,nosuid,relatime,seclabe,attr2,inode64,noquota) If the /boot file system does not have
+    the "nosuid" option set, this is a finding.'
+  response:
+    type: compliance
+    choices:
+    - value: pass
+      label: Pass
+      outcome: 'true'
+    - value: fail
+      label: Fail
+      outcome: 'false'
+    - value: unknown
+      label: Unknown
+      outcome: unknown
+    - value: not_applicable
+      label: Not applicable
+      outcome: not_applicable
+    allow_comment: true
+    allow_evidence: true

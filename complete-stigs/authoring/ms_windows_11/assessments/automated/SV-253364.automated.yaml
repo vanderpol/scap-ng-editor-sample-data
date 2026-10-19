@@ -1,0 +1,35 @@
+assessment:
+  id: SV-253364.automated
+  version: 2
+  assessment_title: WN11-CC-000055 - Simultaneous connections to the internet or a Windows domain must be limited.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    simultaneous-connections-internet-or-windows-domain-limited-test:
+      test_title: Simultaneous connections to the internet or a Windows domain are limited
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SOFTWARE\Policies\Microsoft\Windows\WcmSvc\GroupPolicy
+          name:
+            equals: fMinimizeConnections
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 3
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: may_be_absent_and_all_match
+  evaluate:
+    test: simultaneous-connections-internet-or-windows-domain-limited-test

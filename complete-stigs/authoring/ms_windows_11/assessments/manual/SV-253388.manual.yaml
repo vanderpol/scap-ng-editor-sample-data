@@ -1,0 +1,29 @@
+assessment:
+  id: SV-253388.manual
+  version: 1
+  assessment_title: Autoplay must be disabled for all drives.
+  mode: manual
+  purpose: assessment
+  class: compliance
+  procedure: 'If the following registry value does not exist or is not configured as specified, this is a finding: Registry
+    Hive: HKEY_LOCAL_MACHINE Registry Path: \SOFTWARE\Microsoft\Windows\CurrentVersion\policies\Explorer\ Value Name: NoDriveTypeAutoRun
+    Value Type: REG_DWORD Value: 0x000000ff (255) Note: If the value for NoDriveTypeAutorun is entered manually, it must be
+    entered as "ff" when Hexadecimal is selected, or "255" with Decimal selected. Using the policy value specified in the
+    Fix section will enter it correctly.'
+  response:
+    type: compliance
+    choices:
+    - value: pass
+      label: Pass
+      outcome: 'true'
+    - value: fail
+      label: Fail
+      outcome: 'false'
+    - value: unknown
+      label: Unknown
+      outcome: unknown
+    - value: not_applicable
+      label: Not applicable
+      outcome: not_applicable
+    allow_comment: true
+    allow_evidence: true

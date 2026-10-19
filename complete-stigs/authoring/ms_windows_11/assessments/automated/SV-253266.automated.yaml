@@ -1,0 +1,38 @@
+assessment:
+  id: SV-253266.automated
+  version: 18
+  assessment_title: Alternate operating systems must not be permitted on the same system.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    review-installed-os-via-powershell-test:
+      test_title: Review Installed OS via PowerShell
+      capability: independent.shellcommand
+      object:
+        capability: independent.shellcommand
+        object_title: Review Installed OS via PowerShell
+        collect:
+          shell: powershell
+          command: bcdedit /enum
+          pattern: ^description
+          error_if_exit_status_not_0: false
+          error_if_stderr_exists: false
+      states:
+      - and:
+        - command:
+            equals: bcdedit /enum
+        - pattern:
+            equals: ^description
+        - exit_status:
+            equals: 0
+        - stdout_line:
+            matches_regex: ^description(\s*)Windows (11|Boot Manager)$
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: only_one_exists_and_only_one_matches
+  evaluate:
+    test: review-installed-os-via-powershell-test

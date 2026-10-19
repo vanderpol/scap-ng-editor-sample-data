@@ -1,0 +1,145 @@
+assessment:
+  id: ng.shared.linux-must-use-cryptographic-mechanisms-to-protect-the-integrity-of-audi
+  version: 1
+  assessment_title: Linux must use cryptographic mechanisms to protect the integrity of audit tools.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    etc-aide-conf-has-selection-line-usr-sbin-auditctl-test:
+      test_title: /etc/aide.conf has a selection line for /usr/sbin/auditctl.
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/aide.conf
+          pattern:
+            matches_regex: ^\s*/usr/sbin/auditctl\s+\S+
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+    etc-aide-conf-has-selection-line-usr-sbin-auditd-test:
+      test_title: /etc/aide.conf has a selection line for /usr/sbin/auditd.
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/aide.conf
+          pattern:
+            matches_regex: ^\s*/usr/sbin/auditd\s+\S+
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+    etc-aide-conf-has-selection-line-usr-sbin-ausearch-test:
+      test_title: /etc/aide.conf has a selection line for /usr/sbin/ausearch.
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/aide.conf
+          pattern:
+            matches_regex: ^\s*/usr/sbin/ausearch\s+\S+
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+    etc-aide-conf-has-selection-line-usr-sbin-aureport-test:
+      test_title: /etc/aide.conf has a selection line for /usr/sbin/aureport.
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/aide.conf
+          pattern:
+            matches_regex: ^\s*/usr/sbin/aureport\s+\S+
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+    etc-aide-conf-has-selection-line-usr-sbin-autrace-test:
+      test_title: /etc/aide.conf has a selection line for /usr/sbin/autrace.
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/aide.conf
+          pattern:
+            matches_regex: ^\s*/usr/sbin/autrace\s+\S+
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+    etc-aide-conf-has-selection-line-usr-sbin-augenrules-test:
+      test_title: /etc/aide.conf has a selection line for /usr/sbin/augenrules.
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/aide.conf
+          pattern:
+            matches_regex: ^\s*/usr/sbin/augenrules\s+\S+
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+  evaluate:
+    all:
+    - test: etc-aide-conf-has-selection-line-usr-sbin-auditctl-test
+    - test: etc-aide-conf-has-selection-line-usr-sbin-auditd-test
+    - test: etc-aide-conf-has-selection-line-usr-sbin-ausearch-test
+    - test: etc-aide-conf-has-selection-line-usr-sbin-aureport-test
+    - test: etc-aide-conf-has-selection-line-usr-sbin-autrace-test
+    - test: etc-aide-conf-has-selection-line-usr-sbin-augenrules-test

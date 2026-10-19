@@ -1,0 +1,61 @@
+assessment:
+  id: ng.shared.linux-must-be-configured-to-disable-usb-mass-storage
+  version: 1
+  assessment_title: Linux must be configured to disable USB mass storage.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    etc-modprobe-d-contains-file-that-contains-install-usb-storage-test:
+      test_title: /etc/modprobe.d contains a file that contains 'install usb-storage /bin/false'
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          directory:
+            equals: /etc/modprobe.d
+          name:
+            matches_regex: .*
+          pattern:
+            matches_regex: ^[ \t]*install[ \t]+usb-storage[ \t]+/bin/false[ \t]*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+    etc-modprobe-d-contains-file-that-contains-blacklist-usb-storage-test:
+      test_title: /etc/modprobe.d contains a file that contains 'blacklist usb-storage'
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          directory:
+            equals: /etc/modprobe.d
+          name:
+            matches_regex: .*
+          pattern:
+            matches_regex: ^[ \t]*blacklist[ \t]+usb-storage[ \t]*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+  evaluate:
+    all:
+    - test: etc-modprobe-d-contains-file-that-contains-install-usb-storage-test
+    - test: etc-modprobe-d-contains-file-that-contains-blacklist-usb-storage-test

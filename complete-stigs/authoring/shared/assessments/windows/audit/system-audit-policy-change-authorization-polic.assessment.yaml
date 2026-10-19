@@ -1,0 +1,33 @@
+assessment:
+  id: ng.shared.the-system-must-be-configured-to-audit-policy-change-authorization-polic
+  version: 1
+  assessment_title: The system must be configured to audit Policy Change - Authorization Policy Change successes.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    audit-audit-policy-change-success-only-test:
+      test_title: Audit - Audit Policy Change - Success only
+      capability: windows.auditeventpolicysubcategories
+      states:
+      - authorization_policy_change:
+          require: at_least_one_exists_and_all_match
+          equals: AUDIT_SUCCESS
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    audit-audit-policy-change-success-failure-test:
+      test_title: Audit - Audit Policy Change - Success and Failure
+      capability: windows.auditeventpolicysubcategories
+      states:
+      - authorization_policy_change:
+          require: at_least_one_exists_and_all_match
+          equals: AUDIT_SUCCESS_FAILURE
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    any:
+    - test: audit-audit-policy-change-success-only-test
+    - test: audit-audit-policy-change-success-failure-test

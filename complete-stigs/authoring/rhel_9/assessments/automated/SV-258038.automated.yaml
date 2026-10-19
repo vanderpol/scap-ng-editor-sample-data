@@ -1,0 +1,30 @@
+assessment:
+  id: SV-258038.automated
+  version: 13
+  assessment_title: RHEL 9 must block unauthorized peripherals before establishing a connection.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    verify-usbguard-has-policy-configured-test:
+      test_title: Verify the USBGuard has a policy configured.
+      capability: independent.shellcommand
+      object:
+        capability: independent.shellcommand
+        object_title: Retrieve usbguard rules list.
+        collect:
+          shell: bash
+          command: usbguard list-rules
+          error_if_exit_status_not_0: false
+          error_if_stderr_exists: false
+      states:
+      - stdout_line:
+          require: at_least_one_exists_and_all_match
+          equals: ''
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: verify-usbguard-has-policy-configured-test

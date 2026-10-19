@@ -1,0 +1,49 @@
+assessment:
+  id: ng.shared.the-ssh-daemon-public-host-key-files-have-mode-0644-or-less-permissive
+  version: 1
+  assessment_title: Linux SSH public host key files must have mode 0644 or less permissive.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    ssh-daemon-public-host-key-files-have-mode-0644-or-test:
+      test_title: The SSH daemon public host key files have mode 0644 or less permissive
+      capability: unix.file
+      object:
+        capability: unix.file
+        select:
+          directory:
+            equals: /etc/ssh
+          name:
+            matches_regex: ^.*\.pub$
+        object_title: null
+        filesystem: all
+        traversal:
+          max_depth: null
+          recurse: symlinks_and_directories
+      states:
+      - and:
+        - setuid:
+            equals: false
+        - setgid:
+            equals: false
+        - sticky:
+            equals: false
+        - owner_execute:
+            equals: false
+        - group_write:
+            equals: false
+        - group_execute:
+            equals: false
+        - other_write:
+            equals: false
+        - other_execute:
+            equals: false
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: may_be_absent_and_all_match
+  evaluate:
+    test: ssh-daemon-public-host-key-files-have-mode-0644-or-test

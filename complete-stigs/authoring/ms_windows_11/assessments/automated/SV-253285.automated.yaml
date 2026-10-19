@@ -1,0 +1,53 @@
+assessment:
+  id: SV-253285.automated
+  version: 3
+  assessment_title: WN11-00-000155 - The Windows PowerShell 2.0 feature must be disabled on the system.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    windows-powershell-2-0-optional-feature-disabled-test:
+      test_title: Windows PowerShell 2.0 optional feature is disabled
+      capability: windows.wmi.query
+      object:
+        capability: windows.wmi.query
+        object_title: Windows PowerShell 2.0 Win32_OptionalFeature object
+        collect:
+          namespace: root\cimv2
+          query: SELECT installstate FROM win32_optionalfeature WHERE name = 'MicrosoftWindowsPowerShellV2Root'
+      states:
+      - result:
+          record:
+            fields:
+              installstate:
+                require: at_least_one_exists_and_some_match
+                equals: '2'
+            require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: all_exist_and_all_match
+    windows-powershell-2-0-engine-optional-feature-disabled-test:
+      test_title: Windows PowerShell 2.0 Engine optional feature is disabled
+      capability: windows.wmi.query
+      object:
+        capability: windows.wmi.query
+        object_title: Windows PowerShell 2.0 Engine Win32_OptionalFeature object
+        collect:
+          namespace: root\cimv2
+          query: SELECT installstate FROM win32_optionalfeature WHERE name = 'MicrosoftWindowsPowerShellV2'
+      states:
+      - result:
+          record:
+            fields:
+              installstate:
+                require: at_least_one_exists_and_some_match
+                equals: '2'
+            require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: all_exist_and_all_match
+  evaluate:
+    all:
+    - test: windows-powershell-2-0-optional-feature-disabled-test
+    - test: windows-powershell-2-0-engine-optional-feature-disabled-test

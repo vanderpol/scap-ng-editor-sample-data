@@ -1,0 +1,38 @@
+assessment:
+  id: ng.shared.audit-tools-are-owned-by-root
+  version: 1
+  assessment_title: Linux audit tools must be owned by root.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    audit-tools-owned-by-root-test:
+      test_title: audit tools are owned by root
+      capability: unix.file
+      object:
+        capability: unix.file
+        select:
+          full_path:
+            datatype: string
+            value_match: one_or_more
+            equals:
+            - /sbin/auditctl
+            - /sbin/aureport
+            - /sbin/ausearch
+            - /sbin/autrace
+            - /sbin/auditd
+            - /sbin/rsyslogd
+            - /sbin/augenrules
+        object_title: audit tools
+        filesystem: all
+      states:
+      - owner_uid:
+          require: at_least_one_exists_and_all_match
+          equals: 0
+      reported_elements: all
+      collected_items_require: all_exist_and_all_match
+  evaluate:
+    test: audit-tools-owned-by-root-test

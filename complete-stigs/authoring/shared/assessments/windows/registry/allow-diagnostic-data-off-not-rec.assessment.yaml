@@ -1,0 +1,42 @@
+assessment:
+  id: ng.shared.allow-diagnostic-data-is-set-to-enabled-with-diagnostic-data-off-not-rec
+  version: 1
+  assessment_title: Windows Telemetry must not be configured to Full.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    allow-diagnostic-data-set-enabled-diagnostic-data-off-not-recommended-test:
+      test_title: '''Allow Diagnostic Data'' is set to ''Enabled'' with ''Diagnostic Data Off (Not recommended)''
+        or ''Send Required Diagnostic Data'' selected in ''Options:'''
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SOFTWARE\Policies\Microsoft\Windows\DataCollection
+          name:
+            equals: AllowTelemetry
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 0
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 1
+      reported_elements: all
+      states_match: any
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: allow-diagnostic-data-set-enabled-diagnostic-data-off-not-recommended-test

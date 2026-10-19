@@ -1,0 +1,83 @@
+assessment:
+  id: ng.shared.no-remote-log-acceptance
+  version: 1
+  assessment_title: Linux must be configured so that the rsyslog daemon does not accept log messages from other servers
+    unless the server is being used for log aggregation.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    no-remote-log-acceptance-test:
+      test_title: no remote log acceptance
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: independent.textfilecontent54
+              select:
+                full_path:
+                  equals: /etc/rsyslog.conf
+                pattern:
+                  datatype: string
+                  value_match: one_or_more
+                  matches_regex:
+                  - ^[^#]*InputTCPServerRun
+                  - ^[^#]*UDPServerRun
+                  - ^[^#]*RELPServerRun
+                  - ^[^#]*module\s*\(.*\bload\s*=\s*"imtcp".*\)
+                  - ^[^#]*module\s*\(.*\bload\s*=\s*"imudp".*\)
+                  - ^[^#]*module\s*\(.*\bload\s*=\s*"imrelp".*\)
+                  - ^[^#]*input\s*\(.*\btype\b\s*=\s*"imtcp"\s*\bport\b\s*=\s*"514".*\)
+                  - ^[^#]*input\s*\(.*\btype\b\s*=\s*"imudp"\s*\bport\b\s*=\s*"514".*\)
+                  - ^[^#]*input\s*\(.*\btype\b\s*=\s*"imrelp"\s*\bport\b\s*=\s*"514".*\)
+                instance:
+                  greater_than_or_equal: 1
+              object_title: 'rsyslog.conf: remote log acceptance config'
+              filesystem: all
+              collect:
+                ignore_case: true
+                multiline: true
+                singleline: false
+                item_creation: all_object_elements_fullfilled
+            filters: []
+          - object:
+              capability: independent.textfilecontent54
+              select:
+                directory:
+                  equals: /etc/rsyslog.d
+                name:
+                  matches_regex: ^.*\.conf$
+                pattern:
+                  datatype: string
+                  value_match: one_or_more
+                  matches_regex:
+                  - ^[^#]*InputTCPServerRun
+                  - ^[^#]*UDPServerRun
+                  - ^[^#]*RELPServerRun
+                  - ^[^#]*module\s*\(.*\bload\s*=\s*"imtcp".*\)
+                  - ^[^#]*module\s*\(.*\bload\s*=\s*"imudp".*\)
+                  - ^[^#]*module\s*\(.*\bload\s*=\s*"imrelp".*\)
+                  - ^[^#]*input\s*\(.*\btype\b\s*=\s*"imtcp"\s*\bport\b\s*=\s*"514".*\)
+                  - ^[^#]*input\s*\(.*\btype\b\s*=\s*"imudp"\s*\bport\b\s*=\s*"514".*\)
+                  - ^[^#]*input\s*\(.*\btype\b\s*=\s*"imrelp"\s*\bport\b\s*=\s*"514".*\)
+                instance:
+                  greater_than_or_equal: 1
+              object_title: 'rsyslog.d/*.conf: remote log acceptance config'
+              filesystem: all
+              collect:
+                ignore_case: true
+                multiline: true
+                singleline: false
+                item_creation: all_object_elements_fullfilled
+            filters: []
+        object_title: remote log acceptance config
+      reported_elements: all
+      collected_items_require: none_exist
+  evaluate:
+    test: no-remote-log-acceptance-test

@@ -1,0 +1,41 @@
+assessment:
+  id: ng.shared.etc-audit-auditd-conf-max-log-file-action-is-rotate-or-single
+  version: 1
+  assessment_title: Linux audit system must take appropriate action when the audit files have reached maximum size.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    etc-audit-auditd-conf-max-log-file-action-rotate-or-test:
+      test_title: '/etc/audit/auditd.conf: max_log_file_action is ROTATE or SINGLE'
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/audit/auditd.conf
+          pattern:
+            matches_regex: (?i)^\s*max_log_file_action\s*=\s*(\S+)\s*(?:#.*)?$
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          case_insensitive_equals: ROTATE
+      - subexpression:
+          case_insensitive_equals: SINGLE
+      reported_elements: all
+      states_match: any
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: etc-audit-auditd-conf-max-log-file-action-rotate-or-test

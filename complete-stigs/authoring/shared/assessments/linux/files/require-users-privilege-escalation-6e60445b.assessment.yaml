@@ -1,0 +1,62 @@
+assessment:
+  id: ng.shared.linux-must-require-users-to-reauthenticate-for-privilege-escalation
+  version: 1
+  assessment_title: Linux must require users to reauthenticate for privilege escalation.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    authenticate-does-not-exist-in-etc-sudoers-test:
+      test_title: '''!authenticate'' does not exist in /etc/sudoers'
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/sudoers
+          pattern:
+            matches_regex: ^(?!#).*\s+!\s*authenticate.*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: true
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: none_exist
+    authenticate-does-not-exist-in-etc-sudoers-d-test:
+      test_title: '''!authenticate'' does not exist in /etc/sudoers.d'
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          directory:
+            equals: /etc/sudoers.d
+          name:
+            matches_regex: ^.*$
+          pattern:
+            matches_regex: ^(?!#).*\s+!\s*authenticate.*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        traversal:
+          max_depth: null
+          recurse: symlinks_and_directories
+        collect:
+          ignore_case: true
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: none_exist
+  evaluate:
+    all:
+    - test: authenticate-does-not-exist-in-etc-sudoers-test
+    - test: authenticate-does-not-exist-in-etc-sudoers-d-test

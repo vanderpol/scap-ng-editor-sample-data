@@ -1,0 +1,36 @@
+assessment:
+  id: ng.shared.default-behavior-for-autorun-is-set-to-enabled-with-do-not-execute-any-a
+  version: 1
+  assessment_title: The default autorun behavior must be configured to prevent autorun commands.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    default-behavior-autorun-set-enabled-do-not-execute-any-autorun-test:
+      test_title: '''Default behavior for AutoRun'' is set to ''Enabled'' with ''Do not execute any autorun commands''
+        selected'
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: Software\Microsoft\Windows\CurrentVersion\Policies\Explorer
+          name:
+            equals: NoAutorun
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 1
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: default-behavior-autorun-set-enabled-do-not-execute-any-autorun-test

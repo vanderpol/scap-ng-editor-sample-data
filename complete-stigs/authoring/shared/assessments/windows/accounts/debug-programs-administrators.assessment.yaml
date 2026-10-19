@@ -1,0 +1,31 @@
+assessment:
+  id: ng.shared.debug-programs-administrators
+  version: 1
+  assessment_title: The "Debug programs" user right must only be assigned to the Administrators group.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    debug-programs-administrators-test:
+      test_title: Debug Programs - Administrators
+      capability: windows.userright
+      object:
+        capability: windows.userright
+        select:
+          userright:
+            equals: SE_DEBUG_NAME
+        object_title: null
+      states:
+      - trustee_name:
+          equals: ''
+      - trustee_name:
+          case_insensitive_equals: Administrators
+      reported_elements: all
+      states_match: any
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: debug-programs-administrators-test

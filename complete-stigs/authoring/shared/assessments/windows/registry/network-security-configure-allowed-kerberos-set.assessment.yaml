@@ -1,0 +1,36 @@
+assessment:
+  id: ng.shared.network-security-configure-encryption-types-allowed-for-kerberos-is-set
+  version: 1
+  assessment_title: Kerberos encryption types must be configured to prevent the use of DES and RC4 encryption suites.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    network-security-configure-encryption-types-allowed-kerberos-set-enabled-aes128-test:
+      test_title: '''Network Security: Configure encryption types allowed for Kerberos'' is set to ''Enabled'' with
+        ''AES128_HMAC_SHA1'', ''AES256_HMAC_SHA1'', ''Future encryption types'''
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\Kerberos\Parameters
+          name:
+            equals: SupportedEncryptionTypes
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 2147483640
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: network-security-configure-encryption-types-allowed-kerberos-set-enabled-aes128-test

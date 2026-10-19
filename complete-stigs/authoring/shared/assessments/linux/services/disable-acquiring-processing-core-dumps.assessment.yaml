@@ -1,0 +1,49 @@
+assessment:
+  id: ng.shared.linux-must-disable-acquiring-saving-and-processing-core-dumps
+  version: 1
+  assessment_title: Linux must disable acquiring, saving, and processing core dumps.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    systemd-coredump-socket-loadstate-masked-if-exists-test:
+      test_title: systemd-coredump.socket LoadState is masked if exists
+      capability: linux.systemdunitproperty
+      object:
+        capability: linux.systemdunitproperty
+        select:
+          unit:
+            equals: systemd-coredump.socket
+          property:
+            equals: LoadState
+        object_title: systemd-coredump.socket LoadState
+      states:
+      - value:
+          require: at_least_one_exists_and_all_match
+          equals: masked
+      reported_elements: all
+      collected_items_require: may_be_absent_and_all_match
+    systemd-coredump-socket-unitfilestate-masked-if-exists-test:
+      test_title: systemd-coredump.socket UnitFileState is masked if exists
+      capability: linux.systemdunitproperty
+      object:
+        capability: linux.systemdunitproperty
+        select:
+          unit:
+            equals: systemd-coredump.socket
+          property:
+            equals: UnitFileState
+        object_title: systemd-coredump.socket UnitFileState
+      states:
+      - value:
+          require: at_least_one_exists_and_all_match
+          equals: masked
+      reported_elements: all
+      collected_items_require: may_be_absent_and_all_match
+  evaluate:
+    all:
+    - test: systemd-coredump-socket-loadstate-masked-if-exists-test
+    - test: systemd-coredump-socket-unitfilestate-masked-if-exists-test

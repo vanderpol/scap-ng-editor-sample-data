@@ -1,0 +1,27 @@
+assessment:
+  id: SV-257860.manual
+  version: 1
+  assessment_title: RHEL 9 must mount /boot with the nodev option.
+  mode: manual
+  purpose: assessment
+  class: compliance
+  procedure: 'Verify that the "/boot" mount point has the "nodev" option with the following command: $ mount | grep ''\s/boot\s''
+    /dev/sda1 on /boot type xfs (rw,nodev,relatime,seclabel,attr2) If the "/boot" file system does not have the "nodev" option
+    set, this is a finding.'
+  response:
+    type: compliance
+    choices:
+    - value: pass
+      label: Pass
+      outcome: 'true'
+    - value: fail
+      label: Fail
+      outcome: 'false'
+    - value: unknown
+      label: Unknown
+      outcome: unknown
+    - value: not_applicable
+      label: Not applicable
+      outcome: not_applicable
+    allow_comment: true
+    allow_evidence: true

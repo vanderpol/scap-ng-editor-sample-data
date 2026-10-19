@@ -1,0 +1,81 @@
+assessment:
+  id: ng.shared.linux-must-use-a-linux-security-module-configured-to-enforce-limits-on-s
+  version: 1
+  assessment_title: Linux must use a Linux Security Module configured to enforce limits on system services.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    selinux-active-test:
+      test_title: selinux is active
+      capability: linux.partition
+      object:
+        capability: linux.partition
+        select:
+          mount_point:
+            equals: /sys/fs/selinux
+        object_title: /sys/fs/selinux
+      states:
+      - fs_type:
+          require: at_least_one_exists_and_all_match
+          equals: selinuxfs
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    selinux-enforcing-test:
+      test_title: selinux is enforcing
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /sys/fs/selinux/enforce
+          pattern:
+            matches_regex: ^(\d+)$
+          instance:
+            greater_than_or_equal: 1
+        object_title: /sys/fs/selinux/enforce value
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          not_equal: 0
+      reported_elements: all
+      collected_items_require: only_one_exists_and_matches
+    etc-selinux-config-selinux-enforcing-test:
+      test_title: /etc/selinux/config:SELINUX=enforcing
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/selinux/config
+          pattern:
+            matches_regex: ^SELINUX=(.*)\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: /etc/selinux/config:SELINUX value
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          equals: enforcing
+      reported_elements: all
+      collected_items_require: only_one_exists_and_matches
+  evaluate:
+    all:
+    - test: selinux-active-test
+    - test: selinux-enforcing-test
+    - test: etc-selinux-config-selinux-enforcing-test

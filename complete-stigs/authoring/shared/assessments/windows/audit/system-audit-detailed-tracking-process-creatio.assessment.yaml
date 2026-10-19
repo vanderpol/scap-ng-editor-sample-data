@@ -1,0 +1,33 @@
+assessment:
+  id: ng.shared.the-system-must-be-configured-to-audit-detailed-tracking-process-creatio
+  version: 1
+  assessment_title: The system must be configured to audit Detailed Tracking - Process Creation successes.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    audit-process-creation-success-only-test:
+      test_title: Audit - Process Creation - Success only
+      capability: windows.auditeventpolicysubcategories
+      states:
+      - process_creation:
+          require: at_least_one_exists_and_all_match
+          equals: AUDIT_SUCCESS
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    audit-process-creation-success-failure-test:
+      test_title: Audit - Process Creation - Success and Failure
+      capability: windows.auditeventpolicysubcategories
+      states:
+      - process_creation:
+          require: at_least_one_exists_and_all_match
+          equals: AUDIT_SUCCESS_FAILURE
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    any:
+    - test: audit-process-creation-success-only-test
+    - test: audit-process-creation-success-failure-test

@@ -1,0 +1,38 @@
+assessment:
+  id: ng.shared.etc-pam-d-password-auth-password-includes-pam-unix-so-sha512
+  version: 1
+  assessment_title: Linux pam_unix.so module must be configured in the password-auth file to use a FIPS 140-3 approved
+    cryptographic hashing algorithm for system authentication.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    etc-pam-d-password-auth-password-includes-pam-unix-so-test:
+      test_title: /etc/pam.d/password-auth:password includes pam_unix.so sha512
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          directory:
+            equals: /etc/pam.d
+          name:
+            equals: password-auth
+          pattern:
+            matches_regex: ^[ \t]*password[ \t]+sufficient[ \t]+pam_unix\.so(?:[ \t]+|(?:[ \t][^#\r\f\n]+[ \t]))sha512(?:[
+              \t]|$)
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: only_one_exists
+  evaluate:
+    test: etc-pam-d-password-auth-password-includes-pam-unix-so-test

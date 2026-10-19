@@ -1,0 +1,108 @@
+assessment:
+  id: ng.shared.linux-ssh-daemon-must-not-allow-kerberos-authentication
+  version: 1
+  assessment_title: Linux SSH daemon must not allow Kerberos authentication.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    etc-ssh-sshd-config-kerberosauthentication-no-test:
+      test_title: /etc/ssh/sshd_config:KerberosAuthentication == no
+      capability: independent.textfilecontent54
+      object: independent-textfilecontent54-object
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          matches_regex: ^(no|"no")$
+      reported_elements: all
+      collected_items_require: all_exist_and_all_match
+    sshd-config-includes-sshd-config-d-test:
+      test_title: sshd_config includes sshd_config.d
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/ssh/sshd_config
+          pattern:
+            matches_regex: ^\s*include\s+(.*)\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: sshd_config includes
+        filesystem: all
+        collect:
+          ignore_case: true
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          equals: /etc/ssh/sshd_config.d/*.conf
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_some_match
+    etc-ssh-sshd-config-sshd-config-d-kerberosauthentication-no-test:
+      test_title: /etc/ssh/sshd_config + sshd_config.d:KerberosAuthentication == no
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        set:
+          operator: union
+          operands:
+          - object: independent-textfilecontent54-object
+            filters: []
+          - object:
+              capability: independent.textfilecontent54
+              select:
+                directory:
+                  equals: /etc/ssh/sshd_config.d
+                name:
+                  matches_regex: ^.*\.conf$
+                pattern:
+                  matches_regex: ^\s*(?i)KerberosAuthentication(?-i)\s+("?\w+"?)\s*(?:|(?:#.*))?$
+                instance:
+                  greater_than_or_equal: 1
+              object_title: null
+              filesystem: all
+              collect:
+                ignore_case: false
+                multiline: true
+                singleline: false
+                item_creation: all_object_elements_fullfilled
+            filters: []
+        object_title: null
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          matches_regex: ^(no|"no")$
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    any:
+    - all:
+      - test: etc-ssh-sshd-config-kerberosauthentication-no-test
+      - not:
+          test: sshd-config-includes-sshd-config-d-test
+    - all:
+      - test: sshd-config-includes-sshd-config-d-test
+      - test: etc-ssh-sshd-config-sshd-config-d-kerberosauthentication-no-test
+  shared_objects:
+    independent-textfilecontent54-object:
+      capability: independent.textfilecontent54
+      select:
+        full_path:
+          equals: /etc/ssh/sshd_config
+        pattern:
+          matches_regex: ^\s*(?i)KerberosAuthentication(?-i)\s+("?\w+"?)\s*(?:|(?:#.*))?$
+        instance:
+          greater_than_or_equal: 1
+      object_title: null
+      filesystem: all
+      collect:
+        ignore_case: false
+        multiline: true
+        singleline: false
+        item_creation: all_object_elements_fullfilled

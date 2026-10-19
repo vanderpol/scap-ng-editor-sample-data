@@ -1,0 +1,35 @@
+assessment:
+  id: ng.shared.turn-off-data-execution-prevention-for-explorer-is-set-to-disabled-or-no
+  version: 1
+  assessment_title: Explorer Data Execution Prevention must be enabled.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    turn-off-data-execution-prevention-explorer-set-disabled-or-not-test:
+      test_title: '''Turn off Data Execution Prevention for Explorer'' is set to ''Disabled'' or ''Not Configured'''
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: Software\Policies\Microsoft\Windows\Explorer
+          name:
+            equals: NoDataExecutionPrevention
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 0
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: may_be_absent_and_all_match
+  evaluate:
+    test: turn-off-data-execution-prevention-explorer-set-disabled-or-not-test

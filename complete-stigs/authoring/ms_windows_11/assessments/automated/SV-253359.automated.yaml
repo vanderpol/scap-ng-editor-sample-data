@@ -1,0 +1,105 @@
+assessment:
+  id: SV-253359.automated
+  version: 2
+  assessment_title: WN11-CC-000039 - Run as different user must be removed from context menus.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    remove-run-as-different-user-from-context-menus-set-enabled-test:
+      test_title: '''Remove ''Run as Different User'' from context menus'' is set to ''Enabled'' (batfile)'
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SOFTWARE\Classes\batfile\shell\runasuser
+          name:
+            equals: SuppressionPolicy
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 4096
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    remove-run-as-different-user-from-context-menus-set-enabled-2-test:
+      test_title: '''Remove ''Run as Different User'' from context menus'' is set to ''Enabled'' (cmdfile)'
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SOFTWARE\Classes\cmdfile\shell\runasuser
+          name:
+            equals: SuppressionPolicy
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 4096
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    remove-run-as-different-user-from-context-menus-set-enabled-3-test:
+      test_title: '''Remove ''Run as Different User'' from context menus'' is set to ''Enabled'' (exefile)'
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SOFTWARE\Classes\exefile\shell\runasuser
+          name:
+            equals: SuppressionPolicy
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 4096
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    remove-run-as-different-user-from-context-menus-set-enabled-4-test:
+      test_title: '''Remove ''Run as Different User'' from context menus'' is set to ''Enabled'' (mscfile)'
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SOFTWARE\Classes\mscfile\shell\runasuser
+          name:
+            equals: SuppressionPolicy
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 4096
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    all:
+    - test: remove-run-as-different-user-from-context-menus-set-enabled-test
+    - test: remove-run-as-different-user-from-context-menus-set-enabled-2-test
+    - test: remove-run-as-different-user-from-context-menus-set-enabled-3-test
+    - test: remove-run-as-different-user-from-context-menus-set-enabled-4-test

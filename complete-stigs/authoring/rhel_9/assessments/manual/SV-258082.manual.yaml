@@ -1,0 +1,27 @@
+assessment:
+  id: SV-258082.manual
+  version: 1
+  assessment_title: RHEL 9 policycoreutils-python-utils package must be installed.
+  mode: manual
+  purpose: assessment
+  class: compliance
+  procedure: 'Verify that RHEL 9 policycoreutils-python-utils service package is installed with the following command: $ dnf
+    list --installed policycoreutils-python-utils Example output: policycoreutils-python-utils.noarch 3.3-6.el9_0 If the "policycoreutils-python-utils"
+    package is not installed, this is a finding.'
+  response:
+    type: compliance
+    choices:
+    - value: pass
+      label: Pass
+      outcome: 'true'
+    - value: fail
+      label: Fail
+      outcome: 'false'
+    - value: unknown
+      label: Unknown
+      outcome: unknown
+    - value: not_applicable
+      label: Not applicable
+      outcome: not_applicable
+    allow_comment: true
+    allow_evidence: true

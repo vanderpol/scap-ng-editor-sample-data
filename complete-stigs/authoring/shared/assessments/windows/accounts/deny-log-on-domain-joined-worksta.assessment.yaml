@@ -1,0 +1,43 @@
+assessment:
+  id: ng.shared.the-deny-log-on-as-a-service-user-right-on-windows-domain-joined-worksta
+  version: 1
+  assessment_title: The "Deny log on as a service" user right on Windows domain-joined workstations must be configured
+    to prevent access from highly privileged domain accounts.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    deny-log-on-as-service-domain-admins-test:
+      test_title: Deny log on as a service - Domain Admins
+      capability: windows.userright
+      object: windows-userright-object
+      states:
+      - trustee_name:
+          require: at_least_one_exists_and_all_match
+          matches_regex: ^(?i)(.+\\)?Domain Admins$
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_some_match
+    deny-log-on-as-service-enterprise-admins-test:
+      test_title: Deny log on as a service - Enterprise Admins
+      capability: windows.userright
+      object: windows-userright-object
+      states:
+      - trustee_name:
+          require: at_least_one_exists_and_all_match
+          matches_regex: ^(?i)(.+\\)?Enterprise Admins$
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_some_match
+  evaluate:
+    all:
+    - test: deny-log-on-as-service-domain-admins-test
+    - test: deny-log-on-as-service-enterprise-admins-test
+  shared_objects:
+    windows-userright-object:
+      capability: windows.userright
+      select:
+        userright:
+          equals: SE_DENY_SERVICE_LOGON_NAME
+      object_title: null

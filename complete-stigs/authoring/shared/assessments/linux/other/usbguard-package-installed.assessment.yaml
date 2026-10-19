@@ -1,0 +1,26 @@
+assessment:
+  id: ng.shared.usbguard-package-is-installed
+  version: 1
+  assessment_title: Linux must have the USBGuard package installed.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    usbguard-package-installed-test:
+      test_title: usbguard package is installed
+      capability: linux.rpminfo
+      object:
+        capability: linux.rpminfo
+        select:
+          package_name:
+            equals: usbguard
+        object_title: null
+        collect:
+          include_file_paths: false
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+  evaluate:
+    test: usbguard-package-installed-test

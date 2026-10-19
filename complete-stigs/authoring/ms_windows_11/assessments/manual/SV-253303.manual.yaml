@@ -1,0 +1,27 @@
+assessment:
+  id: SV-253303.manual
+  version: 1
+  assessment_title: Passwords must, at a minimum, be 14 characters.
+  mode: manual
+  purpose: assessment
+  class: compliance
+  procedure: Verify the effective setting in Local Group Policy Editor. Run "gpedit.msc". Navigate to Local Computer Policy
+    >> Computer Configuration >> Windows Settings >> Security Settings >> Account Policies >> Password Policy. If the value
+    for the "Minimum password length," is less than "14" characters, this is a finding.
+  response:
+    type: compliance
+    choices:
+    - value: pass
+      label: Pass
+      outcome: 'true'
+    - value: fail
+      label: Fail
+      outcome: 'false'
+    - value: unknown
+      label: Unknown
+      outcome: unknown
+    - value: not_applicable
+      label: Not applicable
+      outcome: not_applicable
+    allow_comment: true
+    allow_evidence: true

@@ -1,0 +1,29 @@
+assessment:
+  id: ng.shared.default-target-is-symlinked-to-multi-user-target
+  version: 1
+  assessment_title: Linux must be configured so that the graphical display manager is not the default target unless
+    approved.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    default-target-symlinked-multi-user-target-test:
+      test_title: default.target is symlinked to multi-user.target
+      capability: unix.symlink
+      object:
+        capability: unix.symlink
+        select:
+          full_path:
+            equals: /etc/systemd/system/default.target
+        object_title: null
+      states:
+      - canonical_path:
+          require: at_least_one_exists_and_all_match
+          matches_regex: '[\S]*\/multi\-user\.target$'
+      reported_elements: all
+      collected_items_require: all_exist_and_all_match
+  evaluate:
+    test: default-target-symlinked-multi-user-target-test

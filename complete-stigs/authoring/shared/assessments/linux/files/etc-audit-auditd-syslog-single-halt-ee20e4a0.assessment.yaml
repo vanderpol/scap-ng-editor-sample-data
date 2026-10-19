@@ -1,0 +1,44 @@
+assessment:
+  id: ng.shared.etc-audit-auditd-conf-disk-error-action-syslog-single-or-halt
+  version: 1
+  assessment_title: Linux audit system must take appropriate action when an error writing to the audit storage volume
+    occurs.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    etc-audit-auditd-conf-disk-error-action-syslog-single-or-test:
+      test_title: '/etc/audit/auditd.conf: disk_error_action = SYSLOG, SINGLE, or HALT'
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/audit/auditd.conf
+          pattern:
+            matches_regex: (?i)^\s*disk_error_action\s*=\s*(\w+)\s*(?:#.*)?$
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          matches_regex: (?i)^syslog$
+      - subexpression:
+          matches_regex: (?i)^single$
+      - subexpression:
+          matches_regex: (?i)^halt$
+      reported_elements: all
+      states_match: any
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: etc-audit-auditd-conf-disk-error-action-syslog-single-or-test

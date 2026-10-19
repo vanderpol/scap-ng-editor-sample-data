@@ -1,0 +1,64 @@
+assessment:
+  id: ng.shared.linux-local-interactive-users-must-have-a-home-directory-assigned-in-the
+  version: 1
+  assessment_title: Linux local interactive users must have a home directory assigned in the /etc/passwd file.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    check-users-without-home-directory-not-defined-test:
+      test_title: check for users without a home directory not defined
+      capability: unix.password
+      object:
+        capability: unix.password
+        set:
+          operator: difference
+          operands:
+          - object: users-username-object
+            filters:
+            - exclude:
+                user_id:
+                  require: at_least_one_exists_and_all_match
+                  less_than: 1000
+        object_title: only non-system users (uid>999) home-dirs
+      states:
+      - home_dir:
+          require: at_least_one_exists_and_all_match
+          matches_regex: .+
+      reported_elements: all
+      collected_items_require: all_exist_and_all_match
+    check-if-root-s-home-directory-not-defined-test:
+      test_title: check if root's home directory is not defined
+      capability: unix.password
+      object:
+        capability: unix.password
+        set:
+          operator: difference
+          operands:
+          - object: users-username-object
+            filters:
+            - exclude:
+                user_id:
+                  require: at_least_one_exists_and_all_match
+                  greater_than: 0
+        object_title: only root users (uid=0) home-dirs
+      states:
+      - home_dir:
+          require: at_least_one_exists_and_all_match
+          matches_regex: .+
+      reported_elements: all
+      collected_items_require: all_exist_and_all_match
+  evaluate:
+    all:
+    - test: check-users-without-home-directory-not-defined-test
+    - test: check-if-root-s-home-directory-not-defined-test
+  shared_objects:
+    users-username-object:
+      capability: unix.password
+      select:
+        username:
+          matches_regex: '[\w]+'
+      object_title: Users with an username

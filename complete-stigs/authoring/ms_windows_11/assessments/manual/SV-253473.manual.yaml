@@ -1,0 +1,27 @@
+assessment:
+  id: SV-253473.manual
+  version: 1
+  assessment_title: User Account Control must only elevate UIAccess applications that are installed in secure locations.
+  mode: manual
+  purpose: assessment
+  class: compliance
+  procedure: 'If the following registry value does not exist or is not configured as specified, this is a finding: Registry
+    Hive: HKEY_LOCAL_MACHINE Registry Path: \SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\ Value Name: EnableSecureUIAPaths
+    Value Type: REG_DWORD Value: 1'
+  response:
+    type: compliance
+    choices:
+    - value: pass
+      label: Pass
+      outcome: 'true'
+    - value: fail
+      label: Fail
+      outcome: 'false'
+    - value: unknown
+      label: Unknown
+      outcome: unknown
+    - value: not_applicable
+      label: Not applicable
+      outcome: not_applicable
+    allow_comment: true
+    allow_evidence: true

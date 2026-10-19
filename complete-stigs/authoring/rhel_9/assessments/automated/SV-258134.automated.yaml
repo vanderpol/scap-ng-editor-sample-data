@@ -1,0 +1,118 @@
+assessment:
+  id: SV-258134.automated
+  version: 13
+  assessment_title: RHEL 9 must have the AIDE package installed.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  variables:
+    retrieve-location-aide-conf-file-variable:
+      title: Retrieve location of the aide.conf file.
+      kind: local
+      datatype: string
+      expression:
+        values:
+          object:
+            capability: unix.file
+            select:
+              directory:
+                equals: /
+              name:
+                equals: aide.conf
+            object_title: Find the aide.conf file.
+            filesystem: local
+            traversal:
+              max_depth: null
+              recurse: directories
+          field: filepath
+    retrieve-location-working-aide-database-file-variable:
+      title: Retrieve location of the working aide database file.
+      kind: local
+      datatype: string
+      expression:
+        concat:
+        - values:
+            object:
+              capability: independent.textfilecontent54
+              select:
+                full_path:
+                  datatype: string
+                  value_match: all
+                  equals:
+                    variable: retrieve-location-aide-conf-file-variable
+                pattern:
+                  matches_regex: ^\@\@define\s+DBDIR\s+(\S+)
+                instance:
+                  equals: 1
+              object_title: Retrieve path to the working DB file.
+              filesystem: all
+              collect:
+                ignore_case: false
+                multiline: true
+                singleline: false
+                item_creation: all_object_elements_fullfilled
+            field: subexpression
+        - literal:
+            value: /
+            datatype: string
+        - values:
+            object:
+              capability: independent.textfilecontent54
+              select:
+                full_path:
+                  datatype: string
+                  value_match: all
+                  equals:
+                    variable: retrieve-location-aide-conf-file-variable
+                pattern:
+                  matches_regex: ^database=file:\@\@\{DBDIR\}/(\S+)
+                instance:
+                  equals: 1
+              object_title: Retrieve filename of the working DB file.
+              filesystem: all
+              collect:
+                ignore_case: false
+                multiline: true
+                singleline: false
+                item_creation: all_object_elements_fullfilled
+            field: subexpression
+  tests:
+    confirm-aide-file-integrity-tool-package-installed-test:
+      test_title: Confirm the aide file integrity tool package is installed.
+      capability: linux.rpminfo
+      object:
+        capability: linux.rpminfo
+        select:
+          package_name:
+            equals: aide
+        object_title: Confirm the aide file integrity tool package is installed.
+        collect:
+          include_file_paths: false
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+    verify-working-db-file-configured-in-aide-conf-file-exists-test:
+      test_title: Verify the working DB file configured in the 'aide.conf file' exists.
+      capability: unix.file
+      object:
+        capability: unix.file
+        select:
+          full_path:
+            datatype: string
+            value_match: all
+            equals:
+              variable: retrieve-location-working-aide-database-file-variable
+        object_title: Retrieve details of the working DB file.
+        filesystem: all
+      states:
+      - full_path:
+          require: at_least_one_exists_and_all_match
+          matches_regex: .*
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    all:
+    - test: confirm-aide-file-integrity-tool-package-installed-test
+    - test: verify-working-db-file-configured-in-aide-conf-file-exists-test

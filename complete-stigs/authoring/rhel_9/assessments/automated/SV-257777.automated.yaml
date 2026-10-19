@@ -1,0 +1,47 @@
+assessment:
+  id: SV-257777.automated
+  version: 1
+  assessment_title: RHEL-09-211010 - RHEL 9 must be a vendor-supported release.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    rhel-9-minor-version-supported-test:
+      test_title: The RHEL 9 minor version is supported.
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          directory:
+            equals: /etc
+          name:
+            equals: redhat-release
+          pattern:
+            matches_regex: ^\s*Red Hat Enterprise Linux release 9\.(\d+)
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          equals: 7
+      - subexpression:
+          equals: 8
+      - subexpression:
+          equals: 9
+      - subexpression:
+          equals: 10
+      reported_elements: all
+      states_match: any
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: rhel-9-minor-version-supported-test

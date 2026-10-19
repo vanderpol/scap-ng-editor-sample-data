@@ -1,0 +1,206 @@
+assessment:
+  id: SV-258236.automated
+  version: 1
+  assessment_title: RHEL-09-672020 - RHEL 9 crypto policy must not be overridden.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    bind-test:
+      test_title: bind
+      capability: unix.symlink
+      object:
+        capability: unix.symlink
+        select:
+          full_path:
+            equals: /etc/crypto-policies/back-ends/bind.config
+        object_title: bind
+      states:
+      - canonical_path:
+          require: at_least_one_exists_and_all_match
+          equals: /usr/share/crypto-policies/FIPS/bind.txt
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    gnutls-test:
+      test_title: gnutls
+      capability: unix.symlink
+      object:
+        capability: unix.symlink
+        select:
+          full_path:
+            equals: /etc/crypto-policies/back-ends/gnutls.config
+        object_title: gnutls
+      states:
+      - canonical_path:
+          require: at_least_one_exists_and_all_match
+          equals: /usr/share/crypto-policies/FIPS/gnutls.txt
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    java-test:
+      test_title: java
+      capability: unix.symlink
+      object:
+        capability: unix.symlink
+        select:
+          full_path:
+            equals: /etc/crypto-policies/back-ends/java.config
+        object_title: java
+      states:
+      - canonical_path:
+          require: at_least_one_exists_and_all_match
+          equals: /usr/share/crypto-policies/FIPS/java.txt
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    javasystem-test:
+      test_title: javasystem
+      capability: unix.symlink
+      object:
+        capability: unix.symlink
+        select:
+          full_path:
+            equals: /etc/crypto-policies/back-ends/javasystem.config
+        object_title: javasystem
+      states:
+      - canonical_path:
+          require: at_least_one_exists_and_all_match
+          equals: /usr/share/crypto-policies/FIPS/javasystem.txt
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    krb5-test:
+      test_title: krb5
+      capability: unix.symlink
+      object:
+        capability: unix.symlink
+        select:
+          full_path:
+            equals: /etc/crypto-policies/back-ends/krb5.config
+        object_title: krb5
+      states:
+      - canonical_path:
+          require: at_least_one_exists_and_all_match
+          equals: /usr/share/crypto-policies/FIPS/krb5.txt
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    libreswan-test:
+      test_title: libreswan
+      capability: unix.symlink
+      object:
+        capability: unix.symlink
+        select:
+          full_path:
+            equals: /etc/crypto-policies/back-ends/libreswan.config
+        object_title: libreswan
+      states:
+      - canonical_path:
+          require: at_least_one_exists_and_all_match
+          equals: /usr/share/crypto-policies/FIPS/libreswan.txt
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    libssh-test:
+      test_title: libssh
+      capability: unix.symlink
+      object:
+        capability: unix.symlink
+        select:
+          full_path:
+            equals: /etc/crypto-policies/back-ends/libssh.config
+        object_title: libssh
+      states:
+      - canonical_path:
+          require: at_least_one_exists_and_all_match
+          equals: /usr/share/crypto-policies/FIPS/libssh.txt
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    nss-test:
+      test_title: nss
+      capability: unix.file
+      object:
+        capability: unix.file
+        select:
+          full_path:
+            equals: /etc/crypto-policies/back-ends/nss.config
+        object_title: nss
+        filesystem: all
+      states:
+      - type:
+          require: at_least_one_exists_and_all_match
+          equals: regular
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    openssh-test:
+      test_title: openssh
+      capability: unix.symlink
+      object:
+        capability: unix.symlink
+        select:
+          full_path:
+            equals: /etc/crypto-policies/back-ends/openssh.config
+        object_title: openssh
+      states:
+      - canonical_path:
+          require: at_least_one_exists_and_all_match
+          equals: /usr/share/crypto-policies/FIPS/openssh.txt
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    opensshserver-test:
+      test_title: opensshserver
+      capability: unix.symlink
+      object:
+        capability: unix.symlink
+        select:
+          full_path:
+            equals: /etc/crypto-policies/back-ends/opensshserver.config
+        object_title: opensshserver
+      states:
+      - canonical_path:
+          require: at_least_one_exists_and_all_match
+          equals: /usr/share/crypto-policies/FIPS/opensshserver.txt
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    opensslcnf-test:
+      test_title: opensslcnf
+      capability: unix.symlink
+      object:
+        capability: unix.symlink
+        select:
+          full_path:
+            equals: /etc/crypto-policies/back-ends/opensslcnf.config
+        object_title: opensslcnf
+      states:
+      - canonical_path:
+          require: at_least_one_exists_and_all_match
+          equals: /usr/share/crypto-policies/FIPS/opensslcnf.txt
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    openssl-test:
+      test_title: openssl
+      capability: unix.symlink
+      object:
+        capability: unix.symlink
+        select:
+          full_path:
+            equals: /etc/crypto-policies/back-ends/openssl.config
+        object_title: openssl
+      states:
+      - canonical_path:
+          require: at_least_one_exists_and_all_match
+          equals: /usr/share/crypto-policies/FIPS/openssl.txt
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    all:
+    - test: bind-test
+    - test: gnutls-test
+    - test: java-test
+    - test: javasystem-test
+    - test: krb5-test
+    - test: libreswan-test
+    - test: libssh-test
+    - test: nss-test
+    - test: openssh-test
+    - test: opensshserver-test
+    - test: opensslcnf-test
+    - test: openssl-test

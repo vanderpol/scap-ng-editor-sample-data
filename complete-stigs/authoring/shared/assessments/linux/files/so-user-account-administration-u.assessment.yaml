@@ -1,0 +1,66 @@
+assessment:
+  id: ng.shared.linux-must-be-configured-so-that-user-and-group-account-administration-u
+  version: 1
+  assessment_title: Linux must be configured so that user and group account administration utilities are configured
+    to store only encrypted representations of passwords.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    libuser-conf-defaults-crypt-style-exists-test:
+      test_title: libuser.conf, defaults/crypt_style exists
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/libuser.conf
+          pattern:
+            matches_regex: ^\[defaults]((?:\r?\n(?:[^[\r\n].*)?)*)
+          instance:
+            greater_than_or_equal: 1
+        object_title: /etc/libuser.conf defaults section with crypt_style
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          matches_regex: \n\s*crypt_style\s*=\s*(\S*)\s*(\n|$)
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_some_match
+    libuser-conf-crypt-style-sha512-test:
+      test_title: libuser.conf, crypt_style = sha512
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/libuser.conf
+          pattern:
+            matches_regex: ^\s*crypt_style\s*=\s*(\S+)\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: /etc/libuser.conf defaults section with crypt_style
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          equals: sha512
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    all:
+    - test: libuser-conf-defaults-crypt-style-exists-test
+    - test: libuser-conf-crypt-style-sha512-test

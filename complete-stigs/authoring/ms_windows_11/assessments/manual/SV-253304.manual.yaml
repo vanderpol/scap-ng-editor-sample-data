@@ -1,0 +1,28 @@
+assessment:
+  id: SV-253304.manual
+  version: 1
+  assessment_title: The built-in Microsoft password complexity filter must be enabled.
+  mode: manual
+  purpose: assessment
+  class: compliance
+  procedure: Verify the effective setting in Local Group Policy Editor. Run "gpedit.msc". Navigate to Local Computer Policy
+    >> Computer Configuration >> Windows Settings >> Security Settings >> Account Policies >> Password Policy. If the value
+    for "Password must meet complexity requirements" is not set to "Enabled", this is a finding. If the site is using a password
+    filter that requires this setting be set to "Disabled" for the filter to be used, this would not be considered a finding.
+  response:
+    type: compliance
+    choices:
+    - value: pass
+      label: Pass
+      outcome: 'true'
+    - value: fail
+      label: Fail
+      outcome: 'false'
+    - value: unknown
+      label: Unknown
+      outcome: unknown
+    - value: not_applicable
+      label: Not applicable
+      outcome: not_applicable
+    allow_comment: true
+    allow_evidence: true

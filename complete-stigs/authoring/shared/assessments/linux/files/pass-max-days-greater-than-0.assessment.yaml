@@ -1,0 +1,42 @@
+assessment:
+  id: ng.shared.pass-max-days-is-less-than-or-equal-to-60-but-greater-than-0
+  version: 1
+  assessment_title: Linux user account passwords for new users or password changes must have a 60-day maximum password
+    lifetime restriction in /etc/login.defs.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    pass-max-days-less-than-or-equal-60-but-greater-test:
+      test_title: PASS_MAX_DAYS is less than or equal to 60 but greater than 0.
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/login.defs
+          pattern:
+            matches_regex: ^\s*PASS_MAX_DAYS\s+(\d+)
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          greater_than: 0
+      - subexpression:
+          less_than_or_equal: 60
+      reported_elements: all
+      states_match: all
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: pass-max-days-less-than-or-equal-60-but-greater-test

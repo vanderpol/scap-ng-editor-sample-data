@@ -1,0 +1,47 @@
+assessment:
+  id: ng.shared.linux-must-use-a-separate-file-system-for-tmp
+  version: 1
+  assessment_title: Linux must use a separate file system for /tmp.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    there-separate-file-system-tmp-test:
+      test_title: There is a separate file system for /tmp.
+      capability: linux.partition
+      object:
+        capability: linux.partition
+        select:
+          mount_point:
+            equals: /tmp
+        object_title: null
+      reported_elements: all
+      collected_items_require: all_exist
+    there-separate-file-system-configured-tmp-test:
+      test_title: There is a separate file system configured for /tmp.
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/fstab
+          pattern:
+            matches_regex: ^[^# \t]+\s+/tmp\s+
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: all_exist
+  evaluate:
+    all:
+    - test: there-separate-file-system-tmp-test
+    - test: there-separate-file-system-configured-tmp-test

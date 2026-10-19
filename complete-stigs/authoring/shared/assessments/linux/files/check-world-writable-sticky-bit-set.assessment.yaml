@@ -1,0 +1,46 @@
+assessment:
+  id: ng.shared.check-that-all-world-writable-directories-have-the-sticky-bit-set
+  version: 1
+  assessment_title: Linux must be configured so that a sticky bit must be set on all public directories.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    check-that-all-world-writable-directories-have-sticky-bit-set-test:
+      test_title: Check that all world-writable directories have the sticky bit set.
+      capability: unix.file
+      object:
+        capability: unix.file
+        object_title: Check to see that all world-writable directories have the sticky bit set. Gather world-writable
+          directories.
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: unix.file
+              select:
+                directory:
+                  equals: /
+                name: null
+              object_title: Check to see that all world-writable directories have the sticky bit set. Gather world-writable
+                directories.
+              filesystem: all
+              traversal:
+                max_depth: null
+                recurse: directories
+            filters:
+            - exclude:
+                other_write:
+                  require: at_least_one_exists_and_all_match
+                  equals: false
+            - exclude:
+                sticky:
+                  require: at_least_one_exists_and_all_match
+                  equals: true
+      reported_elements: all
+      collected_items_require: none_exist
+  evaluate:
+    test: check-that-all-world-writable-directories-have-sticky-bit-set-test

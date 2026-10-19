@@ -1,0 +1,32 @@
+assessment:
+  id: SV-253289.automated
+  version: 2
+  assessment_title: WN11-00-000175 - The Secondary Logon service must be disabled on Windows 11.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    secondary-logon-service-startup-type-disabled-or-service-uninstalled-test:
+      test_title: The Secondary Logon service Startup Type is Disabled or the service is uninstalled
+      capability: windows.wmi.query
+      object:
+        capability: windows.wmi.query
+        object_title: Secondary Logon Service Startup Type
+        collect:
+          namespace: root\cimv2
+          query: SELECT startmode FROM Win32_Service WHERE name='seclogon'
+      states:
+      - result:
+          record:
+            fields:
+              startmode:
+                require: at_least_one_exists_and_all_match
+                equals: Disabled
+            require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: may_be_absent_and_some_match
+  evaluate:
+    test: secondary-logon-service-startup-type-disabled-or-service-uninstalled-test

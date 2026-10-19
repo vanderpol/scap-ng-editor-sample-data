@@ -1,0 +1,26 @@
+assessment:
+  id: SV-258126.manual
+  version: 1
+  assessment_title: RHEL 9 must have the opensc package installed.
+  mode: manual
+  purpose: assessment
+  class: compliance
+  procedure: 'Verify that RHEL 9 has the opensc package installed with the following command: $ dnf list --installed opensc
+    Example output: opensc.x86_64 0.22.0-2.el9 If the "opensc" package is not installed, this is a finding.'
+  response:
+    type: compliance
+    choices:
+    - value: pass
+      label: Pass
+      outcome: 'true'
+    - value: fail
+      label: Fail
+      outcome: 'false'
+    - value: unknown
+      label: Unknown
+      outcome: unknown
+    - value: not_applicable
+      label: Not applicable
+      outcome: not_applicable
+    allow_comment: true
+    allow_evidence: true

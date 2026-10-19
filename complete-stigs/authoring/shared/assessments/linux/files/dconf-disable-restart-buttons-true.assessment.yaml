@@ -1,0 +1,66 @@
+assessment:
+  id: ng.shared.dconf-disable-restart-buttons-true
+  version: 1
+  assessment_title: Linux must disable the ability of a user to restart the system from the login screen.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    dconf-disable-restart-buttons-true-test:
+      test_title: dconf disable-restart-buttons true
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        for_each:
+          item: item
+          in: dconf-database-directories-object
+        select:
+          directory:
+            from: item.directory
+          name:
+            matches_regex: .*
+          pattern:
+            matches_regex: ^\[org/gnome/login-screen](?:\r?\n(?:[^[\r\n].*)?)*
+          instance:
+            greater_than_or_equal: 1
+        object_title: dconf org/gnome/login-screen sections
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - text:
+          require: at_least_one_exists_and_all_match
+          matches_regex: \ndisable-restart-buttons=(true|'true')\s*(\n|$)
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_some_match
+  evaluate:
+    test: dconf-disable-restart-buttons-true-test
+  shared_objects:
+    dconf-database-directories-object:
+      capability: unix.file
+      object_title: dconf database directories
+      set:
+        operator: union
+        operands:
+        - object:
+            capability: unix.file
+            select:
+              directory:
+                equals: /etc/dconf/db
+              name: null
+            object_title: dconf database directories
+            filesystem: all
+            traversal:
+              max_depth: 1
+              recurse: symlinks_and_directories
+          filters:
+          - include:
+              directory:
+                require: at_least_one_exists_and_all_match
+                matches_regex: ^/etc/dconf/db/.*\.d$

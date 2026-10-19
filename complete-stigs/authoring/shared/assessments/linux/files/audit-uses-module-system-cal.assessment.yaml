@@ -1,0 +1,101 @@
+assessment:
+  id: ng.shared.linux-must-audit-all-uses-of-the-init-module-and-finit-module-system-cal
+  version: 1
+  assessment_title: Linux must audit all uses of the init_module and finit_module system calls.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    audit-32-bit-invocations-init-module-syscall-test:
+      test_title: Audit 32-bit invocations of init_module syscall
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/audit/audit.rules
+          pattern:
+            matches_regex: ^\s*-a\s+(always,exit|exit,always)\s+-F\s+arch=b32\s+(?:.*(-S\s+init_module\s+|(\s+|,)init_module(\s+|,))).*-F\s+auid>=1000\s+-F\s+auid!=(4294967295|-1|unset)(\s+(-k\s+|-F\s+key=)[-\w]+)*\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: 32-bit init_module syscall
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: all_exist
+    audit-64-bit-invocations-init-module-syscall-test:
+      test_title: Audit 64-bit invocations of init_module syscall
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/audit/audit.rules
+          pattern:
+            matches_regex: ^\s*-a\s+(always,exit|exit,always)\s+-F\s+arch=b64\s+(?:.*(-S\s+init_module\s+|(\s+|,)init_module(\s+|,))).*-F\s+auid>=1000\s+-F\s+auid!=(4294967295|-1|unset)(\s+(-k\s+|-F\s+key=)[-\w]+)*\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: 64-bit init_module syscall
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: all_exist
+    audit-32-bit-invocations-finit-module-syscall-test:
+      test_title: Audit 32-bit invocations of finit_module syscall
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/audit/audit.rules
+          pattern:
+            matches_regex: ^\s*-a\s+(always,exit|exit,always)\s+-F\s+arch=b32\s+(?:.*(-S\s+finit_module\s+|(\s+|,)finit_module(\s+|,))).*-F\s+auid>=1000\s+-F\s+auid!=(4294967295|-1|unset)(\s+(-k\s+|-F\s+key=)[-\w]+)*\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: 32-bit finit_module syscall
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: all_exist
+    audit-64-bit-invocations-finit-module-syscall-test:
+      test_title: Audit 64-bit invocations of finit_module syscall
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/audit/audit.rules
+          pattern:
+            matches_regex: ^\s*-a\s+(always,exit|exit,always)\s+-F\s+arch=b64\s+(?:.*(-S\s+finit_module\s+|(\s+|,)finit_module(\s+|,))).*-F\s+auid>=1000\s+-F\s+auid!=(4294967295|-1|unset)(\s+(-k\s+|-F\s+key=)[-\w]+)*\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: 64-bit finit_module syscall
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: all_exist
+  evaluate:
+    all:
+    - test: audit-32-bit-invocations-init-module-syscall-test
+    - test: audit-64-bit-invocations-init-module-syscall-test
+    - test: audit-32-bit-invocations-finit-module-syscall-test
+    - test: audit-64-bit-invocations-finit-module-syscall-test

@@ -1,0 +1,35 @@
+assessment:
+  id: ng.shared.verifies-prevent-enabling-lock-screen-slide-show-is-set-to-enabled
+  version: 1
+  assessment_title: The display of slide shows on the lock screen must be disabled.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    verifies-prevent-enabling-lock-screen-slide-show-set-enabled-test:
+      test_title: Verifies 'Prevent enabling lock screen slide show' is set to 'Enabled'
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SOFTWARE\Policies\Microsoft\Windows\Personalization
+          name:
+            equals: NoLockScreenSlideshow
+        object_title: Registry object for HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Personalization\NoLockScreenSlideshow
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 1
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: verifies-prevent-enabling-lock-screen-slide-show-set-enabled-test

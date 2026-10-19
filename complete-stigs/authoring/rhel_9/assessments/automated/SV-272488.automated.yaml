@@ -1,0 +1,26 @@
+assessment:
+  id: SV-272488.automated
+  version: 1
+  assessment_title: RHEL-09-215101 - RHEL 9 must have the Postfix package installed.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    postfix-package-installed-test:
+      test_title: The postfix package is installed
+      capability: linux.rpminfo
+      object:
+        capability: linux.rpminfo
+        select:
+          package_name:
+            equals: postfix
+        object_title: null
+        collect:
+          include_file_paths: false
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+  evaluate:
+    test: postfix-package-installed-test

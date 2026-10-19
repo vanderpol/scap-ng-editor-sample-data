@@ -1,0 +1,53 @@
+assessment:
+  id: SV-253389.automated
+  version: 3
+  assessment_title: WN11-CC-000195 - Enhanced anti-spoofing for facial recognition must be enabled on Windows 11.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    enhanced-anti-spoofing-facial-recognition-enabled-test:
+      test_title: Enhanced anti-spoofing for facial recognition must be enabled
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: windows.registry
+              select:
+                hive:
+                  equals: local_machine
+                key:
+                  equals: SOFTWARE\Policies\Microsoft\Biometrics\FacialFeatures
+                name:
+                  equals: EnhancedAntiSpoofing
+              object_title: Group Policy registry entry for facial recognition enhanced anti-spoofing
+            filters: []
+          - object:
+              capability: windows.registry
+              select:
+                hive:
+                  equals: local_machine
+                key:
+                  equals: SOFTWARE\Microsoft\Policies\PassportForWork\Biometrics
+                name:
+                  equals: FacialFeaturesUseEnhancedAntiSpoofing
+              object_title: Intune registry entry for facial recognition enhanced anti-spoofing
+            filters: []
+        object_title: Registry entries for facial recognition enhanced anti-spoofing
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 1
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: enhanced-anti-spoofing-facial-recognition-enabled-test

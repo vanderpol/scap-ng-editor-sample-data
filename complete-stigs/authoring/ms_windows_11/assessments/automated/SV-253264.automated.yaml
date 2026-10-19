@@ -1,0 +1,48 @@
+assessment:
+  id: SV-253264.automated
+  version: 18
+  assessment_title: The Windows 11 system must use an antivirus program.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    windows-use-antivirus-program-test:
+      test_title: Windows must use an antivirus program
+      capability: windows.cmdlet
+      object:
+        capability: windows.cmdlet
+        object_title: Gather AntivirusProduct from SecurityCenter2
+        collect:
+          module_name: CimCmdlets
+          module_id: null
+          module_version: null
+          verb: Get
+          noun: CimInstance
+          parameters:
+            fields:
+              classname:
+                selection_match: all
+                equals: antivirusproduct
+              namespace:
+                selection_match: all
+                equals: root\securitycenter2
+          select:
+            fields:
+              property:
+                selection_match: all
+                equals: displayname,productstate
+      states:
+      - value:
+          record:
+            fields:
+              productstate:
+                require: at_least_one_exists_and_all_match
+                bitwise_and: 4096
+            require: at_least_one_exists_and_some_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: windows-use-antivirus-program-test

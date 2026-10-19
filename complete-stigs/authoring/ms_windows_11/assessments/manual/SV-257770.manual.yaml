@@ -1,0 +1,27 @@
+assessment:
+  id: SV-257770.manual
+  version: 1
+  assessment_title: Windows 11 must have command line process auditing events enabled for failures.
+  mode: manual
+  purpose: assessment
+  class: compliance
+  procedure: 'Ensure Audit Process Creation auditing has been enabled: Computer Configuration >> Windows Settings >> Security
+    Settings >> Advanced Audit Policy Configuration >> System Audit Policy >> Detailed Tracking >> Audit Process Creation.
+    If "Audit Process Creation" is not set to "Failure", this is a finding.'
+  response:
+    type: compliance
+    choices:
+    - value: pass
+      label: Pass
+      outcome: 'true'
+    - value: fail
+      label: Fail
+      outcome: 'false'
+    - value: unknown
+      label: Unknown
+      outcome: unknown
+    - value: not_applicable
+      label: Not applicable
+      outcome: not_applicable
+    allow_comment: true
+    allow_evidence: true

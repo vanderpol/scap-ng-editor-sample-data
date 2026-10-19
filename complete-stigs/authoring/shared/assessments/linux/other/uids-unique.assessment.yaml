@@ -1,0 +1,64 @@
+assessment:
+  id: ng.shared.uids-are-unique
+  version: 1
+  assessment_title: Linux duplicate User IDs (UIDs) must not exist for interactive users.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  variables:
+    count-passwd-entries-variable:
+      title: count of passwd entries
+      kind: local
+      datatype: integer
+      expression:
+        count:
+          values:
+            object: interactive-users-object
+            field: user_id
+    count-unique-uids-variable:
+      title: count of unique UIDs
+      kind: local
+      datatype: integer
+      expression:
+        count:
+          unique:
+            values:
+              object: interactive-users-object
+              field: user_id
+  tests:
+    uids-unique-test:
+      test_title: UIDs are unique
+      capability: variable.value
+      states:
+      - value:
+          datatype: integer
+          value_match: all
+          require: at_least_one_exists_and_all_match
+          equals:
+            variable: count-unique-uids-variable
+      reported_elements: all
+      variable: count-passwd-entries-variable
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: uids-unique-test
+  shared_objects:
+    interactive-users-object:
+      capability: unix.password
+      object_title: Interactive Users
+      set:
+        operator: union
+        operands:
+        - object:
+            capability: unix.password
+            select:
+              username:
+                matches_regex: .*
+            object_title: Interactive Users
+          filters:
+          - include:
+              user_id:
+                require: at_least_one_exists_and_all_match
+                greater_than_or_equal: 1000

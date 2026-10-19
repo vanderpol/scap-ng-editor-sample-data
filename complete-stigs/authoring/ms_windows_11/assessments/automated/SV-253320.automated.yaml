@@ -1,0 +1,25 @@
+assessment:
+  id: SV-253320.automated
+  version: 2
+  assessment_title: WN11-AU-000082 - Windows 11 must be configured to audit Object Access - File Share successes.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    audit-file-share-set-success-test:
+      test_title: '''Audit File Share'' is set to ''Success'''
+      capability: windows.auditeventpolicysubcategories
+      states:
+      - file_share:
+          equals: AUDIT_SUCCESS
+      - file_share:
+          equals: AUDIT_SUCCESS_FAILURE
+      reported_elements: all
+      states_match: any
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: audit-file-share-set-success-test

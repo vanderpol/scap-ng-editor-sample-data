@@ -1,0 +1,63 @@
+assessment:
+  id: ng.shared.linux-must-require-authentication-to-access-single-user-mode
+  version: 1
+  assessment_title: Linux must require authentication to access single-user mode.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    usr-lib-systemd-system-rescue-service-execstart-set-usr-lib-test:
+      test_title: /usr/lib/systemd/system/rescue.service:ExecStart is set to -/usr/lib/systemd/systemd-sulogin-shell
+        rescue
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          directory:
+            equals: /usr/lib/systemd/system
+          name:
+            equals: rescue.service
+          pattern:
+            matches_regex: ^\s*ExecStart=-\/usr\/lib\/systemd\/systemd-sulogin-shell\srescue$
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+    etc-systemd-system-rescue-service-d-conf-execstart-set-usr-test:
+      test_title: /etc/systemd/system/rescue.service.d/*.conf:ExecStart is set to -/usr/lib/systemd/systemd-sulogin-shell
+        rescue
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          directory:
+            equals: /etc/systemd/system/rescue.service.d
+          name:
+            matches_regex: ^.+\.conf$
+          pattern:
+            matches_regex: ^\s*ExecStart=-\/usr\/lib\/systemd\/systemd-sulogin-shell\srescue$
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+  evaluate:
+    any:
+    - test: usr-lib-systemd-system-rescue-service-execstart-set-usr-lib-test
+    - test: etc-systemd-system-rescue-service-d-conf-execstart-set-usr-test

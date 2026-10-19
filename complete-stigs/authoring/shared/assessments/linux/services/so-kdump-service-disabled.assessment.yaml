@@ -1,0 +1,67 @@
+assessment:
+  id: ng.shared.linux-must-be-configured-so-that-the-kdump-service-is-disabled
+  version: 1
+  assessment_title: Linux must be configured so that the kdump service is disabled.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    kdump-service-loadstate-masked-if-it-exists-test:
+      test_title: kdump.service LoadState is masked if it exists.
+      capability: linux.systemdunitproperty
+      object:
+        capability: linux.systemdunitproperty
+        select:
+          unit:
+            equals: kdump.service
+          property:
+            equals: LoadState
+        object_title: null
+      states:
+      - value:
+          require: at_least_one_exists_and_all_match
+          equals: masked
+      reported_elements: all
+      collected_items_require: may_be_absent_and_all_match
+    kdump-service-unitfilestate-masked-if-it-exists-test:
+      test_title: kdump.service UnitFileState is masked if it exists.
+      capability: linux.systemdunitproperty
+      object:
+        capability: linux.systemdunitproperty
+        select:
+          unit:
+            equals: kdump.service
+          property:
+            equals: UnitFileState
+        object_title: null
+      states:
+      - value:
+          require: at_least_one_exists_and_all_match
+          equals: masked
+      reported_elements: all
+      collected_items_require: may_be_absent_and_all_match
+    kdump-service-activestate-inactive-if-it-exists-test:
+      test_title: kdump.service ActiveState is inactive if it exists.
+      capability: linux.systemdunitproperty
+      object:
+        capability: linux.systemdunitproperty
+        select:
+          unit:
+            equals: kdump.service
+          property:
+            equals: ActiveState
+        object_title: null
+      states:
+      - value:
+          require: at_least_one_exists_and_all_match
+          equals: inactive
+      reported_elements: all
+      collected_items_require: may_be_absent_and_all_match
+  evaluate:
+    all:
+    - test: kdump-service-loadstate-masked-if-it-exists-test
+    - test: kdump-service-unitfilestate-masked-if-it-exists-test
+    - test: kdump-service-activestate-inactive-if-it-exists-test

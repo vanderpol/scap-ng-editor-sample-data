@@ -1,0 +1,28 @@
+assessment:
+  id: SV-258116.manual
+  version: 1
+  assessment_title: RHEL 9 must be configured so that user and group account administration utilities are configured to store
+    only encrypted representations of passwords.
+  mode: manual
+  purpose: assessment
+  class: compliance
+  procedure: 'Verify the user and group account administration utilities are configured to store only encrypted representations
+    of passwords with the following command: $ grep crypt_style /etc/libuser.conf crypt_style = sha512 If the "crypt_style"
+    variable is not set to "sha512", is not in the defaults section, is commented out, or does not exist, this is a finding.'
+  response:
+    type: compliance
+    choices:
+    - value: pass
+      label: Pass
+      outcome: 'true'
+    - value: fail
+      label: Fail
+      outcome: 'false'
+    - value: unknown
+      label: Unknown
+      outcome: unknown
+    - value: not_applicable
+      label: Not applicable
+      outcome: not_applicable
+    allow_comment: true
+    allow_evidence: true

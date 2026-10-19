@@ -1,0 +1,29 @@
+assessment:
+  id: ng.shared.kernel-randomize-va-space-setting-in-kernel-is-set-to-2
+  version: 1
+  assessment_title: Linux must implement address space layout randomization (ASLR) to protect its memory from unauthorized
+    code execution.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    kernel-randomize-va-space-setting-in-kernel-set-2-test:
+      test_title: kernel.randomize_va_space setting in kernel is set to 2
+      capability: unix.sysctl
+      object:
+        capability: unix.sysctl
+        select:
+          name:
+            equals: kernel.randomize_va_space
+        object_title: null
+      states:
+      - value:
+          require: at_least_one_exists_and_all_match
+          equals: 2
+      reported_elements: all
+      collected_items_require: all_exist_and_all_match
+  evaluate:
+    test: kernel-randomize-va-space-setting-in-kernel-set-2-test

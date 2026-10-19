@@ -1,0 +1,33 @@
+assessment:
+  id: ng.shared.verify-all-local-files-and-directories-on-linux-have-a-valid-group
+  version: 1
+  assessment_title: Linux local files and directories must have a valid group owner.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    verify-all-local-files-directories-on-rhel-8-have-valid-test:
+      test_title: Verify all local files and directories on RHEL 8 have a valid group.
+      capability: independent.shellcommand
+      object:
+        capability: independent.shellcommand
+        object_title: Verify all local files and directories on RHEL 8 have a valid group.  Limit results to the first
+          100 failures found.
+        collect:
+          shell: bash
+          command: df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -nogroup -print | head
+            -n 100
+          pattern: .*
+          error_if_exit_status_not_0: false
+          error_if_stderr_exists: false
+      states:
+      - stdout_line:
+          require: none_exist
+          equals: ''
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: verify-all-local-files-directories-on-rhel-8-have-valid-test

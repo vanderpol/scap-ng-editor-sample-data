@@ -1,0 +1,33 @@
+assessment:
+  id: ng.shared.the-number-of-allowed-bad-logon-attempts-must-be-configured-to-three-or
+  version: 1
+  assessment_title: The number of allowed bad logon attempts must be configured to three or less.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    account-lockout-threshold-set-3-or-less-test:
+      test_title: '''Account lockout threshold'' is set to ''3'' or less'
+      capability: windows.lockoutpolicy
+      states:
+      - lockout_threshold:
+          require: at_least_one_exists_and_all_match
+          less_than_or_equal: 3
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    account-lockout-threshold-not-set-0-test:
+      test_title: '''Account lockout threshold'' is not set to ''0'''
+      capability: windows.lockoutpolicy
+      states:
+      - lockout_threshold:
+          require: at_least_one_exists_and_all_match
+          greater_than: 0
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    all:
+    - test: account-lockout-threshold-set-3-or-less-test
+    - test: account-lockout-threshold-not-set-0-test

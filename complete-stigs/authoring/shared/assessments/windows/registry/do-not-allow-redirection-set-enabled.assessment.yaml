@@ -1,0 +1,35 @@
+assessment:
+  id: ng.shared.do-not-allow-drive-redirection-is-set-to-enabled
+  version: 1
+  assessment_title: Local drives must be prevented from sharing with Remote Desktop Session Hosts.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    do-not-allow-drive-redirection-set-enabled-test:
+      test_title: '''Do not allow drive redirection'' is set to ''Enabled'''
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: Software\Policies\Microsoft\Windows NT\Terminal Services
+          name:
+            equals: fDisableCdm
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 1
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: do-not-allow-drive-redirection-set-enabled-test

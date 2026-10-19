@@ -1,0 +1,26 @@
+assessment:
+  id: ng.shared.no-file-transfer-protocol-ftp-server-packages-are-installed
+  version: 1
+  assessment_title: Linux must not have a File Transfer Protocol (FTP) server package installed.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    no-file-transfer-protocol-ftp-server-packages-installed-test:
+      test_title: No File Transfer Protocol (FTP) server packages are installed
+      capability: linux.rpminfo
+      object:
+        capability: linux.rpminfo
+        select:
+          package_name:
+            matches_regex: ftp
+        object_title: null
+        collect:
+          include_file_paths: false
+      reported_elements: all
+      collected_items_require: none_exist
+  evaluate:
+    test: no-file-transfer-protocol-ftp-server-packages-installed-test

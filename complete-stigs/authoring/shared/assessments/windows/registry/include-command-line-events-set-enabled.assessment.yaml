@@ -1,0 +1,35 @@
+assessment:
+  id: ng.shared.include-command-line-in-process-creation-events-is-set-to-enabled
+  version: 1
+  assessment_title: Command line data must be included in process creation events.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    include-command-line-in-process-creation-events-set-enabled-test:
+      test_title: '''Include command line in process creation events'' is set to ''Enabled'''
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            case_insensitive_equals: SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\Audit
+          name:
+            case_insensitive_equals: ProcessCreationIncludeCmdLine_Enabled
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 1
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: include-command-line-in-process-creation-events-set-enabled-test

@@ -1,0 +1,109 @@
+assessment:
+  id: ng.shared.the-deny-log-on-locally-user-right-on-workstations-must-be-configured-to
+  version: 1
+  assessment_title: The "Deny log on locally" user right on workstations must be configured to prevent access from
+    highly privileged domain accounts on domain systems and unauthenticated access on all systems.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    system-non-dc-domain-joined-windows-server-or-workstation-test:
+      test_title: The system is a non-DC domain-joined Windows server or workstation
+      capability: windows.wmi.query
+      object: windows-wmi57-object
+      states:
+      - result:
+          record:
+            fields:
+              domainrole:
+                require: at_least_one_exists_and_all_match
+                equals: '1'
+            require: at_least_one_exists_and_all_match
+      - result:
+          record:
+            fields:
+              domainrole:
+                require: at_least_one_exists_and_all_match
+                equals: '3'
+            require: at_least_one_exists_and_all_match
+      reported_elements: all
+      states_match: any
+      collected_items_require: at_least_one_exists_and_all_match
+    deny-log-on-locally-domain-admins-test:
+      test_title: Deny log on locally - Domain Admins
+      capability: windows.userright
+      object: windows-userright-object
+      states:
+      - trustee_name:
+          require: at_least_one_exists_and_all_match
+          matches_regex: ^(?i)(.+\\)?Domain Admins$
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_some_match
+    deny-log-on-locally-enterprise-admins-test:
+      test_title: Deny log on locally - Enterprise Admins
+      capability: windows.userright
+      object: windows-userright-object
+      states:
+      - trustee_name:
+          require: at_least_one_exists_and_all_match
+          matches_regex: ^(?i)(.+\\)?Enterprise Admins$
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_some_match
+    deny-log-on-locally-guests-test:
+      test_title: Deny log on locally - Guests
+      capability: windows.userright
+      object: windows-userright-object
+      states:
+      - trustee_name:
+          require: at_least_one_exists_and_all_match
+          case_insensitive_equals: Guests
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_some_match
+    system-standalone-windows-server-or-workstation-test:
+      test_title: The system is a standalone Windows server or workstation
+      capability: windows.wmi.query
+      object: windows-wmi57-object
+      states:
+      - result:
+          record:
+            fields:
+              domainrole:
+                require: at_least_one_exists_and_all_match
+                equals: '0'
+            require: at_least_one_exists_and_all_match
+      - result:
+          record:
+            fields:
+              domainrole:
+                require: at_least_one_exists_and_all_match
+                equals: '2'
+            require: at_least_one_exists_and_all_match
+      reported_elements: all
+      states_match: any
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    any:
+    - all:
+      - test: system-non-dc-domain-joined-windows-server-or-workstation-test
+      - test: deny-log-on-locally-domain-admins-test
+      - test: deny-log-on-locally-enterprise-admins-test
+      - test: deny-log-on-locally-guests-test
+    - all:
+      - test: system-standalone-windows-server-or-workstation-test
+      - test: deny-log-on-locally-guests-test
+  shared_objects:
+    windows-wmi57-object:
+      capability: windows.wmi.query
+      object_title: null
+      collect:
+        namespace: root\cimv2
+        query: SELECT DomainRole FROM win32_computersystem
+    windows-userright-object:
+      capability: windows.userright
+      select:
+        userright:
+          equals: SE_DENY_INTERACTIVE_LOGON_NAME
+      object_title: null

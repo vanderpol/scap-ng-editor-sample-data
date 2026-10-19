@@ -1,0 +1,47 @@
+assessment:
+  id: ng.shared.audit-tools-have-a-mode-of-0755-or-less-permissive
+  version: 1
+  assessment_title: Linux audit tools must have a mode of 0755 or less permissive.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    audit-tools-have-mode-0755-or-less-permissive-test:
+      test_title: audit tools have a mode of 0755 or less permissive.
+      capability: unix.file
+      object:
+        capability: unix.file
+        select:
+          full_path:
+            datatype: string
+            value_match: one_or_more
+            equals:
+            - /sbin/auditctl
+            - /sbin/aureport
+            - /sbin/ausearch
+            - /sbin/autrace
+            - /sbin/auditd
+            - /sbin/rsyslogd
+            - /sbin/augenrules
+        object_title: audit tools
+        filesystem: all
+      states:
+      - and:
+        - setuid:
+            equals: false
+        - setgid:
+            equals: false
+        - sticky:
+            equals: false
+        - group_write:
+            equals: false
+        - other_write:
+            equals: false
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: all_exist_and_all_match
+  evaluate:
+    test: audit-tools-have-mode-0755-or-less-permissive-test

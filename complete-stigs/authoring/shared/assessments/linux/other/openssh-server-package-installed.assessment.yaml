@@ -1,0 +1,26 @@
+assessment:
+  id: ng.shared.openssh-server-package-is-installed
+  version: 1
+  assessment_title: Linux networked systems must have SSH installed.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    openssh-server-package-installed-test:
+      test_title: openssh-server package is installed
+      capability: linux.rpminfo
+      object:
+        capability: linux.rpminfo
+        select:
+          package_name:
+            equals: openssh-server
+        object_title: null
+        collect:
+          include_file_paths: false
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+  evaluate:
+    test: openssh-server-package-installed-test

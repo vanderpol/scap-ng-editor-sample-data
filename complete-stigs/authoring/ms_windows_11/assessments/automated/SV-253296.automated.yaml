@@ -1,0 +1,38 @@
+assessment:
+  id: SV-253296.automated
+  version: 18
+  assessment_title: The Windows 11 time service must synchronize with an appropriate DoW time source.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    review-windows-time-service-configuration-via-powershell-test:
+      test_title: Review the Windows time service configuration via PowerShell
+      capability: independent.shellcommand
+      object:
+        capability: independent.shellcommand
+        object_title: Review the Windows time service configuration via PowerShell
+        collect:
+          shell: powershell
+          command: W32tm /query /configuration
+          pattern: '^Type:'
+          error_if_exit_status_not_0: false
+          error_if_stderr_exists: false
+      states:
+      - and:
+        - command:
+            equals: W32tm /query /configuration
+        - pattern:
+            equals: '^Type:'
+        - exit_status:
+            equals: 0
+        - stdout_line:
+            matches_regex: NT5DS
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: only_one_exists_and_only_one_matches
+  evaluate:
+    test: review-windows-time-service-configuration-via-powershell-test

@@ -1,0 +1,33 @@
+assessment:
+  id: ng.shared.the-system-must-be-configured-to-audit-logon-logoff-group-membership-suc
+  version: 1
+  assessment_title: The system must be configured to audit Logon/Logoff - Group Membership successes.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    audit-logon-logoff-group-membership-success-only-test:
+      test_title: Audit - Logon/Logoff - Group Membership - Success Only
+      capability: windows.auditeventpolicysubcategories
+      states:
+      - group_membership:
+          require: at_least_one_exists_and_all_match
+          equals: AUDIT_SUCCESS
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    audit-logon-logoff-group-membership-success-failure-test:
+      test_title: Audit - Logon/Logoff - Group Membership - Success and Failure
+      capability: windows.auditeventpolicysubcategories
+      states:
+      - group_membership:
+          require: at_least_one_exists_and_all_match
+          equals: AUDIT_SUCCESS_FAILURE
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    any:
+    - test: audit-logon-logoff-group-membership-success-only-test
+    - test: audit-logon-logoff-group-membership-success-failure-test

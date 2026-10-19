@@ -1,0 +1,110 @@
+assessment:
+  id: ng.shared.the-required-legal-notice-must-be-configured-to-display-before-console-l
+  version: 1
+  assessment_title: The required legal notice must be configured to display before console logon.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    required-legal-notice-configured-display-before-console-logon-message-content-test:
+      test_title: The required legal notice must be configured to display before console logon - Message Content 1
+      capability: windows.registry
+      object: legal-notice-text-object
+      states:
+      - value:
+          require: at_least_one_exists_and_all_match
+          matches_regex: You are accessing a U.S. Government \(USG\) Information System \(IS\) that is provided for
+            USG-authorized use only.
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_only_one_matches
+    required-legal-notice-configured-display-before-console-logon-message-content-2-test:
+      test_title: The required legal notice must be configured to display before console logon - Message Content 2
+      capability: windows.registry
+      object: legal-notice-text-object
+      states:
+      - value:
+          require: at_least_one_exists_and_all_match
+          matches_regex: 'By using this IS \(which includes any device attached to this IS\), you consent to the following
+            conditions:'
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_only_one_matches
+    required-legal-notice-configured-display-before-console-logon-message-content-3-test:
+      test_title: The required legal notice must be configured to display before console logon - Message Content 3
+      capability: windows.registry
+      object: legal-notice-text-object
+      states:
+      - value:
+          require: at_least_one_exists_and_all_match
+          matches_regex: -The USG routinely intercepts and monitors communications on this IS for purposes including,
+            but not limited to, penetration testing, COMSEC monitoring, network operations and defense, personnel
+            misconduct \(PM\), law enforcement \(LE\), and counterintelligence \(CI\) investigations.
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_only_one_matches
+    required-legal-notice-configured-display-before-console-logon-message-content-4-test:
+      test_title: The required legal notice must be configured to display before console logon - Message Content 4
+      capability: windows.registry
+      object: legal-notice-text-object
+      states:
+      - value:
+          require: at_least_one_exists_and_all_match
+          matches_regex: -At any time, the USG may inspect and seize data stored on this IS.
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_only_one_matches
+    required-legal-notice-configured-display-before-console-logon-message-content-5-test:
+      test_title: The required legal notice must be configured to display before console logon - Message Content 5
+      capability: windows.registry
+      object: legal-notice-text-object
+      states:
+      - value:
+          require: at_least_one_exists_and_all_match
+          matches_regex: -Communications using, or data stored on, this IS are not private, are subject to routine
+            monitoring, interception, and search, and may be disclosed or used for any USG-authorized purpose.
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_only_one_matches
+    required-legal-notice-configured-display-before-console-logon-message-content-6-test:
+      test_title: The required legal notice must be configured to display before console logon - Message Content 6
+      capability: windows.registry
+      object: legal-notice-text-object
+      states:
+      - value:
+          require: at_least_one_exists_and_all_match
+          matches_regex: -This IS includes security measures \(e.g., authentication and access controls\) to protect
+            USG interests--not for your personal benefit or privacy.
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_only_one_matches
+    required-legal-notice-configured-display-before-console-logon-message-content-7-test:
+      test_title: The required legal notice must be configured to display before console logon - Message Content 7
+      capability: windows.registry
+      object: legal-notice-text-object
+      states:
+      - value:
+          require: at_least_one_exists_and_all_match
+          matches_regex: -Notwithstanding the above, using this IS does not constitute consent to PM, LE or CI investigative
+            searching or monitoring of the content of privileged communications, or work product, related to personal
+            representation or services by attorneys, psychotherapists, or clergy, and their assistants. Such communications
+            and work product are private and confidential. See User Agreement for details.
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_only_one_matches
+  evaluate:
+    all:
+    - test: required-legal-notice-configured-display-before-console-logon-message-content-test
+    - test: required-legal-notice-configured-display-before-console-logon-message-content-2-test
+    - test: required-legal-notice-configured-display-before-console-logon-message-content-3-test
+    - test: required-legal-notice-configured-display-before-console-logon-message-content-4-test
+    - test: required-legal-notice-configured-display-before-console-logon-message-content-5-test
+    - test: required-legal-notice-configured-display-before-console-logon-message-content-6-test
+    - test: required-legal-notice-configured-display-before-console-logon-message-content-7-test
+  shared_objects:
+    legal-notice-text-object:
+      capability: windows.registry
+      select:
+        hive:
+          equals: local_machine
+        key:
+          equals: SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+        name:
+          equals: LegalNoticeText
+      object_title: Legal notice text

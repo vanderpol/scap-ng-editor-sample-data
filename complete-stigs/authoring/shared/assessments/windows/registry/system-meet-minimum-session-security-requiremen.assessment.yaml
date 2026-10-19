@@ -1,0 +1,36 @@
+assessment:
+  id: ng.shared.the-system-is-configured-to-meet-the-minimum-session-security-requiremen
+  version: 1
+  assessment_title: The system must be configured to meet the minimum session security requirement for NTLM SSP based
+    clients.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    system-configured-meet-minimum-session-security-requirement-ntlm-ssp-based-test:
+      test_title: The system is configured to meet the minimum session security requirement for NTLM SSP based clients.
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SYSTEM\CurrentControlSet\Control\Lsa\MSV1_0
+          name:
+            equals: NTLMMinClientSec
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 537395200
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: system-configured-meet-minimum-session-security-requirement-ntlm-ssp-based-test

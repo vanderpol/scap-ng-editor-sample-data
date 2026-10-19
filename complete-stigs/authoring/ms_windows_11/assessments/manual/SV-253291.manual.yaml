@@ -1,0 +1,27 @@
+assessment:
+  id: SV-253291.manual
+  version: 1
+  assessment_title: Bluetooth must be turned off unless approved by the organization.
+  mode: manual
+  purpose: assessment
+  class: compliance
+  procedure: 'This is NA if the system does not have Bluetooth. Verify the Bluetooth radio is turned off unless approved by
+    the organization. If it is not, this is a finding. Registry Hive: HKEY_LOCAL_MACHINE Registry Path: \SOFTWARE\Microsoft\PolicyManager\current\device\Connectivity\
+    Value Name: AllowBluetooth Value Type: REG_DWORD Value: 0x00000000 (0) Approval must be documented with the ISSO.'
+  response:
+    type: compliance
+    choices:
+    - value: pass
+      label: Pass
+      outcome: 'true'
+    - value: fail
+      label: Fail
+      outcome: 'false'
+    - value: unknown
+      label: Unknown
+      outcome: unknown
+    - value: not_applicable
+      label: Not applicable
+      outcome: not_applicable
+    allow_comment: true
+    allow_evidence: true

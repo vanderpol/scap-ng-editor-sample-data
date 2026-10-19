@@ -1,0 +1,63 @@
+assessment:
+  id: ng.shared.gids-are-unique
+  version: 1
+  assessment_title: Linux groups must have unique Group ID (GID).
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  variables:
+    count-group-entries-variable:
+      title: count of group entries
+      kind: local
+      datatype: integer
+      expression:
+        count:
+          values:
+            object: etc-group-gids-object
+            field: subexpression
+    count-unique-gids-variable:
+      title: count of unique GIDs
+      kind: local
+      datatype: integer
+      expression:
+        count:
+          unique:
+            values:
+              object: etc-group-gids-object
+              field: subexpression
+  tests:
+    gids-unique-test:
+      test_title: GIDs are unique
+      capability: variable.value
+      states:
+      - value:
+          datatype: integer
+          value_match: all
+          require: at_least_one_exists_and_all_match
+          equals:
+            variable: count-unique-gids-variable
+      reported_elements: all
+      variable: count-group-entries-variable
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: gids-unique-test
+  shared_objects:
+    etc-group-gids-object:
+      capability: independent.textfilecontent54
+      select:
+        full_path:
+          equals: /etc/group
+        pattern:
+          matches_regex: '^[^:]*:[^:]*:([^:]+):'
+        instance:
+          greater_than_or_equal: 1
+      object_title: /etc/group GIDs
+      filesystem: all
+      collect:
+        ignore_case: false
+        multiline: true
+        singleline: false
+        item_creation: all_object_elements_fullfilled

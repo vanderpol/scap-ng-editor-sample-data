@@ -1,0 +1,67 @@
+assessment:
+  id: ng.shared.elevate-the-selinux-context-when-an-administrator-calls-the-sudo-command
+  version: 1
+  assessment_title: Linux must elevate the SELinux context when an administrator calls the sudo command.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    elevate-selinux-context-when-administrator-calls-sudo-command-test:
+      test_title: elevate the SELinux context when an administrator calls the sudo command
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: independent.textfilecontent54
+              select:
+                full_path:
+                  equals: /etc/sudoers
+                pattern:
+                  matches_regex: ^(.*\bsysadm_r\b.*)$
+                instance:
+                  greater_than_or_equal: 1
+              object_title: null
+              filesystem: all
+              collect:
+                ignore_case: false
+                multiline: true
+                singleline: false
+                item_creation: all_object_elements_fullfilled
+            filters: []
+          - object:
+              capability: independent.textfilecontent54
+              select:
+                directory:
+                  equals: /etc/sudoers.d
+                name:
+                  matches_regex: .*
+                pattern:
+                  matches_regex: ^(.*\bsysadm_r\b.*)$
+                instance:
+                  greater_than_or_equal: 1
+              object_title: null
+              filesystem: all
+              traversal:
+                max_depth: null
+                recurse: symlinks_and_directories
+              collect:
+                ignore_case: true
+                multiline: true
+                singleline: false
+                item_creation: all_object_elements_fullfilled
+            filters: []
+        object_title: null
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          matches_regex: ^[ \t]*%[a-zA-Z0-9_-]+[ \t]+ALL=\(ALL\)[ \t]+TYPE=sysadm_t[ \t]+ROLE=sysadm_r[ \t]+ALL[ \t]*$
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: elevate-selinux-context-when-administrator-calls-sudo-command-test

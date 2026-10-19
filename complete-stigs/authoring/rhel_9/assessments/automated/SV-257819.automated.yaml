@@ -1,0 +1,91 @@
+assessment:
+  id: SV-257819.automated
+  version: 13
+  assessment_title: RHEL 9 must ensure cryptographic verification of vendor software packages.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    confirm-red-hat-package-signing-key-release-installed-on-system-test:
+      test_title: Confirm Red Hat package-signing key (release) is installed on the system.
+      capability: independent.shellcommand
+      object:
+        capability: independent.shellcommand
+        object_title: Retrieve package-signing release key name.
+        collect:
+          shell: bash
+          command: rpm -q --queryformat "%{SUMMARY}\n" gpg-pubkey | grep -i "red hat"
+          pattern: release key
+          error_if_exit_status_not_0: false
+          error_if_stderr_exists: false
+      states:
+      - stdout_line:
+          require: at_least_one_exists_and_all_match
+          matches_regex: release key 2
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_some_match
+    confirm-red-hat-package-signing-key-auxillary-installed-on-system-test:
+      test_title: Confirm Red Hat package-signing key (auxillary) is installed on the system.
+      capability: independent.shellcommand
+      object:
+        capability: independent.shellcommand
+        object_title: Retrieve package-signing auxillary key name.
+        collect:
+          shell: bash
+          command: rpm -q --queryformat "%{SUMMARY}\n" gpg-pubkey | grep -i "red hat"
+          pattern: auxiliary key
+          error_if_exit_status_not_0: false
+          error_if_stderr_exists: false
+      states:
+      - stdout_line:
+          require: at_least_one_exists_and_all_match
+          matches_regex: auxiliary key 3
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_some_match
+    confirm-red-hat-package-signing-release-key-fingerprint-matches-vendor-test:
+      test_title: Confirm Red Hat package-signing 'release' key fingerprint matches vendor values.
+      capability: independent.shellcommand
+      object:
+        capability: independent.shellcommand
+        object_title: Retrieve package-signing 'release' key fingerprint.
+        collect:
+          shell: bash
+          command: gpg -q --keyid-format short --with-fingerprint /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release | grep
+            -P 'release key' -B 1
+          pattern: Key fingerprint\s*=\s*(.*)
+          error_if_exit_status_not_0: false
+          error_if_stderr_exists: false
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          matches_regex: ^567E\s+347A\s+D004\s+4ADE\s+55BA\s+8A5F\s+199E\s+2F91\s+FD43\s+1D51$
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_some_match
+    confirm-red-hat-package-signing-auxiliary-key-fingerprint-matches-vendor-test:
+      test_title: Confirm Red Hat package-signing 'auxiliary' key fingerprint matches vendor values.
+      capability: independent.shellcommand
+      object:
+        capability: independent.shellcommand
+        object_title: Retrieve package-signing 'auxiliary' key fingerprint.
+        collect:
+          shell: bash
+          command: gpg -q --keyid-format short --with-fingerprint /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release | grep
+            -P 'auxiliary key' -B 1
+          pattern: Key fingerprint\s*=\s*(.*)
+          error_if_exit_status_not_0: false
+          error_if_stderr_exists: false
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          matches_regex: ^7E46\s+2425\s+8C40\s+6535\s+D56D\s+6F13\s+5054\s+E4A4\s+5A63\s+40B3$
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_some_match
+  evaluate:
+    all:
+    - test: confirm-red-hat-package-signing-key-release-installed-on-system-test
+    - test: confirm-red-hat-package-signing-key-auxillary-installed-on-system-test
+    - test: confirm-red-hat-package-signing-release-key-fingerprint-matches-vendor-test
+    - test: confirm-red-hat-package-signing-auxiliary-key-fingerprint-matches-vendor-test

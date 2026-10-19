@@ -1,0 +1,30 @@
+assessment:
+  id: ng.shared.rngd-service-is-active
+  version: 1
+  assessment_title: Linux must enable the hardware random number generator entropy gatherer service.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    rngd-service-active-test:
+      test_title: rngd.service is active
+      capability: linux.systemdunitproperty
+      object:
+        capability: linux.systemdunitproperty
+        select:
+          unit:
+            equals: rngd.service
+          property:
+            equals: ActiveState
+        object_title: null
+      states:
+      - value:
+          require: at_least_one_exists_and_all_match
+          equals: active
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: rngd-service-active-test

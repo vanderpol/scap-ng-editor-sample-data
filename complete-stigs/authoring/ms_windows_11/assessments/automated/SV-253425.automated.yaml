@@ -1,0 +1,75 @@
+assessment:
+  id: SV-253425.automated
+  version: 2
+  assessment_title: WN11-CC-000390 - Windows 11 must be configured to prevent users from receiving suggestions for
+    third-party or additional applications.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    do-not-suggest-third-party-content-in-windows-spotlight-set-test:
+      test_title: '''Do not suggest third-party content in Windows spotlight'' is set to ''Enabled'''
+      capability: windows.ntuser
+      object:
+        capability: windows.ntuser
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: windows.ntuser
+              select:
+                key:
+                  equals: SOFTWARE\Policies\Microsoft\Windows\CloudContent
+                name:
+                  equals: DisableThirdPartySuggestions
+              object_title: null
+              collect:
+                include_default: false
+                item_creation: key_and_name_exist
+            filters:
+            - exclude:
+                enabled:
+                  require: at_least_one_exists_and_all_match
+                  equals: false
+            - exclude:
+                days_since_modified:
+                  require: at_least_one_exists_and_all_match
+                  greater_than: 35
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 1
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: all_exist_and_all_match
+    current-user-do-not-suggest-third-party-content-in-windows-test:
+      test_title: For the current user, 'Do not suggest third-party content in Windows spotlight' is set to 'Enabled'
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: current_user
+          key:
+            equals: SOFTWARE\Policies\Microsoft\Windows\CloudContent
+          name:
+            equals: DisableThirdPartySuggestions
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 1
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    all:
+    - test: do-not-suggest-third-party-content-in-windows-spotlight-set-test
+    - test: current-user-do-not-suggest-third-party-content-in-windows-test

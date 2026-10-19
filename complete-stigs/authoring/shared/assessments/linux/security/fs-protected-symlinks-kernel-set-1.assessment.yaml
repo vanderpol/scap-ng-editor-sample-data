@@ -1,0 +1,28 @@
+assessment:
+  id: ng.shared.fs-protected-symlinks-setting-in-kernel-is-set-to-1
+  version: 1
+  assessment_title: Linux must enable kernel parameters to enforce discretionary access control on symlinks.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    fs-protected-symlinks-setting-in-kernel-set-1-test:
+      test_title: fs.protected_symlinks setting in kernel is set to 1
+      capability: unix.sysctl
+      object:
+        capability: unix.sysctl
+        select:
+          name:
+            equals: fs.protected_symlinks
+        object_title: null
+      states:
+      - value:
+          require: at_least_one_exists_and_all_match
+          equals: 1
+      reported_elements: all
+      collected_items_require: all_exist_and_all_match
+  evaluate:
+    test: fs-protected-symlinks-setting-in-kernel-set-1-test

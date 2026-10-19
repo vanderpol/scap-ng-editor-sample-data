@@ -1,0 +1,70 @@
+assessment:
+  id: ng.shared.linux-must-configure-a-dns-processing-mode-set-be-network-manager
+  version: 1
+  assessment_title: Linux must configure a DNS processing mode set be Network Manager.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    dns-setting-exists-in-networkmanager-conf-default-none-or-systemd-test:
+      test_title: DNS setting exists in NetworkManager.conf and is default, none or systemd-resolved
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/NetworkManager/NetworkManager.conf
+          pattern:
+            matches_regex: ^dns=(\S*)\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: NetworkManager.conf dns setting
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          equals: none
+      - subexpression:
+          equals: default
+      - subexpression:
+          equals: systemd-resolved
+      reported_elements: all
+      states_match: any
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+    dns-setting-exists-in-networkmanager-conf-main-section-test:
+      test_title: DNS setting exists in NetworkManager.conf main section
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/NetworkManager/NetworkManager.conf
+          pattern:
+            matches_regex: ^\[main\]((?:\r?\n(?:[^[\r\n].*)?)*)
+          instance:
+            greater_than_or_equal: 1
+        object_title: NetworkManager.conf main section
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          matches_regex: \ndns=
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    all:
+    - test: dns-setting-exists-in-networkmanager-conf-default-none-or-systemd-test
+    - test: dns-setting-exists-in-networkmanager-conf-main-section-test

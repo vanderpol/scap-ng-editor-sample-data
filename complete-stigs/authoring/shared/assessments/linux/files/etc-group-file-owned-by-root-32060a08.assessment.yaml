@@ -1,0 +1,29 @@
+assessment:
+  id: ng.shared.etc-group-file-is-owned-by-root-32060a08
+  version: 1
+  assessment_title: Linux /etc/group- file must be owned by root.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    etc-group-file-owned-by-root-test:
+      test_title: /etc/group- file is owned by root
+      capability: unix.file
+      object:
+        capability: unix.file
+        select:
+          full_path:
+            equals: /etc/group-
+        object_title: null
+        filesystem: all
+      states:
+      - owner_uid:
+          require: at_least_one_exists_and_all_match
+          equals: 0
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: etc-group-file-owned-by-root-test

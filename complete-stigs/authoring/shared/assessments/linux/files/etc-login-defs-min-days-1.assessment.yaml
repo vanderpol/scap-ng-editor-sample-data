@@ -1,0 +1,39 @@
+assessment:
+  id: ng.shared.etc-login-defs-pass-min-days-1
+  version: 1
+  assessment_title: Linux passwords for new users or password changes must have a 24-hour minimum password lifetime
+    restriction in /etc/login.defs.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    etc-login-defs-pass-min-days-1-test:
+      test_title: /etc/login.defs:PASS_MIN_DAYS >= 1
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/login.defs
+          pattern:
+            matches_regex: ^\s*PASS_MIN_DAYS\s+(\d*)
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          greater_than_or_equal: 1
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: etc-login-defs-pass-min-days-1-test

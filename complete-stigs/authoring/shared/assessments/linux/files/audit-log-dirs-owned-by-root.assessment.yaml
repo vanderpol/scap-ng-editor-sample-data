@@ -1,0 +1,57 @@
+assessment:
+  id: ng.shared.audit-log-directories-are-owned-by-root
+  version: 1
+  assessment_title: Linux audit log directory must be owned by root to prevent unauthorized read access.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  variables:
+    audit-data-directory-from-etc-audit-auditd-conf-variable:
+      title: audit data directory from /etc/audit/auditd.conf
+      kind: local
+      datatype: string
+      expression:
+        values:
+          object:
+            capability: independent.textfilecontent54
+            select:
+              full_path:
+                equals: /etc/audit/auditd.conf
+              pattern:
+                matches_regex: ^\s*log_file\s*=\s*(\S+)/\S+\s*$
+              instance:
+                greater_than_or_equal: 1
+            object_title: null
+            filesystem: all
+            collect:
+              ignore_case: true
+              multiline: true
+              singleline: false
+              item_creation: all_object_elements_fullfilled
+          field: subexpression
+  tests:
+    audit-log-directories-owned-by-root-test:
+      test_title: audit log directories are owned by root
+      capability: unix.file
+      object:
+        capability: unix.file
+        select:
+          directory:
+            datatype: string
+            value_match: all
+            equals:
+              variable: audit-data-directory-from-etc-audit-auditd-conf-variable
+          name: null
+        object_title: Audit log directory
+        filesystem: all
+      states:
+      - owner_uid:
+          require: at_least_one_exists_and_all_match
+          equals: 0
+      reported_elements: all
+      collected_items_require: all_exist_and_all_match
+  evaluate:
+    test: audit-log-directories-owned-by-root-test

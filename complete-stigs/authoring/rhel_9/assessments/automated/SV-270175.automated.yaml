@@ -1,0 +1,30 @@
+assessment:
+  id: SV-270175.automated
+  version: 1
+  assessment_title: RHEL-09-232103 - RHEL 9 "/etc/audit/" must be owned by root.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    etc-audit-directory-owned-by-root-test:
+      test_title: /etc/audit directory is owned by root
+      capability: unix.file
+      object:
+        capability: unix.file
+        select:
+          directory:
+            equals: /etc/audit
+          name: null
+        object_title: /etc/audit directory
+        filesystem: all
+      states:
+      - owner_uid:
+          require: at_least_one_exists_and_all_match
+          equals: 0
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: etc-audit-directory-owned-by-root-test

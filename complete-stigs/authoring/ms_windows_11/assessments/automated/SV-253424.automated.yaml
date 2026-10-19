@@ -1,0 +1,54 @@
+assessment:
+  id: SV-253424.automated
+  version: 3
+  assessment_title: WN11-CC-000385 - Allow Windows Ink Workspace is Enabled with the option 'On, but disallow access
+    above lock'
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    windows-ink-workspace-disallows-access-above-lock-test:
+      test_title: Windows Ink Workspace disallows access above the lock
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: windows.registry
+              select:
+                hive:
+                  equals: local_machine
+                key:
+                  equals: SOFTWARE\Policies\Microsoft\WindowsInkWorkspace
+                name:
+                  equals: AllowWindowsInkWorkspace
+              object_title: Group Policy registry entry for Windows Ink Workspace
+            filters: []
+          - object:
+              capability: windows.registry
+              select:
+                hive:
+                  equals: local_machine
+                key:
+                  equals: SOFTWARE\Microsoft\PolicyManager\current\device\WindowsInkWorkspace
+                name:
+                  equals: AllowWindowsInkWorkspace
+              object_title: Intune registry entry for Windows Ink Workspace
+            filters: []
+        object_title: Registry entries for Windows Ink Workspace
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 1
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: windows-ink-workspace-disallows-access-above-lock-test

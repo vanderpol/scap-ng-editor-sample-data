@@ -1,0 +1,25 @@
+assessment:
+  id: ng.shared.other-system-events-is-set-to-success-or-success-and-failure
+  version: 1
+  assessment_title: The system must be configured to audit System - Other System Events successes.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    other-system-events-set-success-or-success-failure-test:
+      test_title: '''Other System Events'' is set to ''Success'' or ''Success and Failure'''
+      capability: windows.auditeventpolicysubcategories
+      states:
+      - other_system_events:
+          equals: AUDIT_SUCCESS
+      - other_system_events:
+          equals: AUDIT_SUCCESS_FAILURE
+      reported_elements: all
+      states_match: any
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: other-system-events-set-success-or-success-failure-test

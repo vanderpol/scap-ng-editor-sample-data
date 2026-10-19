@@ -1,0 +1,157 @@
+assessment:
+  id: ng.shared.linux-remote-access-methods-must-be-monitored
+  version: 1
+  assessment_title: Linux remote access methods must be monitored.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    rsyslog-auth-configured-logged-test:
+      test_title: 'rsyslog: auth.* is configured to be logged'
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: independent.textfilecontent54
+              select:
+                full_path:
+                  equals: /etc/rsyslog.conf
+                pattern:
+                  matches_regex: ^[ \t]*(?:\S+;auth\.\*|auth\.\*;\S+|auth\.\*|\S+;auth\.\*;\S+)[ \t]+\S+\s*$
+                instance:
+                  greater_than_or_equal: 1
+              object_title: null
+              filesystem: all
+              collect:
+                ignore_case: false
+                multiline: true
+                singleline: false
+                item_creation: all_object_elements_fullfilled
+            filters: []
+          - object:
+              capability: independent.textfilecontent54
+              select:
+                directory:
+                  equals: /etc/rsyslog.d
+                name:
+                  matches_regex: ^.*\.conf$
+                pattern:
+                  matches_regex: ^[ \t]*(?:\S+;auth\.\*|auth\.\*;\S+|auth\.\*|\S+;auth\.\*;\S+)[ \t]+\S+\s*$
+                instance:
+                  greater_than_or_equal: 1
+              object_title: null
+              filesystem: all
+              collect:
+                ignore_case: false
+                multiline: true
+                singleline: false
+                item_creation: all_object_elements_fullfilled
+            filters: []
+        object_title: null
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+    rsyslog-authpriv-configured-logged-test:
+      test_title: 'rsyslog: authpriv.* is configured to be logged'
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: independent.textfilecontent54
+              select:
+                full_path:
+                  equals: /etc/rsyslog.conf
+                pattern:
+                  matches_regex: ^[ \t]*(?:\S+;authpriv\.\*|authpriv\.\*;\S+|authpriv\.\*|\S+;authpriv\.\*;\S+)[ \t]+\S+\s*$
+                instance:
+                  greater_than_or_equal: 1
+              object_title: null
+              filesystem: all
+              collect:
+                ignore_case: false
+                multiline: true
+                singleline: false
+                item_creation: all_object_elements_fullfilled
+            filters: []
+          - object:
+              capability: independent.textfilecontent54
+              select:
+                directory:
+                  equals: /etc/rsyslog.d
+                name:
+                  matches_regex: ^.*\.conf$
+                pattern:
+                  matches_regex: ^[ \t]*(?:\S+;authpriv\.\*|authpriv\.\*;\S+|authpriv\.\*|\S+;authpriv\.\*;\S+)[ \t]+\S+\s*$
+                instance:
+                  greater_than_or_equal: 1
+              object_title: null
+              filesystem: all
+              collect:
+                ignore_case: false
+                multiline: true
+                singleline: false
+                item_creation: all_object_elements_fullfilled
+            filters: []
+        object_title: null
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+    rsyslog-daemon-configured-logged-test:
+      test_title: 'rsyslog: daemon.* is configured to be logged'
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: independent.textfilecontent54
+              select:
+                full_path:
+                  equals: /etc/rsyslog.conf
+                pattern:
+                  matches_regex: ^[ \t]*(?:\S+;daemon\.\*|daemon\.\*;\S+|daemon\.\*|\S+;daemon\.\*;\S+)[ \t]+\S+\s*$
+                instance:
+                  greater_than_or_equal: 1
+              object_title: null
+              filesystem: all
+              collect:
+                ignore_case: false
+                multiline: true
+                singleline: false
+                item_creation: all_object_elements_fullfilled
+            filters: []
+          - object:
+              capability: independent.textfilecontent54
+              select:
+                directory:
+                  equals: /etc/rsyslog.d
+                name:
+                  matches_regex: ^.*\.conf$
+                pattern:
+                  matches_regex: ^[ \t]*(?:\S+;daemon\.\*|daemon\.\*;\S+|daemon\.\*|\S+;daemon\.\*;\S+)[ \t]+\S+\s*$
+                instance:
+                  greater_than_or_equal: 1
+              object_title: null
+              filesystem: all
+              collect:
+                ignore_case: false
+                multiline: true
+                singleline: false
+                item_creation: all_object_elements_fullfilled
+            filters: []
+        object_title: null
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+  evaluate:
+    all:
+    - test: rsyslog-auth-configured-logged-test
+    - test: rsyslog-authpriv-configured-logged-test
+    - test: rsyslog-daemon-configured-logged-test

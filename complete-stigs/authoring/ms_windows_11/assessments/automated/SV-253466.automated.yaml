@@ -1,0 +1,54 @@
+assessment:
+  id: SV-253466.automated
+  version: 3
+  assessment_title: WN11-SO-000230 - The system must be configured to use FIPS-compliant algorithms for encryption,
+    hashing, and signing.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    fips-compliant-algorithms-enabled-test:
+      test_title: FIPS-compliant algorithms are enabled
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: windows.registry
+              select:
+                hive:
+                  equals: local_machine
+                key:
+                  equals: SYSTEM\CurrentControlSet\Control\Lsa\FIPSAlgorithmPolicy
+                name:
+                  equals: Enabled
+              object_title: GPO registry entry for FIPS-compliant algorithms
+            filters: []
+          - object:
+              capability: windows.registry
+              select:
+                hive:
+                  equals: local_machine
+                key:
+                  equals: SOFTWARE\Microsoft\PolicyManager\current\device\Cryptography
+                name:
+                  equals: AllowFipsAlgorithmPolicy_ProviderSet
+              object_title: Intune registry entry for FIPS-compliant algorithms
+            filters: []
+        object_title: Registry entries for FIPS-compliant algorithms
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 1
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: fips-compliant-algorithms-enabled-test

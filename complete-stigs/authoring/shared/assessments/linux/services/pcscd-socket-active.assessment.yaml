@@ -1,0 +1,30 @@
+assessment:
+  id: ng.shared.the-pcscd-socket-is-active
+  version: 1
+  assessment_title: Linux must be configured so that the pcscd service is active.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    pcscd-socket-active-test:
+      test_title: The pcscd socket is active.
+      capability: linux.systemdunitproperty
+      object:
+        capability: linux.systemdunitproperty
+        select:
+          unit:
+            equals: pcscd.socket
+          property:
+            equals: ActiveState
+        object_title: null
+      states:
+      - value:
+          require: at_least_one_exists_and_all_match
+          equals: active
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: pcscd-socket-active-test

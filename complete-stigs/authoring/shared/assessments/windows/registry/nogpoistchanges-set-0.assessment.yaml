@@ -1,0 +1,35 @@
+assessment:
+  id: ng.shared.nogpoistchanges-is-set-to-0
+  version: 1
+  assessment_title: Group Policy objects must be reprocessed even if they have not changed.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    nogpoistchanges-set-0-test:
+      test_title: NoGPOistChanges is set to 0.
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: Software\Policies\Microsoft\Windows\Group Policy\{35378EAC-683F-11D2-A89A-00C04FBBCFA2}
+          name:
+            equals: NoGPOListChanges
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 0
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: nogpoistchanges-set-0-test

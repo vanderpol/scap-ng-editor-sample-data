@@ -1,0 +1,27 @@
+assessment:
+  id: SV-253398.manual
+  version: 1
+  assessment_title: File Explorer shell protocol must run in protected mode.
+  mode: manual
+  purpose: assessment
+  class: compliance
+  procedure: 'The default behavior is for shell protected mode to be turned on for file explorer. If it exists and is configured
+    with a value of "1", this is a finding. Registry Hive: HKEY_LOCAL_MACHINE Registry Path: \SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer\
+    Value Name: PreXPSP2ShellProtocolBehavior Value Type: REG_DWORD Value: 0 (or if the Value Name does not exist)'
+  response:
+    type: compliance
+    choices:
+    - value: pass
+      label: Pass
+      outcome: 'true'
+    - value: fail
+      label: Fail
+      outcome: 'false'
+    - value: unknown
+      label: Unknown
+      outcome: unknown
+    - value: not_applicable
+      label: Not applicable
+      outcome: not_applicable
+    allow_comment: true
+    allow_evidence: true

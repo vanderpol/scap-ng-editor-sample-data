@@ -1,0 +1,73 @@
+assessment:
+  id: ng.shared.linux-ssh-server-configuration-file-must-be-group-owned-by-root
+  version: 1
+  assessment_title: Linux SSH server configuration file must be group-owned by root.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    etc-ssh-sshd-config-file-group-owned-by-root-test:
+      test_title: The /etc/ssh/sshd_config file is group-owned by root.
+      capability: unix.file
+      object:
+        capability: unix.file
+        select:
+          full_path:
+            equals: /etc/ssh/sshd_config
+        object_title: null
+        filesystem: all
+      states:
+      - owner_gid:
+          require: at_least_one_exists_and_all_match
+          equals: 0
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    etc-ssh-sshd-config-d-directory-sub-directories-group-owned-test:
+      test_title: The /etc/ssh/sshd_config.d directory and sub-directories are group-owned by root.
+      capability: unix.file
+      object:
+        capability: unix.file
+        select:
+          directory:
+            equals: /etc/ssh/sshd_config.d
+          name: null
+        object_title: null
+        filesystem: all
+        traversal:
+          max_depth: null
+          recurse: directories
+      states:
+      - owner_gid:
+          require: at_least_one_exists_and_all_match
+          equals: 0
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    etc-ssh-sshd-config-d-files-group-owned-by-root-test:
+      test_title: The /etc/ssh/sshd_config.d files are group-owned by root.
+      capability: unix.file
+      object:
+        capability: unix.file
+        select:
+          directory:
+            equals: /etc/ssh/sshd_config.d
+          name:
+            matches_regex: .*
+        object_title: null
+        filesystem: all
+        traversal:
+          max_depth: null
+          recurse: directories
+      states:
+      - owner_gid:
+          require: at_least_one_exists_and_all_match
+          equals: 0
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    all:
+    - test: etc-ssh-sshd-config-file-group-owned-by-root-test
+    - test: etc-ssh-sshd-config-d-directory-sub-directories-group-owned-test
+    - test: etc-ssh-sshd-config-d-files-group-owned-by-root-test

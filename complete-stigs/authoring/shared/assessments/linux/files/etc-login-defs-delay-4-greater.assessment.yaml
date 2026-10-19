@@ -1,0 +1,39 @@
+assessment:
+  id: ng.shared.etc-login-defs-fail-delay-4-or-greater
+  version: 1
+  assessment_title: Linux must enforce a delay of at least four seconds between logon prompts following a failed logon
+    attempt.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    etc-login-defs-fail-delay-4-or-greater-test:
+      test_title: '/etc/login.defs: FAIL_DELAY = 4 or greater'
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/login.defs
+          pattern:
+            matches_regex: ^\s*FAIL_DELAY\s+(\d+)\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          greater_than_or_equal: 4
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: etc-login-defs-fail-delay-4-or-greater-test

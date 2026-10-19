@@ -1,0 +1,36 @@
+assessment:
+  id: SV-253261.automated
+  version: 2
+  assessment_title: WN11-00-000032 - Windows 11 systems must use a BitLocker PIN with a minimum length of six digits
+    for pre-boot authentication.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    bitlocker-6-digits-or-more-test:
+      test_title: BitLocker must be 6 digits or more.
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SOFTWARE\Policies\Microsoft\FVE
+          name:
+            case_insensitive_equals: MinimumPIN
+        object_title: Check for BitLocker MinimumPIN
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            greater_than_or_equal: 6
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: bitlocker-6-digits-or-more-test

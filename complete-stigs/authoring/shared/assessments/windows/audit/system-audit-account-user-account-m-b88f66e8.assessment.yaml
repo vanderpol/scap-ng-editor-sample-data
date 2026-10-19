@@ -1,0 +1,33 @@
+assessment:
+  id: ng.shared.the-system-must-be-configured-to-audit-account-management-user-account-m-b88f66e8
+  version: 1
+  assessment_title: The system must be configured to audit Account Management - User Account Management failures.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    audit-user-account-management-set-failure-test:
+      test_title: '''Audit User Account Management'' is set to ''Failure'''
+      capability: windows.auditeventpolicysubcategories
+      states:
+      - user_account_management:
+          require: at_least_one_exists_and_all_match
+          equals: AUDIT_FAILURE
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    audit-user-account-management-set-success-failure-test:
+      test_title: '''Audit User Account Management'' is set to ''Success'' and ''Failure'''
+      capability: windows.auditeventpolicysubcategories
+      states:
+      - user_account_management:
+          require: at_least_one_exists_and_all_match
+          equals: AUDIT_SUCCESS_FAILURE
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    any:
+    - test: audit-user-account-management-set-failure-test
+    - test: audit-user-account-management-set-success-failure-test

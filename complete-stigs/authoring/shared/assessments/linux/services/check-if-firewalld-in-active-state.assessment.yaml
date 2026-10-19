@@ -1,0 +1,30 @@
+assessment:
+  id: ng.shared.check-if-firewalld-is-in-active-state
+  version: 1
+  assessment_title: Linux must be configured so that the firewalld service is active.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    check-if-firewalld-in-active-state-test:
+      test_title: Check if firewalld is in 'active' state
+      capability: linux.systemdunitproperty
+      object:
+        capability: linux.systemdunitproperty
+        select:
+          unit:
+            equals: firewalld.service
+          property:
+            equals: ActiveState
+        object_title: firewalld.service ActiveState
+      states:
+      - value:
+          require: at_least_one_exists_and_all_match
+          equals: active
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: check-if-firewalld-in-active-state-test

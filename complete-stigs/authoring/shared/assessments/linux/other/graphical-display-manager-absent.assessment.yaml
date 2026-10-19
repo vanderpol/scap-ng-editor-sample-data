@@ -1,0 +1,26 @@
+assessment:
+  id: ng.shared.the-graphical-display-manager-is-absent
+  version: 1
+  assessment_title: Linux must not have a graphical display manager installed unless approved.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    graphical-display-manager-absent-test:
+      test_title: The graphical display manager is absent.
+      capability: linux.rpminfo
+      object:
+        capability: linux.rpminfo
+        select:
+          package_name:
+            equals: xorg-x11-server-common
+        object_title: null
+        collect:
+          include_file_paths: false
+      reported_elements: all
+      collected_items_require: none_exist
+  evaluate:
+    test: graphical-display-manager-absent-test

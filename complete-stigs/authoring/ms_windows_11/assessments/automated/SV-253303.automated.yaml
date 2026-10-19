@@ -1,0 +1,22 @@
+assessment:
+  id: SV-253303.automated
+  version: 3
+  assessment_title: WN11-AC-000035 - Passwords must, at a minimum, be 14 characters.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    minimum-password-length-set-at-least-14-characters-test:
+      test_title: '''Minimum password length'' is set to at least ''14'' characters'
+      capability: windows.passwordpolicy
+      states:
+      - min_passwd_len:
+          require: at_least_one_exists_and_all_match
+          greater_than_or_equal: 14
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: minimum-password-length-set-at-least-14-characters-test

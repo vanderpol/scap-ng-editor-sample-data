@@ -1,0 +1,54 @@
+assessment:
+  id: ng.shared.linux-must-have-gpg-signature-verification-enabled-for-all-software-repo
+  version: 1
+  assessment_title: Linux must have GPG signature verification enabled for all software repositories.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    every-etc-yum-repos-d-repo-reponame-has-gpgcheck-set-test:
+      test_title: Every /etc/yum.repos.d/*.repo:[{reponame}] has a gpgcheck set to 1.
+      capability: independent.textfilecontent54
+      object: independent-textfilecontent54-object
+      states:
+      - text:
+          require: at_least_one_exists_and_all_match
+          matches_regex: \n\s*gpgcheck\s*=\s*(True|1|yes)\s*(\n|$)
+      reported_elements: all
+      collected_items_require: all_exist_and_all_match
+    no-etc-yum-repos-d-repo-reponame-has-gpgcheck-set-test:
+      test_title: No /etc/yum.repos.d/*.repo:[{reponame}] has a gpgcheck set to 0.
+      capability: independent.textfilecontent54
+      object: independent-textfilecontent54-object
+      states:
+      - text:
+          require: at_least_one_exists_and_all_match
+          matches_regex: \n\s*gpgcheck\s*=\s*(False|0|no)\s*(\n|$)
+      reported_elements: all
+      collected_items_require: all_exist_and_none_match
+  evaluate:
+    all:
+    - test: every-etc-yum-repos-d-repo-reponame-has-gpgcheck-set-test
+    - test: no-etc-yum-repos-d-repo-reponame-has-gpgcheck-set-test
+  shared_objects:
+    independent-textfilecontent54-object:
+      capability: independent.textfilecontent54
+      select:
+        directory:
+          equals: /etc/yum.repos.d
+        name:
+          matches_regex: \.repo$
+        pattern:
+          matches_regex: ^\s*\[[^]]+\]\s*\n(?:[^[]*\n)*
+        instance:
+          greater_than_or_equal: 1
+      object_title: null
+      filesystem: all
+      collect:
+        ignore_case: false
+        multiline: true
+        singleline: false
+        item_creation: all_object_elements_fullfilled

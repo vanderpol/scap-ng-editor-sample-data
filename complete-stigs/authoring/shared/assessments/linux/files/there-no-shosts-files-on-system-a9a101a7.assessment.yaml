@@ -1,0 +1,30 @@
+assessment:
+  id: ng.shared.there-must-be-no-shosts-equiv-files-on-the-system
+  version: 1
+  assessment_title: Linux file systems must not contain shosts.equiv files.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    there-no-shosts-equiv-files-on-system-test:
+      test_title: There must be no shosts.equiv files on the system.
+      capability: unix.file
+      object:
+        capability: unix.file
+        select:
+          directory:
+            equals: /
+          name:
+            equals: shosts.equiv
+        object_title: null
+        filesystem: local
+        traversal:
+          max_depth: null
+          recurse: directories
+      reported_elements: all
+      collected_items_require: none_exist
+  evaluate:
+    test: there-no-shosts-equiv-files-on-system-test

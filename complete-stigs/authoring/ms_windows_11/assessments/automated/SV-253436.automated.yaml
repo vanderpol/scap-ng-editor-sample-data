@@ -1,0 +1,52 @@
+assessment:
+  id: SV-253436.automated
+  version: 2
+  assessment_title: WN11-SO-000025 - The built-in guest account must be renamed.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  variables:
+    localdomain-guest-variable:
+      title: localdomain\Guest
+      kind: local
+      datatype: string
+      expression:
+        concat:
+        - values:
+            object: built-in-guest-sid-object
+            field: trustee_domain
+        - literal:
+            value: \Guest
+            datatype: string
+  tests:
+    accounts-rename-guest-account-not-set-guest-or-localdomain-guest-test:
+      test_title: '''Accounts: Rename Guest account'' is not set to ''Guest'' or ''localdomain\Guest'''
+      capability: windows.sid_sid
+      object: built-in-guest-sid-object
+      states:
+      - trustee_name:
+          case_insensitive_not_equal: Guest
+      - trustee_name:
+          datatype: string
+          value_match: all
+          case_insensitive_not_equal:
+            variable: localdomain-guest-variable
+      reported_elements: all
+      states_match: all
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: may_be_absent_and_all_match
+  evaluate:
+    test: accounts-rename-guest-account-not-set-guest-or-localdomain-guest-test
+  shared_objects:
+    built-in-guest-sid-object:
+      capability: windows.sid_sid
+      select:
+        trustee_sid:
+          matches_regex: ^S-1-5-[0-9-]+-501$
+      object_title: Built-in Guest SID
+      collect:
+        include_group: false
+        resolve_group: false

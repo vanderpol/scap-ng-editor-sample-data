@@ -1,0 +1,121 @@
+assessment:
+  id: ng.shared.linux-must-be-configured-to-forward-audit-records-via-tcp-to-a-different
+  version: 1
+  assessment_title: Linux must be configured to forward audit records via TCP to a different system or media from
+    the system being audited via rsyslog.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    remote-tcp-logging-test:
+      test_title: remote TCP logging
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: independent.textfilecontent54
+              select:
+                full_path:
+                  equals: /etc/rsyslog.conf
+                pattern:
+                  matches_regex: ^\*\.\*\s+@@(\S+)
+                instance:
+                  greater_than_or_equal: 1
+              object_title: 'rsyslog.conf: remote TCP logging'
+              filesystem: all
+              collect:
+                ignore_case: true
+                multiline: true
+                singleline: false
+                item_creation: all_object_elements_fullfilled
+            filters: []
+          - object:
+              capability: independent.textfilecontent54
+              select:
+                directory:
+                  equals: /etc/rsyslog.d
+                name:
+                  matches_regex: ^.*\.conf$
+                pattern:
+                  matches_regex: ^\*\.\*\s+@@(\S+)
+                instance:
+                  greater_than_or_equal: 1
+              object_title: 'rsyslog.d/*.conf: remote TCP logging'
+              filesystem: all
+              collect:
+                ignore_case: true
+                multiline: true
+                singleline: false
+                item_creation: all_object_elements_fullfilled
+            filters: []
+        object_title: remote TCP logging
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          matches_regex: ^.+$
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    remote-tcp-logging-advanced-syntax-test:
+      test_title: remote TCP logging (advanced syntax)
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: independent.textfilecontent54
+              select:
+                full_path:
+                  equals: /etc/rsyslog.conf
+                pattern:
+                  matches_regex: ^\*\.\*\s+action\((\s*(?:[^#\)]*(?:#.*$)?\n)*[^#\)]*)\)
+                instance:
+                  greater_than_or_equal: 1
+              object_title: 'rsyslog.conf: action for all messages'
+              filesystem: all
+              collect:
+                ignore_case: true
+                multiline: true
+                singleline: false
+                item_creation: all_object_elements_fullfilled
+            filters: []
+          - object:
+              capability: independent.textfilecontent54
+              select:
+                directory:
+                  equals: /etc/rsyslog.d
+                name:
+                  matches_regex: ^.*\.conf$
+                pattern:
+                  matches_regex: ^\*\.\*\s+action\((\s*(?:[^#\)]*(?:#.*$)?\n)*[^#\)]*)\)
+                instance:
+                  greater_than_or_equal: 1
+              object_title: 'rsyslog.d/*.conf: action for all messages'
+              filesystem: all
+              collect:
+                ignore_case: true
+                multiline: true
+                singleline: false
+                item_creation: all_object_elements_fullfilled
+            filters: []
+        object_title: 'rsyslog: action for all messages'
+      states:
+      - subexpression:
+          matches_regex: (?i)(?:^|\n)[^#]*\btype\s*=\s*"omfwd"
+      - subexpression:
+          matches_regex: (?i)(?:^|\n)[^#]*\bprotocol\s*=\s*"tcp"
+      reported_elements: all
+      states_match: all
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_some_match
+  evaluate:
+    any:
+    - test: remote-tcp-logging-test
+    - test: remote-tcp-logging-advanced-syntax-test

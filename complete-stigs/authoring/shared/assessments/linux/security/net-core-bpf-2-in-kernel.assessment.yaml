@@ -1,0 +1,28 @@
+assessment:
+  id: ng.shared.net-core-bpf-jit-harden-is-set-to-2-in-kernel
+  version: 1
+  assessment_title: Linux must enable hardening for the Berkeley Packet Filter (BPF) just-in-time compiler.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    net-core-bpf-jit-harden-set-2-in-kernel-test:
+      test_title: net.core.bpf_jit_harden is set to 2 in kernel
+      capability: unix.sysctl
+      object:
+        capability: unix.sysctl
+        select:
+          name:
+            equals: net.core.bpf_jit_harden
+        object_title: null
+      states:
+      - value:
+          require: at_least_one_exists_and_all_match
+          equals: 2
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: net-core-bpf-jit-harden-set-2-in-kernel-test

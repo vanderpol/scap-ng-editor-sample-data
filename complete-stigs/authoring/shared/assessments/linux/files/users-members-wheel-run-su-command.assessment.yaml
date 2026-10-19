@@ -1,0 +1,34 @@
+assessment:
+  id: ng.shared.users-must-be-members-of-the-wheel-group-to-run-the-su-command
+  version: 1
+  assessment_title: Linux must restrict the use of the su command.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    users-members-wheel-group-run-su-command-test:
+      test_title: Users must be members of the wheel group to run the su command.
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/pam.d/su
+          pattern:
+            matches_regex: ^\s*auth\s+(?:required|requisite)\s+pam_wheel\.so(?:\s|$)
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+  evaluate:
+    test: users-members-wheel-group-run-su-command-test

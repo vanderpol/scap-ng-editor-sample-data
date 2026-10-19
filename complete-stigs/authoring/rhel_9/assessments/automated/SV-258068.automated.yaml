@@ -1,0 +1,68 @@
+assessment:
+  id: SV-258068.automated
+  version: 2
+  assessment_title: RHEL-09-412035 - RHEL 9 must automatically exit interactive command shell user sessions after
+    10 minutes of inactivity.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    tmout-option-set-600-or-less-in-etc-profile-etc-test:
+      test_title: TMOUT option is set to 600 or less in /etc/profile and /etc/profile.d/*.sh.
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: independent.textfilecontent54
+              select:
+                full_path:
+                  equals: /etc/profile
+                pattern:
+                  matches_regex: ^[^#]*\s*TMOUT=(\d+)\s*$
+                instance:
+                  equals: 1
+              object_title: null
+              filesystem: all
+              collect:
+                ignore_case: false
+                multiline: true
+                singleline: false
+                item_creation: all_object_elements_fullfilled
+            filters: []
+          - object:
+              capability: independent.textfilecontent54
+              select:
+                directory:
+                  equals: /etc/profile.d
+                name:
+                  matches_regex: ^.+\.sh$
+                pattern:
+                  matches_regex: ^[^#]*\s*TMOUT=(\d+)\s*$
+                instance:
+                  equals: 1
+              object_title: null
+              filesystem: all
+              traversal:
+                max_depth: null
+                recurse: symlinks_and_directories
+              collect:
+                ignore_case: false
+                multiline: true
+                singleline: false
+                item_creation: all_object_elements_fullfilled
+            filters: []
+        object_title: null
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          less_than_or_equal: 600
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: tmout-option-set-600-or-less-in-etc-profile-etc-test

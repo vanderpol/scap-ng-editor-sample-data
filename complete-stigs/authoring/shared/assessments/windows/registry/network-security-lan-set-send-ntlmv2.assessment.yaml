@@ -1,0 +1,37 @@
+assessment:
+  id: ng.shared.network-security-lan-manager-authentication-level-is-set-to-send-ntlmv2
+  version: 1
+  assessment_title: The LanMan authentication level must be set to send NTLMv2 response only, and to refuse LM and
+    NTLM.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    network-security-lan-manager-authentication-level-set-send-ntlmv2-response-test:
+      test_title: '''Network security: LAN Manager authentication level'' is set to ''Send NTLMv2 response only. Refuse
+        LM & NTLM'' (Level 5)'
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SYSTEM\CurrentControlSet\Control\Lsa
+          name:
+            equals: LmCompatibilityLevel
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 5
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: network-security-lan-manager-authentication-level-set-send-ntlmv2-response-test

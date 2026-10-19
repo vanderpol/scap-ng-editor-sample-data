@@ -1,0 +1,62 @@
+assessment:
+  id: SV-253422.automated
+  version: 2
+  assessment_title: WN11-CC-000365 - Windows 11 must be configured to prevent Windows apps from being activated by
+    voice while the system is locked.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    let-windows-apps-activate-voice-set-enabled-default-all-apps-test:
+      test_title: '''Let Windows apps activate with voice'' is set to ''Enabled'' with ''Default for all Apps'' set
+        to ''Force Deny'''
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SOFTWARE\Policies\Microsoft\Windows\AppPrivacy
+          name:
+            equals: LetAppsActivateWithVoice
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 2
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    let-windows-apps-activate-voice-while-system-locked-set-enabled-test:
+      test_title: '''Let Windows apps activate with voice while the system is locked'' is set to ''Enabled'' with
+        ''Default for all Apps'' set to ''Force Deny'''
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SOFTWARE\Policies\Microsoft\Windows\AppPrivacy
+          name:
+            equals: LetAppsActivateWithVoiceAboveLock
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 2
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    any:
+    - test: let-windows-apps-activate-voice-set-enabled-default-all-apps-test
+    - test: let-windows-apps-activate-voice-while-system-locked-set-enabled-test

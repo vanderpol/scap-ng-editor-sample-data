@@ -1,0 +1,32 @@
+assessment:
+  id: ng.shared.modify-firmware-environment-values-administrators
+  version: 1
+  assessment_title: The "Modify firmware environment values" user right must only be assigned to the Administrators
+    group.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    modify-firmware-environment-values-administrators-test:
+      test_title: Modify firmware environment values - Administrators
+      capability: windows.userright
+      object:
+        capability: windows.userright
+        select:
+          userright:
+            equals: SE_SYSTEM_ENVIRONMENT_NAME
+        object_title: null
+      states:
+      - trustee_name:
+          equals: ''
+      - trustee_name:
+          case_insensitive_equals: Administrators
+      reported_elements: all
+      states_match: any
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: modify-firmware-environment-values-administrators-test

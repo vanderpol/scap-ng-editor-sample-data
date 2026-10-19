@@ -1,0 +1,27 @@
+assessment:
+  id: SV-253265.manual
+  version: 1
+  assessment_title: Local volumes must be formatted using NTFS.
+  mode: manual
+  purpose: assessment
+  class: compliance
+  procedure: Run "Computer Management". Navigate to Storage >> Disk Management. If the "File System" column does not indicate
+    "NTFS" for each volume assigned a drive letter, this is a finding. This does not apply to system partitions such the Recovery
+    and EFI System Partition.
+  response:
+    type: compliance
+    choices:
+    - value: pass
+      label: Pass
+      outcome: 'true'
+    - value: fail
+      label: Fail
+      outcome: 'false'
+    - value: unknown
+      label: Unknown
+      outcome: unknown
+    - value: not_applicable
+      label: Not applicable
+      outcome: not_applicable
+    allow_comment: true
+    allow_evidence: true

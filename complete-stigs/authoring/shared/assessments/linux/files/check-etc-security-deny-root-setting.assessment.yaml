@@ -1,0 +1,35 @@
+assessment:
+  id: ng.shared.check-etc-security-faillock-conf-for-the-even-deny-root-setting
+  version: 1
+  assessment_title: Linux must automatically lock the root account until the root account is released by an administrator
+    when three unsuccessful logon attempts occur during a 15-minute time period.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    check-etc-security-faillock-conf-even-deny-root-setting-test:
+      test_title: check /etc/security/faillock.conf for the even_deny_root setting
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/security/faillock.conf
+          pattern:
+            matches_regex: ^\s*even_deny_root\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: all_exist
+  evaluate:
+    test: check-etc-security-faillock-conf-even-deny-root-setting-test

@@ -1,0 +1,99 @@
+assessment:
+  id: SV-257882.automated
+  version: 13
+  assessment_title: RHEL 9 system commands must have mode 755 or less permissive.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    files-in-system-command-dirs-have-mode-755-or-less-test:
+      test_title: Files in System command dirs have mode 755 or less permissive (gwrite should be = false.)
+      capability: unix.file
+      object:
+        capability: unix.file
+        object_title: All files in system command directories with mode 755 (gwrite should be = false.)
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: unix.file
+              select:
+                directory:
+                  datatype: string
+                  value_match: one
+                  equals:
+                  - /bin
+                  - /sbin
+                  - /usr/bin
+                  - /usr/libexec
+                  - /usr/sbin
+                  - /usr/local/bin
+                  - /usr/local/sbin
+                name:
+                  matches_regex: .*
+              object_title: All files in system command directories with mode 755 (gwrite should be = false.)
+              filesystem: all
+            filters:
+            - exclude:
+                group_write:
+                  require: at_least_one_exists_and_all_match
+                  equals: false
+            - exclude:
+                type:
+                  require: at_least_one_exists_and_all_match
+                  equals: symbolic link
+            - exclude:
+                type:
+                  require: at_least_one_exists_and_all_match
+                  equals: directory
+      reported_elements: all
+      collected_items_require: none_exist
+    files-in-system-command-dirs-have-mode-755-or-less-2-test:
+      test_title: Files in System command dirs have mode 755 or less permissive (owrite should be = false.)
+      capability: unix.file
+      object:
+        capability: unix.file
+        object_title: All files in system command directories with mode 755 (owrite should be = false.)
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: unix.file
+              select:
+                directory:
+                  datatype: string
+                  value_match: one
+                  equals:
+                  - /bin
+                  - /sbin
+                  - /usr/bin
+                  - /usr/libexec
+                  - /usr/sbin
+                  - /usr/local/bin
+                  - /usr/local/sbin
+                name:
+                  matches_regex: .*
+              object_title: All files in system command directories with mode 755 (owrite should be = false.)
+              filesystem: all
+            filters:
+            - exclude:
+                other_write:
+                  require: at_least_one_exists_and_all_match
+                  equals: false
+            - exclude:
+                type:
+                  require: at_least_one_exists_and_all_match
+                  equals: symbolic link
+            - exclude:
+                type:
+                  require: at_least_one_exists_and_all_match
+                  equals: directory
+      reported_elements: all
+      collected_items_require: none_exist
+  evaluate:
+    all:
+    - test: files-in-system-command-dirs-have-mode-755-or-less-test
+    - test: files-in-system-command-dirs-have-mode-755-or-less-2-test

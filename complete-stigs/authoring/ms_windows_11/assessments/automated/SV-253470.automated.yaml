@@ -1,0 +1,44 @@
+assessment:
+  id: SV-253470.automated
+  version: 3
+  assessment_title: WN11-SO-000251 - Windows 11 must use multifactor authentication for local and network access to
+    privileged and non-privileged accounts.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    hklm-software-microsoft-cryptography-calais-readers-exists-contains-at-least-test:
+      test_title: HKLM\SOFTWARE\Microsoft\Cryptography\Calais\Readers exists and contains at least one key.
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            matches_regex: SOFTWARE\\Microsoft\\Cryptography\\Calais\\Readers\\\S+
+          name: null
+        object_title: null
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+    hklm-software-microsoft-cryptography-calais-smartcards-exists-contains-at-least-test:
+      test_title: HKLM\SOFTWARE\Microsoft\Cryptography\Calais\SmartCards exists and contains at least one key.
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            matches_regex: SOFTWARE\\Microsoft\\Cryptography\\Calais\\SmartCards\\\S+
+          name: null
+        object_title: null
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+  evaluate:
+    all:
+    - test: hklm-software-microsoft-cryptography-calais-readers-exists-contains-at-least-test
+    - test: hklm-software-microsoft-cryptography-calais-smartcards-exists-contains-at-least-test

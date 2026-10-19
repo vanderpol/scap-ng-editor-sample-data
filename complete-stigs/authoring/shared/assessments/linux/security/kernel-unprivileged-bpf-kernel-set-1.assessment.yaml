@@ -1,0 +1,28 @@
+assessment:
+  id: ng.shared.kernel-unprivileged-bpf-disabled-setting-in-kernel-is-set-to-1
+  version: 1
+  assessment_title: Linux must disable access to network bpf system call from nonprivileged processes.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    kernel-unprivileged-bpf-disabled-setting-in-kernel-set-1-test:
+      test_title: kernel.unprivileged_bpf_disabled setting in kernel is set to 1
+      capability: unix.sysctl
+      object:
+        capability: unix.sysctl
+        select:
+          name:
+            equals: kernel.unprivileged_bpf_disabled
+        object_title: null
+      states:
+      - value:
+          require: at_least_one_exists_and_all_match
+          equals: 1
+      reported_elements: all
+      collected_items_require: all_exist_and_all_match
+  evaluate:
+    test: kernel-unprivileged-bpf-disabled-setting-in-kernel-set-1-test

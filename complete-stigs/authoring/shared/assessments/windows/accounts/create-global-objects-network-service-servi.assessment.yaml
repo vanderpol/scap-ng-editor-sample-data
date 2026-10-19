@@ -1,0 +1,38 @@
+assessment:
+  id: ng.shared.create-global-objects-administrators-local-service-network-service-servi
+  version: 1
+  assessment_title: The "Create global objects" user right must only be assigned to Administrators, Service, Local
+    Service, and Network Service.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    create-global-objects-administrators-local-service-network-service-service-test:
+      test_title: Create global objects - Administrators, LOCAL SERVICE, NETWORK SERVICE, SERVICE
+      capability: windows.userright
+      object:
+        capability: windows.userright
+        select:
+          userright:
+            equals: SE_CREATE_GLOBAL_NAME
+        object_title: null
+      states:
+      - trustee_name:
+          equals: ''
+      - trustee_name:
+          case_insensitive_equals: Administrators
+      - trustee_name:
+          case_insensitive_equals: LOCAL SERVICE
+      - trustee_name:
+          case_insensitive_equals: NETWORK SERVICE
+      - trustee_name:
+          case_insensitive_equals: SERVICE
+      reported_elements: all
+      states_match: any
+      state_fields_require: at_least_one_exists_and_all_match
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: create-global-objects-administrators-local-service-network-service-service-test

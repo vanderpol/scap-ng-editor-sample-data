@@ -1,0 +1,41 @@
+assessment:
+  id: SV-279936.automated
+  version: 13
+  assessment_title: RHEL 9 must audit any script or executable called by cron as root or by any privileged user.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    generic-placeholder-comment-test:
+      test_title: Generic Placeholder Comment
+      capability: independent.shellcommand
+      object:
+        capability: independent.shellcommand
+        object_title: Retrieve relevant rules via auditctl
+        collect:
+          shell: bash
+          command: auditctl -l
+          pattern: subj_type=crond_t
+          error_if_exit_status_not_0: false
+          error_if_stderr_exists: false
+      states:
+      - and:
+        - exit_status:
+            require: at_least_one_exists_and_all_match
+            equals: 0
+        - stdout_line:
+            datatype: string
+            value_match: all
+            require: at_least_one_exists_and_some_match
+            matches_regex:
+            - -a\s+always,exit\s+-F\s+arch=b64\s+-S\s+execve\s+-F\s+subj_type=crond_t\s+-F\s+euid=0\s+(-k\s+cron_exec|-F\s+key=cron_exec)
+            - -a\s+always,exit\s+-F\s+arch=b32\s+-S\s+execve\s+-F\s+subj_type=crond_t\s+-F\s+euid=0\s+(-k\s+cron_exec|-F\s+key=cron_exec)
+            - -a\s+always,exit\s+-F\s+arch=b64\s+-S\s+execve\s+-F\s+subj_type=crond_t\s+-F\s+auid>=1000\s+-F\s+auid!=unset\s+(-k\s+cron_exec|-F\s+key=cron_exec)
+            - -a\s+always,exit\s+-F\s+arch=b32\s+-S\s+execve\s+-F\s+subj_type=crond_t\s+-F\s+auid>=1000\s+-F\s+auid!=unset\s+(-k\s+cron_exec|-F\s+key=cron_exec)
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: generic-placeholder-comment-test

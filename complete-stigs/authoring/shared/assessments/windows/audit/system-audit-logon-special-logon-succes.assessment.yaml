@@ -1,0 +1,33 @@
+assessment:
+  id: ng.shared.the-system-must-be-configured-to-audit-logon-logoff-special-logon-succes
+  version: 1
+  assessment_title: The system must be configured to audit Logon/Logoff - Special Logon successes.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    audit-special-logon-success-only-test:
+      test_title: Audit - Special Logon - Success only
+      capability: windows.auditeventpolicysubcategories
+      states:
+      - special_logon:
+          require: at_least_one_exists_and_all_match
+          equals: AUDIT_SUCCESS
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    audit-special-logon-success-failure-test:
+      test_title: Audit - Special Logon - Success and Failure
+      capability: windows.auditeventpolicysubcategories
+      states:
+      - special_logon:
+          require: at_least_one_exists_and_all_match
+          equals: AUDIT_SUCCESS_FAILURE
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    any:
+    - test: audit-special-logon-success-only-test
+    - test: audit-special-logon-success-failure-test

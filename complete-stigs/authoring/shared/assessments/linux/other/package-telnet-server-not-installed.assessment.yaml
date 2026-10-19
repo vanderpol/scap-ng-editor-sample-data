@@ -1,0 +1,26 @@
+assessment:
+  id: ng.shared.package-telnet-server-is-not-installed
+  version: 1
+  assessment_title: Linux must not have the telnet-server package installed.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    package-telnet-server-not-installed-test:
+      test_title: package telnet-server is NOT installed
+      capability: linux.rpminfo
+      object:
+        capability: linux.rpminfo
+        select:
+          package_name:
+            equals: telnet-server
+        object_title: null
+        collect:
+          include_file_paths: false
+      reported_elements: all
+      collected_items_require: none_exist
+  evaluate:
+    test: package-telnet-server-not-installed-test

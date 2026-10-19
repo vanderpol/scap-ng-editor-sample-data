@@ -1,0 +1,46 @@
+assessment:
+  id: SV-253300.automated
+  version: 4
+  assessment_title: WN11-AC-000020 - The password history must be configured to 24 passwords remembered.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    enforce-password-history-set-24-passwords-or-more-test:
+      test_title: '''Enforce password history'' is set to ''24'' passwords or more'
+      capability: windows.passwordpolicy
+      states:
+      - password_hist_len:
+          require: at_least_one_exists_and_all_match
+          greater_than_or_equal: 24
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    enforce-password-history-set-24-passwords-or-more-through-intune-test:
+      test_title: '''Enforce password history'' is set to ''24'' passwords or more through Intune'
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SOFTWARE\Microsoft\PolicyManager\current\device\DeviceLock
+          name:
+            equals: DevicePasswordHistory
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            greater_than_or_equal: 24
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    any:
+    - test: enforce-password-history-set-24-passwords-or-more-test
+    - test: enforce-password-history-set-24-passwords-or-more-through-intune-test

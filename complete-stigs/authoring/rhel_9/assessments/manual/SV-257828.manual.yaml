@@ -1,0 +1,26 @@
+assessment:
+  id: SV-257828.manual
+  version: 1
+  assessment_title: RHEL 9 must not have the nfs-utils package installed.
+  mode: manual
+  purpose: assessment
+  class: compliance
+  procedure: 'Verify that the nfs-utils package is not installed with the following command: $ dnf list --installed nfs-utils
+    Error: No matching Packages to list If the "nfs-utils" package is installed, this is a finding.'
+  response:
+    type: compliance
+    choices:
+    - value: pass
+      label: Pass
+      outcome: 'true'
+    - value: fail
+      label: Fail
+      outcome: 'false'
+    - value: unknown
+      label: Unknown
+      outcome: unknown
+    - value: not_applicable
+      label: Not applicable
+      outcome: not_applicable
+    allow_comment: true
+    allow_evidence: true

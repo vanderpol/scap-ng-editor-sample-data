@@ -1,0 +1,24 @@
+assessment:
+  id: ng.shared.check-to-make-sure-the-simple-tcp-ip-services-server-feature-is-not-pres
+  version: 1
+  assessment_title: Simple TCP/IP Services must not be installed on the system.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    check-make-sure-simple-tcp-ip-services-server-feature-not-test:
+      test_title: Check to make sure the Simple TCP/IP Services server feature is not present.
+      capability: windows.wmi.query
+      object:
+        capability: windows.wmi.query
+        object_title: Simple TCP/IP Services
+        collect:
+          namespace: root\cimv2
+          query: SELECT startmode FROM Win32_Service WHERE name='simptcp'
+      reported_elements: all
+      collected_items_require: none_exist
+  evaluate:
+    test: check-make-sure-simple-tcp-ip-services-server-feature-not-test

@@ -1,0 +1,50 @@
+assessment:
+  id: ng.shared.linux-cron-configuration-files-directory-must-be-owned-by-root
+  version: 1
+  assessment_title: Linux cron configuration files directory must be owned by root.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    etc-cron-files-owned-by-root-test:
+      test_title: /etc/cron* files owned by root
+      capability: unix.file
+      object:
+        capability: unix.file
+        select:
+          directory:
+            equals: /etc
+          name:
+            matches_regex: ^cron.*$
+        object_title: /etc/cron* files
+        filesystem: all
+      states:
+      - owner_uid:
+          require: at_least_one_exists_and_all_match
+          equals: 0
+      reported_elements: all
+      collected_items_require: may_be_absent_and_all_match
+    etc-cron-directories-owned-by-root-test:
+      test_title: /etc/cron* directories owned by root
+      capability: unix.file
+      object:
+        capability: unix.file
+        select:
+          directory:
+            matches_regex: ^/etc/cron.*$
+          name: null
+        object_title: /etc/cron* directories
+        filesystem: all
+      states:
+      - owner_uid:
+          require: at_least_one_exists_and_all_match
+          equals: 0
+      reported_elements: all
+      collected_items_require: may_be_absent_and_all_match
+  evaluate:
+    all:
+    - test: etc-cron-files-owned-by-root-test
+    - test: etc-cron-directories-owned-by-root-test

@@ -1,0 +1,26 @@
+assessment:
+  id: ng.shared.the-s-nail-package-is-installed
+  version: 1
+  assessment_title: Linux must have the s-nail package installed.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    s-nail-package-installed-test:
+      test_title: The s-nail package is installed
+      capability: linux.rpminfo
+      object:
+        capability: linux.rpminfo
+        select:
+          package_name:
+            equals: s-nail
+        object_title: null
+        collect:
+          include_file_paths: false
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+  evaluate:
+    test: s-nail-package-installed-test

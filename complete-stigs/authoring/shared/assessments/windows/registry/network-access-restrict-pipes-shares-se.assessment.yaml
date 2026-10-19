@@ -1,0 +1,35 @@
+assessment:
+  id: ng.shared.network-access-restrict-anonymous-access-to-named-pipes-and-shares-is-se
+  version: 1
+  assessment_title: Anonymous access to Named Pipes and Shares must be restricted.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    network-access-restrict-anonymous-access-named-pipes-shares-set-enabled-test:
+      test_title: '''Network access: Restrict anonymous access to Named Pipes and Shares'' is set to ''Enabled'''
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters
+          name:
+            equals: restrictnullsessaccess
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 1
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: network-access-restrict-anonymous-access-named-pipes-shares-set-enabled-test

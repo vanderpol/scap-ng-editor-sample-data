@@ -1,0 +1,166 @@
+assessment:
+  id: SV-253341.automated
+  version: 2
+  assessment_title: WN11-AU-000520 - Windows 11 permissions for the Security event log must prevent access by non-privileged
+    accounts.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  variables:
+    strict-path-security-evtx-variable:
+      title: Strict path to Security.evtx.
+      kind: local
+      datatype: string
+      expression:
+        regex_capture:
+          value:
+            values:
+              object: path-security-evtx-object
+              field: value
+          pattern: ^(.*)$
+    path-security-evtx-systemroot-environment-variable-replaced-its-value-variable:
+      title: Path to Security.evtx with the SystemRoot environment variable replaced with its value.
+      kind: local
+      datatype: string
+      expression:
+        concat:
+        - values:
+            object:
+              capability: windows.registry
+              select:
+                hive:
+                  equals: local_machine
+                key:
+                  equals: SOFTWARE\Microsoft\Windows NT\CurrentVersion
+                name:
+                  equals: SystemRoot
+              object_title: System Root Directory
+            field: value
+        - regex_capture:
+            value:
+              values:
+                object: path-security-evtx-object
+                field: value
+            pattern: ^%.*%(.*)$
+  tests:
+    security-event-log-have-at-least-default-permissions-strict-path-test:
+      test_title: The Security event log must have at least default permissions. Strict Path
+      capability: windows.fileeffectiverights53
+      object:
+        capability: windows.fileeffectiverights53
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: windows.fileeffectiverights53
+              select:
+                full_path:
+                  datatype: string
+                  value_match: one_or_more
+                  case_insensitive_equals:
+                    variable: strict-path-security-evtx-variable
+                trustee_sid:
+                  matches_regex: .*
+              object_title: The Security event log. Strict filepath, as listed.
+              filesystem: all
+            filters:
+            - exclude:
+                trustee_sid:
+                  require: at_least_one_exists_and_all_match
+                  equals: S-1-5-80-880578595-1860270145-482643319-2788375705-1540778122
+            - exclude:
+                trustee_sid:
+                  require: at_least_one_exists_and_all_match
+                  equals: S-1-5-18
+            - exclude:
+                trustee_sid:
+                  require: at_least_one_exists_and_all_match
+                  equals: S-1-5-32-544
+            - exclude:
+                trustee_sid:
+                  require: at_least_one_exists_and_all_match
+                  equals: S-1-5-19
+            - exclude:
+                trustee_sid:
+                  require: at_least_one_exists_and_all_match
+                  equals: S-1-15-2-1
+        object_title: Permissions of Security event log, minus those allowed. Strict filepath, as listed.
+      reported_elements: all
+      collected_items_require: none_exist
+    security-event-log-registry-specified-location-have-systemroot-environment-variable-test:
+      test_title: The Security event log registry specified location must have the %SystemRoot% environment variable.
+      capability: windows.registry
+      object: path-security-evtx-object
+      states:
+      - value:
+          require: at_least_one_exists_and_all_match
+          matches_regex: ^(?i)%SystemRoot%.*$
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+    security-event-log-have-at-least-default-permissions-built-path-test:
+      test_title: The Security event log must have at least default permissions. Built Path
+      capability: windows.fileeffectiverights53
+      object:
+        capability: windows.fileeffectiverights53
+        set:
+          operator: union
+          operands:
+          - object:
+              capability: windows.fileeffectiverights53
+              select:
+                full_path:
+                  datatype: string
+                  value_match: one_or_more
+                  case_insensitive_equals:
+                    variable: path-security-evtx-systemroot-environment-variable-replaced-its-value-variable
+                trustee_sid:
+                  matches_regex: .*
+              object_title: The Security event log. Built filepath.
+              filesystem: all
+            filters:
+            - exclude:
+                trustee_sid:
+                  require: at_least_one_exists_and_all_match
+                  equals: S-1-5-80-880578595-1860270145-482643319-2788375705-1540778122
+            - exclude:
+                trustee_sid:
+                  require: at_least_one_exists_and_all_match
+                  equals: S-1-5-18
+            - exclude:
+                trustee_sid:
+                  require: at_least_one_exists_and_all_match
+                  equals: S-1-5-32-544
+            - exclude:
+                trustee_sid:
+                  require: at_least_one_exists_and_all_match
+                  equals: S-1-5-19
+            - exclude:
+                trustee_sid:
+                  require: at_least_one_exists_and_all_match
+                  equals: S-1-15-2-1
+        object_title: Permissions of Security event log, minus those allowed. Built filepath.
+      reported_elements: all
+      collected_items_require: none_exist
+  evaluate:
+    any:
+    - all:
+      - test: security-event-log-have-at-least-default-permissions-strict-path-test
+      - not:
+          test: security-event-log-registry-specified-location-have-systemroot-environment-variable-test
+    - all:
+      - test: security-event-log-have-at-least-default-permissions-built-path-test
+      - test: security-event-log-registry-specified-location-have-systemroot-environment-variable-test
+  shared_objects:
+    path-security-evtx-object:
+      capability: windows.registry
+      select:
+        hive:
+          equals: local_machine
+        key:
+          equals: SYSTEM\CurrentControlSet\Services\EventLog\Security
+        name:
+          equals: file
+      object_title: path Security.evtx

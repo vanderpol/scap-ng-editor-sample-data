@@ -1,0 +1,41 @@
+assessment:
+  id: ng.shared.the-boot-loader-specification-options-have-audit-backlog-limit-set-to-81
+  version: 1
+  assessment_title: Linux must allocate an audit_backlog_limit of sufficient size to capture processes that start
+    prior to the audit daemon.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    boot-loader-specification-options-have-audit-backlog-limit-set-8192-test:
+      test_title: The Boot Loader Specification options have audit_backlog_limit set to 8192 or greater.
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          directory:
+            equals: /boot/loader/entries
+          name:
+            matches_regex: ^.*\.conf$
+          pattern:
+            matches_regex: ^options\s+.*\baudit_backlog_limit=(\d+)\b
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      states:
+      - subexpression:
+          require: at_least_one_exists_and_all_match
+          greater_than_or_equal: 8192
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: boot-loader-specification-options-have-audit-backlog-limit-set-8192-test

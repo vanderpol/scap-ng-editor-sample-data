@@ -1,0 +1,36 @@
+assessment:
+  id: ng.shared.etc-aliases-contains-postmaster-root
+  version: 1
+  assessment_title: Linux must forward mail from postmaster to the root account using a postfix alias.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    etc-aliases-contains-postmaster-root-test:
+      test_title: '/etc/aliases contains ''postmaster: root'''
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          directory:
+            equals: /etc/
+          name:
+            matches_regex: aliases
+          pattern:
+            matches_regex: ^\s*postmaster:\s*root\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+  evaluate:
+    test: etc-aliases-contains-postmaster-root-test

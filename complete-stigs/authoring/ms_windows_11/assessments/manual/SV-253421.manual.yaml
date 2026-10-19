@@ -1,0 +1,27 @@
+assessment:
+  id: SV-253421.manual
+  version: 1
+  assessment_title: The Windows Remote Management (WinRM) client must not use Digest authentication.
+  mode: manual
+  purpose: assessment
+  class: compliance
+  procedure: 'If the following registry value does not exist or is not configured as specified, this is a finding: Registry
+    Hive: HKEY_LOCAL_MACHINE Registry Path: \SOFTWARE\Policies\Microsoft\Windows\WinRM\Client\ Value Name: AllowDigest Value
+    Type: REG_DWORD Value: 0'
+  response:
+    type: compliance
+    choices:
+    - value: pass
+      label: Pass
+      outcome: 'true'
+    - value: fail
+      label: Fail
+      outcome: 'false'
+    - value: unknown
+      label: Unknown
+      outcome: unknown
+    - value: not_applicable
+      label: Not applicable
+      outcome: not_applicable
+    allow_comment: true
+    allow_evidence: true

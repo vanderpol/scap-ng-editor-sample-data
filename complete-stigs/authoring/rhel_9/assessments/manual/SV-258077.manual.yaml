@@ -1,0 +1,27 @@
+assessment:
+  id: SV-258077.manual
+  version: 1
+  assessment_title: RHEL 9 must terminate idle user sessions.
+  mode: manual
+  purpose: assessment
+  class: compliance
+  procedure: 'Verify RHEL 9 logs out sessions that are idle for 10 minutes with the following command: $ systemd-analyze cat-config
+    systemd/logind.conf | grep StopIdleSessionSec #StopIdleSessionSec=infinity StopIdleSessionSec=600 If "StopIdleSessionSec"
+    is not configured to "600" seconds, this is a finding.'
+  response:
+    type: compliance
+    choices:
+    - value: pass
+      label: Pass
+      outcome: 'true'
+    - value: fail
+      label: Fail
+      outcome: 'false'
+    - value: unknown
+      label: Unknown
+      outcome: unknown
+    - value: not_applicable
+      label: Not applicable
+      outcome: not_applicable
+    allow_comment: true
+    allow_evidence: true

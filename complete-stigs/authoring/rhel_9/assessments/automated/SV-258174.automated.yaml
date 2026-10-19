@@ -1,0 +1,56 @@
+assessment:
+  id: SV-258174.automated
+  version: 13
+  assessment_title: RHEL 9 must have mail aliases to notify the information system security officer (ISSO) and system
+    administrator (SA) (at a minimum) in the event of an audit processing failure.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  variables:
+    retrieve-location-alias-map-construct-postmap-query-variable:
+      title: Retrieve location of alias map and construct postmap query.
+      kind: local
+      datatype: string
+      expression:
+        concat:
+        - literal:
+            value: 'postmap -q root '
+            datatype: string
+        - values:
+            object:
+              capability: independent.shellcommand
+              object_title: Retrive location of alias maps.
+              collect:
+                shell: bash
+                command: postconf alias_maps
+                pattern: ^\s*alias_maps\s+=\s+(hash:.*)$
+                error_if_exit_status_not_0: false
+                error_if_stderr_exists: false
+            field: subexpression
+  tests:
+    confirm-postfix-configured-notify-in-event-audit-processing-failure-test:
+      test_title: Confirm postfix is configured to notify in the event of an audit processing failure.
+      capability: independent.shellcommand
+      object:
+        capability: independent.shellcommand
+        object_title: Confirm postfix alias map(s) exist.
+        collect:
+          shell: bash
+          command:
+            variable: retrieve-location-alias-map-construct-postmap-query-variable
+          error_if_exit_status_not_0: false
+          error_if_stderr_exists: false
+      states:
+      - and:
+        - exit_status:
+            equals: 0
+        - stdout_line:
+            matches_regex: \w+
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: confirm-postfix-configured-notify-in-event-audit-processing-failure-test

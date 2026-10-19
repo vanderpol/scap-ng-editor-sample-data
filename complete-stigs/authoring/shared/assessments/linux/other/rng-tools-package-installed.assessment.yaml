@@ -1,0 +1,26 @@
+assessment:
+  id: ng.shared.the-rng-tools-package-is-installed
+  version: 1
+  assessment_title: Linux must have the rng-tools package installed.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    rng-tools-package-installed-test:
+      test_title: The rng-tools package is installed.
+      capability: linux.rpminfo
+      object:
+        capability: linux.rpminfo
+        select:
+          package_name:
+            equals: rng-tools
+        object_title: null
+        collect:
+          include_file_paths: false
+      reported_elements: all
+      collected_items_require: at_least_one_exists
+  evaluate:
+    test: rng-tools-package-installed-test

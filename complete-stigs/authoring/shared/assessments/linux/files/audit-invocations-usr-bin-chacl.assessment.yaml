@@ -1,0 +1,34 @@
+assessment:
+  id: ng.shared.audit-invocations-of-usr-bin-chacl
+  version: 1
+  assessment_title: Linux must audit all uses of the chacl command.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    audit-invocations-usr-bin-chacl-test:
+      test_title: Audit invocations of /usr/bin/chacl
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/audit/audit.rules
+          pattern:
+            matches_regex: ^\s*-a\s+(always,exit|exit,always)(?:\s+-S\s+all)?\s+-F\s+path=/usr/bin/chacl\s+(-F\s+perm=([rwa]*x[rwa]*)\s+)?-F\s+auid>=1000\s+-F\s+auid!=(4294967295|-1|unset)(\s+(-k\s+|-F\s+key=)\S+)?\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: null
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: all_exist
+  evaluate:
+    test: audit-invocations-usr-bin-chacl-test

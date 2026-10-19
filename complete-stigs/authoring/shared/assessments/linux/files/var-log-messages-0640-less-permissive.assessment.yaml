@@ -1,0 +1,46 @@
+assessment:
+  id: ng.shared.var-log-messages-file-has-mode-0640-or-less-permissive
+  version: 1
+  assessment_title: Linux /var/log/messages file must have mode 0640 or less permissive.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    var-log-messages-file-has-mode-0640-or-less-permissive-test:
+      test_title: /var/log/messages file has mode 0640 or less permissive
+      capability: unix.file
+      object:
+        capability: unix.file
+        select:
+          full_path:
+            equals: /var/log/messages
+        object_title: null
+        filesystem: all
+      states:
+      - and:
+        - setuid:
+            equals: false
+        - setgid:
+            equals: false
+        - sticky:
+            equals: false
+        - owner_execute:
+            equals: false
+        - group_write:
+            equals: false
+        - group_execute:
+            equals: false
+        - other_read:
+            equals: false
+        - other_write:
+            equals: false
+        - other_execute:
+            equals: false
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: var-log-messages-file-has-mode-0640-or-less-permissive-test

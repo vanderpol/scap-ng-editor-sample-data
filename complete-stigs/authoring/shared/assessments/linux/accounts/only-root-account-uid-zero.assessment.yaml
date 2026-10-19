@@ -1,0 +1,29 @@
+assessment:
+  id: ng.shared.only-the-root-account-has-a-uid-of-zero
+  version: 1
+  assessment_title: Linux must be configured so that the root account is the only account having unrestricted access
+    to the system.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    only-root-account-has-uid-zero-test:
+      test_title: Only the root account has a UID of zero.
+      capability: unix.password
+      object:
+        capability: unix.password
+        select:
+          username:
+            not_equal: root
+        object_title: null
+      states:
+      - user_id:
+          require: at_least_one_exists_and_all_match
+          not_equal: 0
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: only-root-account-has-uid-zero-test

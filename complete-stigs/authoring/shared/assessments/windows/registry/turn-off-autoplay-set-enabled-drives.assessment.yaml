@@ -1,0 +1,35 @@
+assessment:
+  id: ng.shared.turn-off-autoplay-is-set-to-enabled-all-drives
+  version: 1
+  assessment_title: Autoplay must be disabled for all drives.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    turn-off-autoplay-set-enabled-all-drives-test:
+      test_title: '''Turn off AutoPlay'' is set to ''Enabled:All Drives'''
+      capability: windows.registry
+      object:
+        capability: windows.registry
+        select:
+          hive:
+            equals: local_machine
+          key:
+            equals: SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer
+          name:
+            equals: NoDriveTypeAutoRun
+        object_title: null
+      states:
+      - and:
+        - type:
+            equals: dword
+        - value:
+            equals: 255
+        state_fields_require: at_least_one_exists_and_all_match
+      reported_elements: all
+      collected_items_require: all_exist_and_all_match
+  evaluate:
+    test: turn-off-autoplay-set-enabled-all-drives-test

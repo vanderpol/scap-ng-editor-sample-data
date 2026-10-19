@@ -1,0 +1,238 @@
+assessment:
+  id: ng.shared.linux-must-audit-all-uses-of-the-rename-unlink-rmdir-renameat-and-unlink
+  version: 1
+  assessment_title: Linux must audit all uses of the rename, unlink, rmdir, renameat, and unlinkat system calls.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    audit-32-bit-invocations-rename-test:
+      test_title: Audit 32-bit invocations of rename
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/audit/audit.rules
+          pattern:
+            matches_regex: ^\s*-a\s+(always,exit|exit,always)\s+-F\s+arch=b32\s+(?:.*(-S\s+rename\s+|(\s+|,)rename(\s+|,))).*-F\s+auid>=1000\s+-F\s+auid!=(4294967295|-1|unset)(\s+(-k\s+|-F\s+key=)[-\w]+)*\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: 32-bit rename command
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: all_exist
+    audit-64-bit-invocations-rename-test:
+      test_title: Audit 64-bit invocations of rename
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/audit/audit.rules
+          pattern:
+            matches_regex: ^\s*-a\s+(always,exit|exit,always)\s+-F\s+arch=b64\s+(?:.*(-S\s+rename\s+|(\s+|,)rename(\s+|,))).*-F\s+auid>=1000\s+-F\s+auid!=(4294967295|-1|unset)(\s+(-k\s+|-F\s+key=)[-\w]+)*\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: 64-bit rename command
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: all_exist
+    audit-32-bit-invocations-renameat-test:
+      test_title: Audit 32-bit invocations of renameat
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/audit/audit.rules
+          pattern:
+            matches_regex: ^\s*-a\s+(always,exit|exit,always)\s+-F\s+arch=b32\s+(?:.*(-S\s+renameat\s+|(\s+|,)renameat(\s+|,))).*-F\s+auid>=1000\s+-F\s+auid!=(4294967295|-1|unset)(\s+(-k\s+|-F\s+key=)[-\w]+)*\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: 32-bit renameat command
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: all_exist
+    audit-64-bit-invocations-renameat-test:
+      test_title: Audit 64-bit invocations of renameat
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/audit/audit.rules
+          pattern:
+            matches_regex: ^\s*-a\s+(always,exit|exit,always)\s+-F\s+arch=b64\s+(?:.*(-S\s+renameat\s+|(\s+|,)renameat(\s+|,))).*-F\s+auid>=1000\s+-F\s+auid!=(4294967295|-1|unset)(\s+(-k\s+|-F\s+key=)[-\w]+)*\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: 64-bit renameat command
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: all_exist
+    audit-32-bit-invocations-rmdir-test:
+      test_title: Audit 32-bit invocations of the rmdir
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/audit/audit.rules
+          pattern:
+            matches_regex: ^\s*-a\s+(always,exit|exit,always)\s+-F\s+arch=b32\s+(?:.*(-S\s+rmdir\s+|(\s+|,)rmdir(\s+|,))).*-F\s+auid>=1000\s+-F\s+auid!=(4294967295|-1|unset)(\s+(-k\s+|-F\s+key=)[-\w]+)*\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: Audit 32-bit invocations of rmdir
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: all_exist
+    audit-64-bit-invocations-rmdir-test:
+      test_title: Audit 64-bit invocations of the rmdir
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/audit/audit.rules
+          pattern:
+            matches_regex: ^\s*-a\s+(always,exit|exit,always)\s+-F\s+arch=b64\s+(?:.*(-S\s+rmdir\s+|(\s+|,)rmdir(\s+|,))).*-F\s+auid>=1000\s+-F\s+auid!=(4294967295|-1|unset)(\s+(-k\s+|-F\s+key=)[-\w]+)*\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: Audit 64-bit invocations of rmdir
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: all_exist
+    audit-32-bit-invocations-unlink-test:
+      test_title: Audit 32-bit invocations of unlink
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/audit/audit.rules
+          pattern:
+            matches_regex: ^\s*-a\s+(always,exit|exit,always)\s+-F\s+arch=b32\s+(?:.*(-S\s+unlink\s+|(\s+|,)unlink(\s+|,))).*-F\s+auid>=1000\s+-F\s+auid!=(4294967295|-1|unset)(\s+(-k\s+|-F\s+key=)[-\w]+)*\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: 32-bit unlink command
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: all_exist
+    audit-64-bit-invocations-unlink-test:
+      test_title: Audit 64-bit invocations of unlink
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/audit/audit.rules
+          pattern:
+            matches_regex: ^\s*-a\s+(always,exit|exit,always)\s+-F\s+arch=b64\s+(?:.*(-S\s+unlink\s+|(\s+|,)unlink(\s+|,))).*-F\s+auid>=1000\s+-F\s+auid!=(4294967295|-1|unset)(\s+(-k\s+|-F\s+key=)[-\w]+)*\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: 64-bit unlink command
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: all_exist
+    audit-32-bit-invocations-unlinkat-test:
+      test_title: Audit 32-bit invocations of unlinkat
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/audit/audit.rules
+          pattern:
+            matches_regex: ^\s*-a\s+(always,exit|exit,always)\s+-F\s+arch=b32\s+(?:.*(-S\s+unlinkat\s+|(\s+|,)unlinkat(\s+|,))).*-F\s+auid>=1000\s+-F\s+auid!=(4294967295|-1|unset)(\s+(-k\s+|-F\s+key=)[-\w]+)*\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: 32-bit unlinkat command
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: all_exist
+    audit-64-bit-invocations-unlinkat-test:
+      test_title: Audit 64-bit invocations of unlinkat
+      capability: independent.textfilecontent54
+      object:
+        capability: independent.textfilecontent54
+        select:
+          full_path:
+            equals: /etc/audit/audit.rules
+          pattern:
+            matches_regex: ^\s*-a\s+(always,exit|exit,always)\s+-F\s+arch=b64\s+(?:.*(-S\s+unlinkat\s+|(\s+|,)unlinkat(\s+|,))).*-F\s+auid>=1000\s+-F\s+auid!=(4294967295|-1|unset)(\s+(-k\s+|-F\s+key=)[-\w]+)*\s*$
+          instance:
+            greater_than_or_equal: 1
+        object_title: 64-bit unlinkat command
+        filesystem: all
+        collect:
+          ignore_case: false
+          multiline: true
+          singleline: false
+          item_creation: all_object_elements_fullfilled
+      reported_elements: all
+      collected_items_require: all_exist
+  evaluate:
+    all:
+    - all:
+      - test: audit-32-bit-invocations-rename-test
+      - test: audit-64-bit-invocations-rename-test
+    - all:
+      - test: audit-32-bit-invocations-renameat-test
+      - test: audit-64-bit-invocations-renameat-test
+    - all:
+      - test: audit-32-bit-invocations-rmdir-test
+      - test: audit-64-bit-invocations-rmdir-test
+    - all:
+      - test: audit-32-bit-invocations-unlink-test
+      - test: audit-64-bit-invocations-unlink-test
+    - all:
+      - test: audit-32-bit-invocations-unlinkat-test
+      - test: audit-64-bit-invocations-unlinkat-test

@@ -1,0 +1,28 @@
+assessment:
+  id: ng.shared.net-ipv6-conf-all-forwarding-setting-in-kernel-is-set-to-0
+  version: 1
+  assessment_title: Linux must not enable IPv6 packet forwarding unless the system is a router.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    net-ipv6-conf-all-forwarding-setting-in-kernel-set-0-test:
+      test_title: net.ipv6.conf.all.forwarding setting in kernel is set to 0
+      capability: unix.sysctl
+      object:
+        capability: unix.sysctl
+        select:
+          name:
+            equals: net.ipv6.conf.all.forwarding
+        object_title: null
+      states:
+      - value:
+          require: at_least_one_exists_and_all_match
+          equals: 0
+      reported_elements: all
+      collected_items_require: all_exist_and_all_match
+  evaluate:
+    test: net-ipv6-conf-all-forwarding-setting-in-kernel-set-0-test

@@ -1,0 +1,29 @@
+assessment:
+  id: ng.shared.var-log-messages-file-is-owned-by-root-7e77b1a6
+  version: 1
+  assessment_title: Linux /var/log/messages file must be group-owned by root.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    var-log-messages-file-owned-by-root-test:
+      test_title: /var/log/messages file is owned by root
+      capability: unix.file
+      object:
+        capability: unix.file
+        select:
+          full_path:
+            equals: /var/log/messages
+        object_title: null
+        filesystem: all
+      states:
+      - owner_gid:
+          require: at_least_one_exists_and_all_match
+          equals: 0
+      reported_elements: all
+      collected_items_require: at_least_one_exists_and_all_match
+  evaluate:
+    test: var-log-messages-file-owned-by-root-test
