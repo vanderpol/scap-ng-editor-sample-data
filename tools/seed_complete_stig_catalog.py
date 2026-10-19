@@ -175,6 +175,11 @@ def generate(source_zip, review_manifest, output):
         "stig_count": len(indexes),
         "rule_count": sum(i["rule_count"] for i in indexes.values()),
         "assessment_count": len([p for p in files if "assessment" in docs[p]]),
+        "assessment_paths": {
+            obj["assessment"]["id"]: "complete-stigs/" + path
+            for path in sorted(files)
+            for obj in [docs[path]] if isinstance(obj.get("assessment"), dict)
+        },
         "unresolved_assessment_refs": sorted(unresolved),
         "stigs": [
             {
