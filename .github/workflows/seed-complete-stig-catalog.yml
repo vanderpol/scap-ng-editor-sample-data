@@ -1,0 +1,79 @@
+name: Publish complete pinned STIG editor catalog
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/seed_complete_stig_catalog.py'
+      - 'tools/test_complete_stig_catalog.py'
+      - '.github/workflows/seed-complete-stig-catalog.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: complete-stig-catalog-main
+  cancel-in-progress: false
+
+jobs:
+  export-complete-stigs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned YAML parser
+        run: python -m pip install --disable-pip-version-check PyYAML==6.0.3
+      - name: Exercise synthetic complete STIG export
+        run: PYTHONPATH=tools python -m unittest -v test_complete_stig_catalog
+      - name: Retrieve source-backed r3 authoring release and review manifest
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p work
+          gh release download v0.4.0-joval-meeting-preview-20261015-r3 \
+            --repo vanderpol/scap-ng \
+            --pattern scap-ng-v0.4-joval-six-stig-yaml.zip \
+            --pattern REVIEW-MANIFEST.json \
+            --dir work
+      - name: Verify checksum and export all Rules for both selected STIGs
+        run: |
+          python tools/seed_complete_stig_catalog.py \
+            --source-zip work/scap-ng-v0.4-joval-six-stig-yaml.zip \
+            --review-manifest work/REVIEW-MANIFEST.json
+          python - <<'PY'
+          import json,hashlib
+          from pathlib import Path
+          p=Path('complete-stigs/manifest.json')
+          m=json.loads(p.read_text())
+          assert m['stig_count']==2, m
+          assert m['rule_count']>6, m
+          assert not m['unresolved_assessment_refs'], m
+          for s in m['stigs']:
+              index=json.loads(Path(s['index_path']).read_text())
+              assert index['rule_count']==len(index['rules'])
+              for r in index['rules']:
+                  data=Path(r['rule_path']).read_bytes()
+                  assert hashlib.sha256(data).hexdigest()==r['sha256']
+                  for kind,a in r['assessment_choices'].items():
+                      if a['loaded']:
+                          assert Path(a['path']).is_file(),(r['id'],kind,a)
+          print('PASS: complete STIG catalog',m['rule_count'],'Rules,',m['assessment_count'],'Assessments')
+          PY
+      - name: Publish immutable source copy and generated indexes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add complete-stigs/
+          if git diff --cached --quiet; then
+            echo "Catalog content unchanged"
+          else
+            git commit -m "Publish complete RHEL9 Windows11 editor catalog from pinned r3 (Refs #1 #2)"
+            git push origin HEAD:main
+          fi
