@@ -1,0 +1,714 @@
+{
+  "format": "direct-converter-spike/1",
+  "source_zip_sha256": "88cc35f98c9ff96c567110c284c06e6adfc556fd59967019bdec6fd1cc5a204f",
+  "source_xml_sha256": "e9f55825df36aae94bc891e292a5d3186d54ce847a1f42a2c6973aa1c6e4f2d3",
+  "source_member": "U_Amazon_Linux_2023_V1R2_STIG_SCAP_1-4_Benchmark-enhancedV1-signed.xml",
+  "source_benchmark_component": "scap_mil.disa.stig_comp_U_Amazon_Linux_2023_V1R2_STIG_SCAP_1-4_Benchmark-enhancedV1-xccdf.xml",
+  "component_hashes": {
+    "scap_mil.disa.stig_comp_U_Amazon_Linux_2023_V1R2_STIG_SCAP_1-4_Benchmark-enhancedV1-cpe-dictionary.xml": "8cec077328d6017356649af17248a4ad72e635ac690ea0682d86d4bb500277ba",
+    "scap_mil.disa.stig_comp_U_Amazon_Linux_2023_V1R2_STIG_SCAP_1-4_Benchmark-enhancedV1-xccdf.xml": "aa22d5cfb758ad4f06570e00f2fbf5a66b431422e358c2b5909da4a3adae02a4",
+    "scap_mil.disa.stig_comp_U_Amazon_Linux_2023_V1R2_STIG_SCAP_1-4_Benchmark-enhancedV1-oval.xml": "ff107ea5c13116b7adc6d856184005a85fedd8e0ab70ae70a945de013a87a857",
+    "scap_mil.disa.stig_comp_U_Amazon_Linux_2023_V1R2_STIG_SCAP_1-4_Benchmark-enhancedV1-cpe-oval.xml": "72edd5db2e61dbbd79b8cebd0411a9c045c6612d8094797a3578d5b04f4aa48f",
+    "scap_navy.navwar.niwcatlantic.scc_comp_U_Amazon_Linux_2023_V1R2_STIG_SCAP_1-4_Benchmark-enhancedV1-oval2.xml": "2317088b3f2e1cf56b0360f984e0fb64152fa390ea24f1e63a36dcdc5b127fbc",
+    "scap_navy.navwar.niwcatlantic.scc_comp_U_Amazon_Linux_2023_V1R2_STIG_SCAP_1-4_Benchmark-enhancedV1-ocil.xml": "a342a9e8993a951caf6b530b7f90fc83ea5383c6107b33f7e4ffc8cc3b96ec39"
+  },
+  "rules": [
+    {
+      "source_rule": "xccdf_mil.disa.stig_rule_SV-274017r1120039_rule",
+      "source_rule_sha256": "27b54ad2b52e4cbe846498a31a1d4ecec8d87caa748031707d00124a42bad6b1",
+      "component": "scap_mil.disa.stig_comp_U_Amazon_Linux_2023_V1R2_STIG_SCAP_1-4_Benchmark-enhancedV1-oval.xml",
+      "definition": "oval:mil.disa.stig.amzlx23os:def:274017",
+      "native_rule": "amazon-linux-2023-must-have-the-audit-package-installed-cf466dc4-rule",
+      "assessment": "amazon-linux-2023-must-have-the-audit-package-installed-cf466dc4-assessment",
+      "dependencies": {
+        "oval:mil.disa.stig.amzlx23os:def:274017": {
+          "kind": "definition",
+          "sha256": "32b7d24c5f018c01ea31963c3833a9d7cd8057c97b49c8f66d0ca628b7b82072"
+        },
+        "oval:mil.disa.stig.defs:def:230411": {
+          "kind": "definition",
+          "sha256": "9d33feb2b655f55c30896c3104be22e2f6262defc96f571eef802384b5205e4d"
+        },
+        "oval:mil.disa.stig.linux:tst:23041100": {
+          "kind": "test",
+          "sha256": "94f689ff920b2b352b8706947c2130515c5ddaaa424b7ebcf9d25cdc8ff603b6"
+        },
+        "oval:mil.disa.stig.linux:obj:23041100": {
+          "kind": "object",
+          "sha256": "a4d955c3b656198a36820df0ca439d1eb937d2740b1548ab22a52382688e2959"
+        }
+      },
+      "omitted_checks": [
+        {
+          "system": "http://scap.nist.gov/schema/ocil/2",
+          "selector": "manual",
+          "sha256": "378347e94b8e0cc2e98b6de1f49334d8f0b9929d0a6a377a0543fa021a72ed21"
+        }
+      ],
+      "source_platforms": [],
+      "conversion_warnings": [
+        {
+          "code": "test_all_exist_unproved",
+          "owner_decision": "https://github.com/vanderpol/scap-ng/issues/260#issuecomment-6510844015",
+          "scope": "Test existence only; field and record operators unchanged",
+          "component": "scap_mil.disa.stig_comp_U_Amazon_Linux_2023_V1R2_STIG_SCAP_1-4_Benchmark-enhancedV1-oval.xml",
+          "source_test": "oval:mil.disa.stig.linux:tst:23041100",
+          "source_object": "oval:mil.disa.stig.linux:obj:23041100",
+          "source_test_sha256": "94f689ff920b2b352b8706947c2130515c5ddaaa424b7ebcf9d25cdc8ff603b6",
+          "source_object_sha256": "a4d955c3b656198a36820df0ca439d1eb937d2740b1548ab22a52382688e2959",
+          "original_check_existence": "all_exist",
+          "source_test_attributes": {
+            "id": "oval:mil.disa.stig.linux:tst:23041100",
+            "version": "1",
+            "check_existence": "all_exist",
+            "check": "all",
+            "comment": "package audit is installed"
+          },
+          "native_test": "package-audit-is-installed-dbc05684-test",
+          "native_items_found": "one_or_more",
+          "object_variable_references": [],
+          "object_has_set_or_filter": false,
+          "message": "Draft Test all_exist lowering; complete actual-Items equivalence only, broader population semantics unproved.",
+          "collection_obligations": [
+            "no synthetic nonexistent Items",
+            "missing expected targets remain distinguishable",
+            "material collection/Item error or unknown evidence is retained",
+            "incomplete/not-collected populations cannot become an ordinary verified PASS from a positive Item"
+          ],
+          "independent_static_proof": "UNPROVED",
+          "scanner_runtime": "NOT_RUN"
+        }
+      ],
+      "source_variable_context": {},
+      "independent_static_proof_eligible": false,
+      "conversion_status": "CONVERTED_UNVERIFIED"
+    }
+  ],
+  "profiles": [
+    {
+      "source_id": "xccdf_mil.disa.stig_profile_MAC-1_Classified",
+      "source_sha256": "71a0dfa024ab130734750fb7c43c58ccc95eb6e551ed7e5d56ab34e189cc98d5",
+      "native_id": "i-mission-critical-classified-74d33f7a-profile",
+      "selected": {
+        "xccdf_mil.disa.stig_rule_SV-274017r1120039_rule": true
+      }
+    },
+    {
+      "source_id": "xccdf_mil.disa.stig_profile_MAC-1_Public",
+      "source_sha256": "cc823c87d56ac2a649825747c045e7f214c040086fa28a0d2f3742f78112e176",
+      "native_id": "i-mission-critical-public-57b1d68d-profile",
+      "selected": {
+        "xccdf_mil.disa.stig_rule_SV-274017r1120039_rule": true
+      }
+    },
+    {
+      "source_id": "xccdf_mil.disa.stig_profile_MAC-1_Sensitive",
+      "source_sha256": "710f4baac9ddbeb89c08edd9425f46fe28546dcc830a8931eb94dca3087a229a",
+      "native_id": "i-mission-critical-sensitive-15a82c46-profile",
+      "selected": {
+        "xccdf_mil.disa.stig_rule_SV-274017r1120039_rule": true
+      }
+    },
+    {
+      "source_id": "xccdf_mil.disa.stig_profile_MAC-2_Classified",
+      "source_sha256": "191348119d64ef4790bb1eef178501cfbc798ebd85eff8e20b9e741a1b9bbe92",
+      "native_id": "ii-mission-support-classified-089774bf-profile",
+      "selected": {
+        "xccdf_mil.disa.stig_rule_SV-274017r1120039_rule": true
+      }
+    },
+    {
+      "source_id": "xccdf_mil.disa.stig_profile_MAC-2_Public",
+      "source_sha256": "7750711896264038af4c1b50cd039d8199fb9edcd9d8f14046cfba65481f859c",
+      "native_id": "ii-mission-support-public-b9230488-profile",
+      "selected": {
+        "xccdf_mil.disa.stig_rule_SV-274017r1120039_rule": true
+      }
+    },
+    {
+      "source_id": "xccdf_mil.disa.stig_profile_MAC-2_Sensitive",
+      "source_sha256": "ad67711b7079e731113fdaece5e01357c814ce58a1c962d7f769e11289e76f2c",
+      "native_id": "ii-mission-support-sensitive-53e5a3a7-profile",
+      "selected": {
+        "xccdf_mil.disa.stig_rule_SV-274017r1120039_rule": true
+      }
+    },
+    {
+      "source_id": "xccdf_mil.disa.stig_profile_MAC-3_Classified",
+      "source_sha256": "83528048061d91ec169547ed3f5b595330c6396422774de390576dc5756b4137",
+      "native_id": "iii-administrative-classified-91c0545c-profile",
+      "selected": {
+        "xccdf_mil.disa.stig_rule_SV-274017r1120039_rule": true
+      }
+    },
+    {
+      "source_id": "xccdf_mil.disa.stig_profile_MAC-3_Public",
+      "source_sha256": "91a3fe5c2b6d7470d8172ca836bac47c4f0781309310d5a86482ee5b9b9945df",
+      "native_id": "iii-administrative-public-fdfb1a33-profile",
+      "selected": {
+        "xccdf_mil.disa.stig_rule_SV-274017r1120039_rule": true
+      }
+    },
+    {
+      "source_id": "xccdf_mil.disa.stig_profile_MAC-3_Sensitive",
+      "source_sha256": "4b02d4f157fc3798ff9150ae5aab5e59d578cc96428cf030cb6fcdbf8050d3e3",
+      "native_id": "iii-administrative-sensitive-6f4ab864-profile",
+      "selected": {
+        "xccdf_mil.disa.stig_rule_SV-274017r1120039_rule": true
+      }
+    },
+    {
+      "source_id": "xccdf_mil.disa.stig_profile_CAT_I_Only",
+      "source_sha256": "c30a62f2272d969a8eb7f717afde49c6d34ff7b3609d58efd50528f913028580",
+      "native_id": "cat-i-only-663a4974-profile",
+      "selected": {
+        "xccdf_mil.disa.stig_rule_SV-274017r1120039_rule": false
+      }
+    },
+    {
+      "source_id": "xccdf_mil.disa.stig_profile_Disable_Slow_Rules",
+      "source_sha256": "f5283da6b2bfa67b43d9b7d610a4cdb14510a106835198f5243d3c17c0b20353",
+      "native_id": "disable-slow-rules-3e2996ab-profile",
+      "selected": {
+        "xccdf_mil.disa.stig_rule_SV-274017r1120039_rule": true
+      }
+    }
+  ],
+  "source_benchmark_metadata": [
+    [
+      "{http://checklists.nist.gov/xccdf/1.2}status",
+      [
+        [
+          "date",
+          "2026-08-26"
+        ]
+      ],
+      "accepted",
+      []
+    ],
+    [
+      "{http://checklists.nist.gov/xccdf/1.2}title",
+      [],
+      "Amazon Linux 2023 STIG SCAP Benchmark - NIWC Enhanced with Manual Questions",
+      []
+    ],
+    [
+      "{http://checklists.nist.gov/xccdf/1.2}description",
+      [],
+      "This Security Technical Implementation Guide is published as a tool to improve the security of Department of Defense (DOD) information systems. The requirements are derived from the National Institute of Standards and Technology (NIST) 800-53 and related documents. Comments or proposed revisions to this document should be sent via email to the following address: disa.stig_spt@mail.mil.",
+      []
+    ],
+    [
+      "{http://checklists.nist.gov/xccdf/1.2}notice",
+      [
+        [
+          "id",
+          "terms-of-use"
+        ],
+        [
+          "{http://www.w3.org/XML/1998/namespace}lang",
+          "en"
+        ]
+      ],
+      "Portions of this document were developed at Naval Information Warfare Center Atlantic by employees of the Federal Government in the course of their official duties. Pursuant to title 17 Section 105 of the United States Code this software is not subject to copyright protection and is in the public domain. The Government assumes no responsibility whatsoever for its use by other parties, and the software is provided \"AS IS\" without warranty or guarantee of any kind, express or implied, including, but not limited to, the warranties of merchantability and of fitness for a particular purpose. In no event shall the Government be liable for any claim, damages or other liability, whether in an action of contract, tort or other dealings in the software. The Government has no obligation hereunder to provide maintenance, support, updates, enhancements, or modifications. We would appreciate acknowledgement if the software is used. This software can be redistributed and/or modified freely provided that any derivative works bear some notice that they are derived from it, and any modified versions bear some notice that they have been modified.",
+      []
+    ],
+    [
+      "{http://checklists.nist.gov/xccdf/1.2}front-matter",
+      [
+        [
+          "{http://www.w3.org/XML/1998/namespace}lang",
+          "en"
+        ]
+      ],
+      "This content stream was enhanced with OCIL manual questions derived from the STIG Manual by the NIWC SCC team.\nTimestamp: 2026-08-26T17:34:33.733519+00:00\nTool Version: 2.0\nSTIG Manual Version: 1\nSCAP Benchmark Version: 001.002\nTotal Rules: 187\nDISA Automated Rules: 168\nNIST Automated Rules: 0\nNIWC Automated Rules: 2\nManual rules added: 17",
+      []
+    ],
+    [
+      "{http://checklists.nist.gov/xccdf/1.2}rear-matter",
+      [
+        [
+          "{http://www.w3.org/XML/1998/namespace}lang",
+          "en"
+        ]
+      ],
+      "This data is metadata to be used for the creation of CKL reports.\nversion:--:1\nclassification:--:UNCLASSIFIED\ncustomname:--:\nstigid:--:Amazon_Linux_2023_STIG\ndescription:--:This Security Technical Implementation Guide is published as a tool to improve the security of Department of Defense (DOD) information systems. The requirements are derived from the National Institute of Standards and Technology (NIST) 800-53 and related documents. Comments or proposed revisions to this document should be sent via email to the following address: disa.stig_spt@mail.mil.\nfilename:--:U_Amazon_Linux_2023_V1R4_STIG_Manual-xccdf.xml\nreleaseinfo:--:Release: 4 Benchmark Date: 01 Jul 2026\ntitle:--:Amazon Linux 2023 Security Technical Implementation Guide\nuuid:--:\nnotice:--:\nsource:--:STIG.DOD.MIL",
+      []
+    ],
+    [
+      "{http://checklists.nist.gov/xccdf/1.2}reference",
+      [
+        [
+          "href",
+          "https://cyber.mil"
+        ]
+      ],
+      null,
+      [
+        [
+          "{http://purl.org/dc/elements/1.1/}publisher",
+          [],
+          "DISA+NIWC",
+          []
+        ],
+        [
+          "{http://purl.org/dc/elements/1.1/}source",
+          [],
+          "STIG.DOD.MIL",
+          []
+        ]
+      ]
+    ],
+    [
+      "{http://checklists.nist.gov/xccdf/1.2}plain-text",
+      [
+        [
+          "id",
+          "release-info"
+        ]
+      ],
+      "Enhanced Content 001.002.1 Date: 2026-08-26, based on Release: 4 Benchmark Date: 01 Jul 2026",
+      []
+    ],
+    [
+      "{http://checklists.nist.gov/xccdf/1.2}plain-text",
+      [
+        [
+          "id",
+          "generator"
+        ]
+      ],
+      "3.5.2",
+      []
+    ],
+    [
+      "{http://checklists.nist.gov/xccdf/1.2}plain-text",
+      [
+        [
+          "id",
+          "conventionsVersion"
+        ]
+      ],
+      "1.10.0",
+      []
+    ],
+    [
+      "{http://cpe.mitre.org/language/2.0}platform-specification",
+      [],
+      null,
+      [
+        [
+          "{http://cpe.mitre.org/language/2.0}platform",
+          [
+            [
+              "id",
+              "xccdf_mil.disa.stig_platform_LinuxBIND"
+            ]
+          ],
+          null,
+          [
+            [
+              "{http://cpe.mitre.org/language/2.0}title",
+              [],
+              "Linux with BIND installed",
+              []
+            ],
+            [
+              "{http://cpe.mitre.org/language/2.0}logical-test",
+              [
+                [
+                  "negate",
+                  "false"
+                ],
+                [
+                  "operator",
+                  "AND"
+                ]
+              ],
+              null,
+              [
+                [
+                  "{http://cpe.mitre.org/language/2.0}check-fact-ref",
+                  [
+                    [
+                      "href",
+                      "U_Amazon_Linux_2023_V1R2_STIG_SCAP_1-4_Benchmark-enhancedV1-oval.xml"
+                    ],
+                    [
+                      "id-ref",
+                      "oval:mil.disa.stig.defs:def:25824200"
+                    ],
+                    [
+                      "system",
+                      "http://oval.mitre.org/XMLSchema/oval-definitions-5"
+                    ]
+                  ],
+                  null,
+                  []
+                ]
+              ]
+            ]
+          ]
+        ],
+        [
+          "{http://cpe.mitre.org/language/2.0}platform",
+          [
+            [
+              "id",
+              "xccdf_mil.disa.stig_platform_LinuxNoNFSMounts"
+            ]
+          ],
+          null,
+          [
+            [
+              "{http://cpe.mitre.org/language/2.0}title",
+              [],
+              "Linux with no NFS mounts configured",
+              []
+            ],
+            [
+              "{http://cpe.mitre.org/language/2.0}logical-test",
+              [
+                [
+                  "negate",
+                  "true"
+                ],
+                [
+                  "operator",
+                  "AND"
+                ]
+              ],
+              null,
+              [
+                [
+                  "{http://cpe.mitre.org/language/2.0}check-fact-ref",
+                  [
+                    [
+                      "href",
+                      "U_Amazon_Linux_2023_V1R2_STIG_SCAP_1-4_Benchmark-enhancedV1-oval.xml"
+                    ],
+                    [
+                      "id-ref",
+                      "oval:mil.disa.stig.defs:def:25785400"
+                    ],
+                    [
+                      "system",
+                      "http://oval.mitre.org/XMLSchema/oval-definitions-5"
+                    ]
+                  ],
+                  null,
+                  []
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ],
+    [
+      "{http://checklists.nist.gov/xccdf/1.2}platform",
+      [
+        [
+          "idref",
+          "cpe:/o:amazon:amazon_linux:2023.0"
+        ]
+      ],
+      null,
+      []
+    ],
+    [
+      "{http://checklists.nist.gov/xccdf/1.2}version",
+      [],
+      "001.002.001",
+      []
+    ],
+    [
+      "{http://checklists.nist.gov/xccdf/1.2}metadata",
+      [],
+      null,
+      [
+        [
+          "{http://purl.org/dc/elements/1.1/}creator",
+          [],
+          "DISA",
+          []
+        ],
+        [
+          "{http://purl.org/dc/elements/1.1/}publisher",
+          [],
+          "DISA",
+          []
+        ],
+        [
+          "{http://purl.org/dc/elements/1.1/}contributor",
+          [],
+          "DISA",
+          []
+        ],
+        [
+          "{http://purl.org/dc/elements/1.1/}source",
+          [],
+          "STIG.DOD.MIL",
+          []
+        ]
+      ]
+    ]
+  ],
+  "omitted_rules": [
+    "xccdf_mil.disa.stig_rule_SV-273994r1119970_rule",
+    "xccdf_mil.disa.stig_rule_SV-273995r1119973_rule",
+    "xccdf_mil.disa.stig_rule_SV-273996r1119976_rule",
+    "xccdf_mil.disa.stig_rule_SV-273997r1119979_rule",
+    "xccdf_mil.disa.stig_rule_SV-273998r1119982_rule",
+    "xccdf_mil.disa.stig_rule_SV-273999r1155171_rule",
+    "xccdf_mil.disa.stig_rule_SV-274000r1119988_rule",
+    "xccdf_mil.disa.stig_rule_SV-274001r1198253_rule",
+    "xccdf_mil.disa.stig_rule_SV-274002r1198253_rule",
+    "xccdf_mil.disa.stig_rule_SV-274003r1198253_rule",
+    "xccdf_mil.disa.stig_rule_SV-274004r1198253_rule",
+    "xccdf_mil.disa.stig_rule_SV-274005r1198253_rule",
+    "xccdf_mil.disa.stig_rule_SV-274006r1120006_rule",
+    "xccdf_mil.disa.stig_rule_SV-274007r1120009_rule",
+    "xccdf_mil.disa.stig_rule_SV-274008r1120012_rule",
+    "xccdf_mil.disa.stig_rule_SV-274009r1120015_rule",
+    "xccdf_mil.disa.stig_rule_SV-274010r1120018_rule",
+    "xccdf_mil.disa.stig_rule_SV-274011r1184000_rule",
+    "xccdf_mil.disa.stig_rule_SV-274012r1120710_rule",
+    "xccdf_mil.disa.stig_rule_SV-274013r1120027_rule",
+    "xccdf_mil.disa.stig_rule_SV-274014r1120030_rule",
+    "xccdf_mil.disa.stig_rule_SV-274015r1120033_rule",
+    "xccdf_mil.disa.stig_rule_SV-274016r1120036_rule",
+    "xccdf_mil.disa.stig_rule_SV-274018r1120042_rule",
+    "xccdf_mil.disa.stig_rule_SV-274019r1120045_rule",
+    "xccdf_mil.disa.stig_rule_SV-274020r1208263_rule",
+    "xccdf_mil.disa.stig_rule_SV-274021r1120695_rule",
+    "xccdf_mil.disa.stig_rule_SV-274022r1120054_rule",
+    "xccdf_mil.disa.stig_rule_SV-274023r1120057_rule",
+    "xccdf_mil.disa.stig_rule_SV-274024r1190697_rule",
+    "xccdf_mil.disa.stig_rule_SV-274025r1192649_rule",
+    "xccdf_mil.disa.stig_rule_SV-274026r1120066_rule",
+    "xccdf_mil.disa.stig_rule_SV-274027r1120069_rule",
+    "xccdf_mil.disa.stig_rule_SV-274028r1190806_rule",
+    "xccdf_mil.disa.stig_rule_SV-274030r1120078_rule",
+    "xccdf_mil.disa.stig_rule_SV-274031r1120081_rule",
+    "xccdf_mil.disa.stig_rule_SV-274032r1184010_rule",
+    "xccdf_mil.disa.stig_rule_SV-274033r1120087_rule",
+    "xccdf_mil.disa.stig_rule_SV-274034r1120090_rule",
+    "xccdf_mil.disa.stig_rule_SV-274035r1120093_rule",
+    "xccdf_mil.disa.stig_rule_SV-274036r1120096_rule",
+    "xccdf_mil.disa.stig_rule_SV-274037r1120099_rule",
+    "xccdf_mil.disa.stig_rule_SV-274038r1120102_rule",
+    "xccdf_mil.disa.stig_rule_SV-274039r1120105_rule",
+    "xccdf_mil.disa.stig_rule_SV-274040r1184011_rule",
+    "xccdf_mil.disa.stig_rule_SV-274042r1184013_rule",
+    "xccdf_mil.disa.stig_rule_SV-274043r1184014_rule",
+    "xccdf_mil.disa.stig_rule_SV-274044r1120120_rule",
+    "xccdf_mil.disa.stig_rule_SV-274045r1120123_rule",
+    "xccdf_mil.disa.stig_rule_SV-274046r1120126_rule",
+    "xccdf_mil.disa.stig_rule_SV-274047r1120129_rule",
+    "xccdf_mil.disa.stig_rule_SV-274048r1120132_rule",
+    "xccdf_mil.disa.stig_rule_SV-274049r1120747_rule",
+    "xccdf_mil.disa.stig_rule_SV-274050r1120138_rule",
+    "xccdf_mil.disa.stig_rule_SV-274051r1120141_rule",
+    "xccdf_mil.disa.stig_rule_SV-274052r1120144_rule",
+    "xccdf_mil.disa.stig_rule_SV-274058r1186176_rule",
+    "xccdf_mil.disa.stig_rule_SV-274059r1120165_rule",
+    "xccdf_mil.disa.stig_rule_SV-274060r1120168_rule",
+    "xccdf_mil.disa.stig_rule_SV-274061r1120171_rule",
+    "xccdf_mil.disa.stig_rule_SV-274062r1120174_rule",
+    "xccdf_mil.disa.stig_rule_SV-274063r1120712_rule",
+    "xccdf_mil.disa.stig_rule_SV-274064r1120180_rule",
+    "xccdf_mil.disa.stig_rule_SV-274065r1184021_rule",
+    "xccdf_mil.disa.stig_rule_SV-274066r1120186_rule",
+    "xccdf_mil.disa.stig_rule_SV-274067r1120653_rule",
+    "xccdf_mil.disa.stig_rule_SV-274068r1120192_rule",
+    "xccdf_mil.disa.stig_rule_SV-274069r1120195_rule",
+    "xccdf_mil.disa.stig_rule_SV-274070r1120198_rule",
+    "xccdf_mil.disa.stig_rule_SV-274071r1184023_rule",
+    "xccdf_mil.disa.stig_rule_SV-274072r1120204_rule",
+    "xccdf_mil.disa.stig_rule_SV-274073r1120207_rule",
+    "xccdf_mil.disa.stig_rule_SV-274074r1120210_rule",
+    "xccdf_mil.disa.stig_rule_SV-274075r1120700_rule",
+    "xccdf_mil.disa.stig_rule_SV-274076r1120216_rule",
+    "xccdf_mil.disa.stig_rule_SV-274077r1120219_rule",
+    "xccdf_mil.disa.stig_rule_SV-274078r1120222_rule",
+    "xccdf_mil.disa.stig_rule_SV-274079r1210985_rule",
+    "xccdf_mil.disa.stig_rule_SV-274080r1120228_rule",
+    "xccdf_mil.disa.stig_rule_SV-274081r1120231_rule",
+    "xccdf_mil.disa.stig_rule_SV-274082r1120234_rule",
+    "xccdf_mil.disa.stig_rule_SV-274083r1120237_rule",
+    "xccdf_mil.disa.stig_rule_SV-274084r1120240_rule",
+    "xccdf_mil.disa.stig_rule_SV-274085r1120243_rule",
+    "xccdf_mil.disa.stig_rule_SV-274086r1120246_rule",
+    "xccdf_mil.disa.stig_rule_SV-274087r1120249_rule",
+    "xccdf_mil.disa.stig_rule_SV-274088r1120252_rule",
+    "xccdf_mil.disa.stig_rule_SV-274089r1120255_rule",
+    "xccdf_mil.disa.stig_rule_SV-274090r1120258_rule",
+    "xccdf_mil.disa.stig_rule_SV-274091r1120261_rule",
+    "xccdf_mil.disa.stig_rule_SV-274092r1120264_rule",
+    "xccdf_mil.disa.stig_rule_SV-274093r1120267_rule",
+    "xccdf_mil.disa.stig_rule_SV-274094r1120270_rule",
+    "xccdf_mil.disa.stig_rule_SV-274095r1120273_rule",
+    "xccdf_mil.disa.stig_rule_SV-274096r1120276_rule",
+    "xccdf_mil.disa.stig_rule_SV-274097r1120279_rule",
+    "xccdf_mil.disa.stig_rule_SV-274098r1120282_rule",
+    "xccdf_mil.disa.stig_rule_SV-274099r1120285_rule",
+    "xccdf_mil.disa.stig_rule_SV-274100r1120288_rule",
+    "xccdf_mil.disa.stig_rule_SV-274101r1120291_rule",
+    "xccdf_mil.disa.stig_rule_SV-274102r1120294_rule",
+    "xccdf_mil.disa.stig_rule_SV-274103r1120297_rule",
+    "xccdf_mil.disa.stig_rule_SV-274104r1120300_rule",
+    "xccdf_mil.disa.stig_rule_SV-274105r1120661_rule",
+    "xccdf_mil.disa.stig_rule_SV-274107r1120309_rule",
+    "xccdf_mil.disa.stig_rule_SV-274108r1120312_rule",
+    "xccdf_mil.disa.stig_rule_SV-274109r1120315_rule",
+    "xccdf_mil.disa.stig_rule_SV-274110r1120318_rule",
+    "xccdf_mil.disa.stig_rule_SV-274111r1210984_rule",
+    "xccdf_mil.disa.stig_rule_SV-274112r1120324_rule",
+    "xccdf_mil.disa.stig_rule_SV-274113r1120327_rule",
+    "xccdf_mil.disa.stig_rule_SV-274114r1120330_rule",
+    "xccdf_mil.disa.stig_rule_SV-274115r1120333_rule",
+    "xccdf_mil.disa.stig_rule_SV-274116r1120336_rule",
+    "xccdf_mil.disa.stig_rule_SV-274117r1120339_rule",
+    "xccdf_mil.disa.stig_rule_SV-274119r1120345_rule",
+    "xccdf_mil.disa.stig_rule_SV-274120r1120348_rule",
+    "xccdf_mil.disa.stig_rule_SV-274121r1155161_rule",
+    "xccdf_mil.disa.stig_rule_SV-274122r1155164_rule",
+    "xccdf_mil.disa.stig_rule_SV-274123r1155167_rule",
+    "xccdf_mil.disa.stig_rule_SV-274124r1120360_rule",
+    "xccdf_mil.disa.stig_rule_SV-274125r1120363_rule",
+    "xccdf_mil.disa.stig_rule_SV-274126r1120366_rule",
+    "xccdf_mil.disa.stig_rule_SV-274127r1120369_rule",
+    "xccdf_mil.disa.stig_rule_SV-274128r1120372_rule",
+    "xccdf_mil.disa.stig_rule_SV-274129r1120375_rule",
+    "xccdf_mil.disa.stig_rule_SV-274130r1120378_rule",
+    "xccdf_mil.disa.stig_rule_SV-274131r1120381_rule",
+    "xccdf_mil.disa.stig_rule_SV-274132r1208253_rule",
+    "xccdf_mil.disa.stig_rule_SV-274133r1120387_rule",
+    "xccdf_mil.disa.stig_rule_SV-274134r1120390_rule",
+    "xccdf_mil.disa.stig_rule_SV-274135r1120393_rule",
+    "xccdf_mil.disa.stig_rule_SV-274136r1120697_rule",
+    "xccdf_mil.disa.stig_rule_SV-274137r1120725_rule",
+    "xccdf_mil.disa.stig_rule_SV-274138r1120402_rule",
+    "xccdf_mil.disa.stig_rule_SV-274139r1120405_rule",
+    "xccdf_mil.disa.stig_rule_SV-274140r1120408_rule",
+    "xccdf_mil.disa.stig_rule_SV-274141r1120411_rule",
+    "xccdf_mil.disa.stig_rule_SV-274142r1208254_rule",
+    "xccdf_mil.disa.stig_rule_SV-274143r1120417_rule",
+    "xccdf_mil.disa.stig_rule_SV-274144r1120420_rule",
+    "xccdf_mil.disa.stig_rule_SV-274145r1120423_rule",
+    "xccdf_mil.disa.stig_rule_SV-274146r1120426_rule",
+    "xccdf_mil.disa.stig_rule_SV-274147r1184027_rule",
+    "xccdf_mil.disa.stig_rule_SV-274148r1120432_rule",
+    "xccdf_mil.disa.stig_rule_SV-274149r1120435_rule",
+    "xccdf_mil.disa.stig_rule_SV-274150r1120438_rule",
+    "xccdf_mil.disa.stig_rule_SV-274151r1120441_rule",
+    "xccdf_mil.disa.stig_rule_SV-274152r1120738_rule",
+    "xccdf_mil.disa.stig_rule_SV-274153r1120713_rule",
+    "xccdf_mil.disa.stig_rule_SV-274154r1120450_rule",
+    "xccdf_mil.disa.stig_rule_SV-274155r1120453_rule",
+    "xccdf_mil.disa.stig_rule_SV-274156r1184029_rule",
+    "xccdf_mil.disa.stig_rule_SV-274157r1120459_rule",
+    "xccdf_mil.disa.stig_rule_SV-274158r1184031_rule",
+    "xccdf_mil.disa.stig_rule_SV-274159r1120465_rule",
+    "xccdf_mil.disa.stig_rule_SV-274160r1120663_rule",
+    "xccdf_mil.disa.stig_rule_SV-274161r1120471_rule",
+    "xccdf_mil.disa.stig_rule_SV-274162r1120474_rule",
+    "xccdf_mil.disa.stig_rule_SV-274163r1120477_rule",
+    "xccdf_mil.disa.stig_rule_SV-274164r1137695_rule",
+    "xccdf_mil.disa.stig_rule_SV-274165r1137695_rule",
+    "xccdf_mil.disa.stig_rule_SV-274166r1155170_rule",
+    "xccdf_mil.disa.stig_rule_SV-274167r1120489_rule",
+    "xccdf_mil.disa.stig_rule_SV-274168r1120492_rule",
+    "xccdf_mil.disa.stig_rule_SV-274169r1120495_rule",
+    "xccdf_mil.disa.stig_rule_SV-274170r1120498_rule",
+    "xccdf_mil.disa.stig_rule_SV-274173r1120507_rule",
+    "xccdf_mil.disa.stig_rule_SV-274175r1190705_rule",
+    "xccdf_mil.disa.stig_rule_SV-274177r1120519_rule",
+    "xccdf_mil.disa.stig_rule_SV-274178r1120522_rule",
+    "xccdf_mil.disa.stig_rule_SV-274179r1120525_rule",
+    "xccdf_mil.disa.stig_rule_SV-274180r1198347_rule",
+    "xccdf_mil.disa.stig_rule_SV-274181r1208251_rule",
+    "xccdf_mil.disa.stig_rule_SV-274182r1120729_rule",
+    "xccdf_mil.disa.stig_rule_SV-274183r1120714_rule",
+    "xccdf_mil.disa.stig_rule_SV-274184r1120540_rule",
+    "xccdf_mil.disa.stig_rule_SV-274185r1120543_rule",
+    "xccdf_mil.disa.stig_rule_SV-274186r1120546_rule",
+    "xccdf_mil.disa.stig_rule_SV-274187r1120715_rule",
+    "xccdf_mil.disa.stig_rule_SV-283440r1192648_rule",
+    "xccdf_mil.disa.stig_rule_SV-283441r1192638_rule",
+    "xccdf_mil.disa.stig_rule_SV-283442r1192640_rule",
+    "xccdf_mil.disa.stig_rule_SV-283443r1192643_rule",
+    "xccdf_mil.disa.stig_rule_SV-283452r1188500_rule",
+    "xccdf_mil.disa.stig_rule_SV-284944r1208267_rule"
+  ],
+  "xml_parse_calls": 1,
+  "component_index_passes": 6,
+  "mapping_sha256": {
+    "windows.registry": "59f5a2fce1bc5c4eb9584c622b8b562ca02cb7c0675c00d8967e430631fa9491",
+    "independent.shellcommand": "1a3d516627984cd96bd22e9e71c8641933e2ba5fd78ab62bfd6355e7755db0d0",
+    "windows.auditeventpolicysubcategories": "98f5598d78fe4c9085f837e23bcb5507cd0ba137d08ef7093687d281718e249c",
+    "windows.userright": "6455f153c2b63e4029efdbe3a673b76fc80769773b35f58e93aa9fc4db714d3f",
+    "windows.wmi.query": "7c5f247c373c5a5c4d375e23dfcd85074df3f12482bbf55e76e7244081afd877",
+    "windows.passwordpolicy": "589527b37e18f2bc8e642219ab57a2152cb771e50c3007a0ffc853243d56235a",
+    "windows.lockoutpolicy": "92528230952ffa2fe8c795496fbf74318546c36bf373fc92bc06726ed04977d9",
+    "windows.service": "1ceb70691592bd6e01c52af356bbf1c3426182a999714ed1dc88627972683792",
+    "independent.textfilecontent54": "295daf5f9d4f1490f6240aa2b32d9c0bb47e9ec47c7e8cb8af8f764704ed4997",
+    "windows.fileeffectiverights53": "62aea81102ff3e13be086d4b0f611b8e08eb3cedb0773e1980dd394c0a8b9e58",
+    "windows.cmdlet": "9a4c5d45b6d1364c4c5416d9012c0264952ce2074768909c33483c09233d6396",
+    "windows.ntuser": "36a3c85fa832f4df3e6bba907a3f315bab348a79aedd62fdaa8264a69edca699",
+    "windows.appcmd": "ae00b371534df4cf3e51950fcfe46a522226bc865187a874c295b7091282a2c1",
+    "windows.appcmdlistconfig": "7ed1a1638c3f5dbc93c24d440ecbb3bdb00e9388f907ce43611955c90581009f",
+    "independent.environmentvariable58": "ca39f073e7c066f18561b821b356860fca592840c98aba40c55876cfca49bf85",
+    "unix.password": "f12c3ebf5bdd301abe96c272f57d4e09572b5668ce4d9c39e557fc341cbc1233",
+    "unix.sysctl": "26db565e79c28641463339285862587cbdec541441ea0cb0d13c4cddc56b29bd",
+    "linux.partition": "ae2992d75a1d3f69517810f36b8952df2e9be696253bde32589b435a415ed5af",
+    "linux.systemdunitproperty": "2faa091f854b961021c512c7e1d599c2c781d31360ae602935919c1b2e3d224a",
+    "independent.family": "7b6efc89acf0b1c399cb8ddf3419329a058d0a758e8448212ee5c0b66d67f3aa",
+    "linux.inetlisteningservers": "c2b9d660bd67f02da33c08739d8293adddd2cb2605ad166226309ee2aff89b77",
+    "linux.selinuxboolean": "a97c03f2672465b850863bdb71deb28e7b8f581377b208d03d119fabde26194e",
+    "linux.sestatus": "56a36f9416e26fa2b702a6aa44ec495f340cff29b4bbe4d6462db90b264a9546",
+    "linux.systemdunitdependency": "09dfe911602378ffb95fa6a8fb40ad6103dbbd33f6ee2fdc18675f954397d8fa",
+    "unix.interface": "918e9a3bc473341fd1d18d945624b6f2ad7c8b28a41071509ee85dad086227c1",
+    "unix.shadow": "d7e2449d1ae4abb70c9f699319457dab8020cf42d60eeb29f519dc9dea918877",
+    "unix.symlink": "b7a47336201e66ede30db6f9ec83d80ae5a31519b8df8e4831d3f777ef70fcf5",
+    "unix.uname": "1b9318c0e4298aac255af21c01128201b3ed6f8294f6a029b66a3534ad9ccade",
+    "windows.group_sid": "06cc426f3753f646940d762c61de007a8f15e9929a8afbf49d90427c664b9c9a",
+    "windows.user_sid55": "8d455df2dac335e1bf579469b587ed53daab85cfaf420e3325219745cee9f747",
+    "variable.value": "f96c709a6a1a297bb624c65b5876661b9eb3d3693c514e10193cadb9f22bbfc6",
+    "unix.file": "adae531c25dad4806c9e13a6e00e2d7af60f236536011506fb4d75ad909e4094",
+    "linux.rpminfo": "08e2ed10da27ab23aa0ae9ef2476c9ee74f71b2d3fda39611118edd7d1419ece",
+    "unix.process58": "893e468b8d8848729dabffcd069e3914a690142a341f9a35e6aa11e1c76e9421",
+    "linux.apparmorstatus": "2c717a767f258029bbf2424d384bbf35e082c09aecfbfcb332fcd9eb077da2a7",
+    "linux.dpkginfo": "7c59418fb8c43aa00bb42a29c87bcbe7c073042933ce0503c372890904d97547",
+    "linux.kernelmodule": "43f364d7f373030b7df89f3db2f71ab4244db094f8fddfbfe15b330999a5e19d",
+    "linux.rpmverifypackage": "cc228220625ea0ef31a488a6c5bb350e7ebf4b03fab4d52ee8457e69f7bb0728",
+    "windows.sid": "fd06e6fc25e30d0b7b76400378cd326dd9038bfe85ccf6f127e1b08891098215",
+    "windows.sid_sid": "6cb1f11f7d0970fe3fca6ae4fe86bf58d81b1efd63f5ed93bbf6f637a6cb4e82",
+    "windows.wuaupdatesearcher": "7b336786423a33347dfb6b31e4071a26e57926669160da4e40cb86923df38845",
+    "independent.unknown": "3db0dddf1ff8275bcb9c52c7cefcb8c87c2db6a331319f8362b015ad9a10a682",
+    "linux.selinuxsecuritycontext": "915a121c365e095a82b721b7f9ab2d36442180ea84b838fc0a2ba569f934b1ff",
+    "windows.file": "dda88ddb466263c689fc12469cf7b728954fb38f5c688deac8cdadad035980bb",
+    "independent.xmlfilecontent": "ed9e03d4e4c0e950ae7b2139d2ace2d460861bb9ce8b1df7ff7ab04f41a8fc9a",
+    "windows.regkeyeffectiverights53": "e3e228d36c8ce1f23134e4b43b052da1309a7ca0e096b1812ee72d0c88b8444b",
+    "file.hash": "c616313900483b12024773a355fdcb3f679b8cab86285685f045815e95137954",
+    "independent.yamlfilecontent": "49680d49793fdd9d9cb8657e5e19b1abd6855fcca9c467940a1aa2c5b2930ac8",
+    "linux.rpmverifyfile": "9165546af791aea865ccefe4fd3113d74fa8b6cc8c9336904c1fbdf961a7b33a",
+    "solaris.smf": "8bb91eab02c5580f22644f3418331b329ad761f41bcc57cb628530e8bf3ba858",
+    "iosxe.line": "857846490b38d8c957e76fe46ff333c346b0fffe71351283fd5b94de6e7713c5",
+    "iosxe.global": "474cca169b6c3b95acb0145107684ec7c7ae1631bf3744abb05702f83d7579ee"
+  },
+  "scope": "Automated Assessment/selection subset, not full Rule-policy or Benchmark conversion",
+  "unsupported": [
+    "other Rules",
+    "manual execution",
+    "CPE/platform execution",
+    "full Rule metadata/remediation/scoring",
+    "other Object behaviors/traversal",
+    "record-level Variables, nested records, record absence and masking",
+    "all_exist",
+    "other capabilities/functions"
+  ],
+  "coverage_promoted": false,
+  "scanner_evaluated": false
+}

@@ -1,0 +1,508 @@
+{
+  "format": "direct-converter-spike/1",
+  "source_zip_sha256": "d16c868152e14bab0a1e2ecdfa6ec889972e068625d4d20d4ac3f861ff2009ca",
+  "source_xml_sha256": "4291cb4de56709745b78efab402fc8578d633ece72af02bf8be513da9d26ecd5",
+  "source_member": "U_MS_Windows_Defender_Firewall_V2R3_STIG_SCAP_1-4_Benchmark-enhancedV14-signed.xml",
+  "source_benchmark_component": "scap_mil.disa.stig_comp_U_MS_Windows_Defender_Firewall_V2R3_STIG_SCAP_1-4_Benchmark-enhancedV14-xccdf.xml",
+  "component_hashes": {
+    "scap_mil.disa.stig_comp_U_MS_Windows_Defender_Firewall_V2R3_STIG_SCAP_1-4_Benchmark-enhancedV14-cpe-dictionary.xml": "6f0e6e13465861cbe7abf27cde45431cab78ede09a8e267b23ee7e8649b57a9e",
+    "scap_mil.disa.stig_comp_U_MS_Windows_Defender_Firewall_V2R3_STIG_SCAP_1-4_Benchmark-enhancedV14-xccdf.xml": "213a1c572ef4dff4daf1dbc5f1496bb410d0f64e8a805d91d7976e8e1388123a",
+    "scap_mil.disa.stig_comp_U_MS_Windows_Defender_Firewall_V2R3_STIG_SCAP_1-4_Benchmark-enhancedV14-oval.xml": "e7c53ae829faa16af9a7497be677bba2d9d25f004fd8e26811c40cd5c098b98d",
+    "scap_mil.disa.stig_comp_U_MS_Windows_Defender_Firewall_V2R3_STIG_SCAP_1-4_Benchmark-enhancedV14-cpe-oval.xml": "bcd1eead52d91699c5fbd5be96a6c03ce4033b2f1056e4ba745ceac1d84414dc",
+    "scap_navy.navwar.niwcatlantic.scc_comp_U_MS_Windows_Defender_Firewall_V2R3_STIG_SCAP_1-4_Benchmark-enhancedV14-ocil.xml": "167d2e76afcf54ec204390332bd7034ba4e7baef09dcce646c13e381e04a2594"
+  },
+  "rules": [
+    {
+      "source_rule": "xccdf_mil.disa.fso_rule_SV-241989r922928_rule",
+      "source_rule_sha256": "06fc5b36a2dd743bc6e850f7b6ed9b49dbeec2c970de74a692ecbcc4dcd76338",
+      "component": "scap_mil.disa.stig_comp_U_MS_Windows_Defender_Firewall_V2R3_STIG_SCAP_1-4_Benchmark-enhancedV14-oval.xml",
+      "definition": "oval:mil.disa.fso.windows:def:4798",
+      "native_rule": "windows-defender-firewall-with-advanced-security-must-be-enabled-when-f56331f5-rule",
+      "assessment": "windows-defender-firewall-with-advanced-security-must-be-enabled-when-f56331f5-assessment",
+      "dependencies": {
+        "oval:mil.disa.fso.windows:def:4798": {
+          "kind": "definition",
+          "sha256": "de62ef2e8ae97ab12e61de290bc33c8472af9c95c219328e104f9f876df4f08b"
+        },
+        "oval:mil.disa.fso.windows:tst:479800": {
+          "kind": "test",
+          "sha256": "cbbf1a44e2be124194eb26c114d16d871d7d7ba1c889953f0d5c619d0dbdc6b1"
+        },
+        "oval:mil.disa.fso.windows:ste:479800": {
+          "kind": "state",
+          "sha256": "5ede8fd74c5470e2f46d1296a914d921b76a6b1118af06aa46aa8741aeee3420"
+        },
+        "oval:mil.disa.fso.windows:var:479800": {
+          "kind": "variable",
+          "sha256": "11fc2a68aa60fb5be6c3e869a430bdd08a47b90e7c2cf7b3fe0c472870963991"
+        },
+        "oval:mil.disa.fso.windows:obj:479800": {
+          "kind": "object",
+          "sha256": "fe2f946f2e682c3d20dc5282f97e08252ff8b92a78e7a71bf92d3b94a5d5adca"
+        },
+        "oval:mil.disa.fso.windows:tst:479802": {
+          "kind": "test",
+          "sha256": "f6dbee813c1edf40c59e91ce8d554b6720895731ff394426eca7c0ea9d474721"
+        },
+        "oval:mil.disa.fso.windows:tst:479801": {
+          "kind": "test",
+          "sha256": "a7f8577d4a425a0b78604bce434627eb8e4b629625445f39d0d7bdd0dc8c3dcf"
+        },
+        "oval:mil.disa.fso.windows:obj:479801": {
+          "kind": "object",
+          "sha256": "5eeb3bec642124919d796ce06a1383c5f2dc0f0a77a0a6fa4038689b23024ac9"
+        }
+      },
+      "omitted_checks": [
+        {
+          "system": "http://scap.nist.gov/schema/ocil/2",
+          "selector": "manual",
+          "sha256": "8adcfe40ae734d7f276c98a0f8ecc8eafcb9e335c6eb055af42289b35b9bd244"
+        }
+      ],
+      "source_platforms": [],
+      "conversion_warnings": [
+        {
+          "code": "check_export_binding_unproved",
+          "owner_decision": "https://github.com/vanderpol/scap-ng/issues/260#issuecomment-6510844015",
+          "source_external_variable": "oval:mil.disa.fso.windows:var:479800",
+          "source_variable_sha256": "11fc2a68aa60fb5be6c3e869a430bdd08a47b90e7c2cf7b3fe0c472870963991",
+          "source_value": "xccdf_mil.disa.stig_value_domain_profile_firewall_state_var",
+          "source_value_sha256": "55e6783135c498c4050ab244e6c3b353866f20e6bfbbc656d99d734dac7a1245",
+          "source_value_xml": [
+            "{http://checklists.nist.gov/xccdf/1.2}Value",
+            [
+              [
+                "id",
+                "xccdf_mil.disa.stig_value_domain_profile_firewall_state_var"
+              ],
+              [
+                "operator",
+                "equals"
+              ],
+              [
+                "type",
+                "number"
+              ]
+            ],
+            null,
+            [
+              [
+                "{http://checklists.nist.gov/xccdf/1.2}title",
+                [],
+                "Firewall state",
+                []
+              ],
+              [
+                "{http://checklists.nist.gov/xccdf/1.2}description",
+                [],
+                "The Domain Profile is used when the computer is connected to a network and is authenticated to a domain controller.",
+                []
+              ],
+              [
+                "{http://checklists.nist.gov/xccdf/1.2}value",
+                [],
+                "1",
+                []
+              ],
+              [
+                "{http://checklists.nist.gov/xccdf/1.2}value",
+                [
+                  [
+                    "selector",
+                    "off"
+                  ]
+                ],
+                "0",
+                []
+              ],
+              [
+                "{http://checklists.nist.gov/xccdf/1.2}value",
+                [
+                  [
+                    "selector",
+                    "on"
+                  ]
+                ],
+                "1",
+                []
+              ]
+            ]
+          ],
+          "input": "firewall-state-domain-profile-47b00982-input",
+          "parameter": "firewall-state-411f4b23-parameter",
+          "resolution": "publisher",
+          "independent_static_proof": "UNPROVED",
+          "scanner_runtime": "NOT_RUN",
+          "message": "Explicit typed expected-value binding retained; policy/runtime binding equivalence independently unproved."
+        }
+      ],
+      "source_variable_context": {
+        "oval:mil.disa.fso.windows:var:479800": {
+          "kind": "variable",
+          "sha256": "11fc2a68aa60fb5be6c3e869a430bdd08a47b90e7c2cf7b3fe0c472870963991"
+        }
+      },
+      "independent_static_proof_eligible": false,
+      "conversion_status": "CONVERTED_UNVERIFIED",
+      "policy_parameters": {
+        "firewall-state-411f4b23-parameter": {
+          "id": "firewall-state-411f4b23-parameter",
+          "datatype": "integer",
+          "cardinality": "one",
+          "required": true,
+          "resolution": "publisher",
+          "title": "Firewall state",
+          "description": "The Domain Profile is used when the computer is connected to a network and is authenticated to a domain controller.",
+          "value": 1,
+          "constraints": {
+            "allowed": [
+              0,
+              1
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "profiles": [
+    {
+      "source_id": "xccdf_mil.disa.fso_profile_MAC-1_Classified",
+      "source_sha256": "5754fa06ac5bd495fd4f892a702d0bdb196348c4f98ed017c9ce7f8c883e4a1f",
+      "native_id": "i-mission-critical-classified-e7d7b5c2-profile",
+      "selected": {
+        "xccdf_mil.disa.fso_rule_SV-241989r922928_rule": true
+      }
+    },
+    {
+      "source_id": "xccdf_mil.disa.fso_profile_MAC-1_Public",
+      "source_sha256": "262de58866956e0aa0f955b5794679618ed7035be486a62b846100d666a9ea10",
+      "native_id": "i-mission-critical-public-fd901a53-profile",
+      "selected": {
+        "xccdf_mil.disa.fso_rule_SV-241989r922928_rule": true
+      }
+    },
+    {
+      "source_id": "xccdf_mil.disa.fso_profile_MAC-1_Sensitive",
+      "source_sha256": "60dc7d886f60ed260d4ca1f49f10a9c106ebc1ff988073c4f8d45eb345dba20d",
+      "native_id": "i-mission-critical-sensitive-0b894409-profile",
+      "selected": {
+        "xccdf_mil.disa.fso_rule_SV-241989r922928_rule": true
+      }
+    },
+    {
+      "source_id": "xccdf_mil.disa.fso_profile_MAC-2_Classified",
+      "source_sha256": "7d246f1f32b88d579b29d3ebe21982818fb482876b4d28b820b9fcb24b1ebef5",
+      "native_id": "ii-mission-support-classified-a2a77b0d-profile",
+      "selected": {
+        "xccdf_mil.disa.fso_rule_SV-241989r922928_rule": true
+      }
+    },
+    {
+      "source_id": "xccdf_mil.disa.fso_profile_MAC-2_Public",
+      "source_sha256": "d1cc4135e0026c6eb390fb80e18efe411b75d1397e44de1d25809e81ab70630a",
+      "native_id": "ii-mission-support-public-097e8034-profile",
+      "selected": {
+        "xccdf_mil.disa.fso_rule_SV-241989r922928_rule": true
+      }
+    },
+    {
+      "source_id": "xccdf_mil.disa.fso_profile_MAC-2_Sensitive",
+      "source_sha256": "a3775d8c8151c0db86dc492f07564cbcb7e865501e6a444b7c06b6cc8a5e75f4",
+      "native_id": "ii-mission-support-sensitive-779baac7-profile",
+      "selected": {
+        "xccdf_mil.disa.fso_rule_SV-241989r922928_rule": true
+      }
+    },
+    {
+      "source_id": "xccdf_mil.disa.fso_profile_MAC-3_Classified",
+      "source_sha256": "f69a49f0cbb5a3c195686e7e9933c8e17eef28493ed6bdc91a097602092cccd0",
+      "native_id": "iii-administrative-classified-b2918185-profile",
+      "selected": {
+        "xccdf_mil.disa.fso_rule_SV-241989r922928_rule": true
+      }
+    },
+    {
+      "source_id": "xccdf_mil.disa.fso_profile_MAC-3_Public",
+      "source_sha256": "a734c525b5895bc09b6d339ad9530e045c5acdb1e57539545e55d52c9d3ca780",
+      "native_id": "iii-administrative-public-57dbebb2-profile",
+      "selected": {
+        "xccdf_mil.disa.fso_rule_SV-241989r922928_rule": true
+      }
+    },
+    {
+      "source_id": "xccdf_mil.disa.fso_profile_MAC-3_Sensitive",
+      "source_sha256": "0fca1828bb4e0fb6d96999d808f69f1a2dd05b0797106f7e13c0b829441f7471",
+      "native_id": "iii-administrative-sensitive-72e63de8-profile",
+      "selected": {
+        "xccdf_mil.disa.fso_rule_SV-241989r922928_rule": true
+      }
+    },
+    {
+      "source_id": "xccdf_mil.disa.stig_profile_CAT_I_Only",
+      "source_sha256": "c03a4834501d9bb2a45479806f1883c07c03d34e80ec80f0086674ec0d2d519d",
+      "native_id": "cat-i-only-663a4974-profile",
+      "selected": {
+        "xccdf_mil.disa.fso_rule_SV-241989r922928_rule": false
+      }
+    }
+  ],
+  "source_benchmark_metadata": [
+    [
+      "{http://checklists.nist.gov/xccdf/1.2}status",
+      [
+        [
+          "date",
+          "2026-08-26"
+        ]
+      ],
+      "accepted",
+      []
+    ],
+    [
+      "{http://checklists.nist.gov/xccdf/1.2}title",
+      [],
+      "Microsoft Windows Defender Firewall with Advanced Security STIG SCAP Benchmark - NIWC Enhanced with Manual Questions",
+      []
+    ],
+    [
+      "{http://checklists.nist.gov/xccdf/1.2}description",
+      [],
+      "This Security Technical Implementation Guide is published as a tool to improve the security of Department of Defense (DOD) information systems. The requirements are derived from the National Institute of Standards and Technology (NIST) 800-53 and related documents. Comments or proposed revisions to this document should be sent via email to the following address: disa.stig_spt@mail.mil.",
+      []
+    ],
+    [
+      "{http://checklists.nist.gov/xccdf/1.2}notice",
+      [
+        [
+          "id",
+          "terms-of-use"
+        ],
+        [
+          "{http://www.w3.org/XML/1998/namespace}lang",
+          "en"
+        ]
+      ],
+      "Portions of this document were developed at Naval Information Warfare Center Atlantic by employees of the Federal Government in the course of their official duties. Pursuant to title 17 Section 105 of the United States Code this software is not subject to copyright protection and is in the public domain. The Government assumes no responsibility whatsoever for its use by other parties, and the software is provided \"AS IS\" without warranty or guarantee of any kind, express or implied, including, but not limited to, the warranties of merchantability and of fitness for a particular purpose. In no event shall the Government be liable for any claim, damages or other liability, whether in an action of contract, tort or other dealings in the software. The Government has no obligation hereunder to provide maintenance, support, updates, enhancements, or modifications. We would appreciate acknowledgement if the software is used. This software can be redistributed and/or modified freely provided that any derivative works bear some notice that they are derived from it, and any modified versions bear some notice that they have been modified.",
+      []
+    ],
+    [
+      "{http://checklists.nist.gov/xccdf/1.2}front-matter",
+      [
+        [
+          "{http://www.w3.org/XML/1998/namespace}lang",
+          "en"
+        ]
+      ],
+      "This content stream was enhanced with OCIL manual questions derived from the STIG Manual by the NIWC SCC team.\nTimestamp: 2026-08-26T17:35:39.890820+00:00\nTool Version: 2.0\nSTIG Manual Version: 2\nSCAP Benchmark Version: 002.003\nTotal Rules: 21\nDISA Automated Rules: 20\nNIST Automated Rules: 0\nNIWC Automated Rules: 0\nManual rules added: 1",
+      []
+    ],
+    [
+      "{http://checklists.nist.gov/xccdf/1.2}rear-matter",
+      [
+        [
+          "{http://www.w3.org/XML/1998/namespace}lang",
+          "en"
+        ]
+      ],
+      "This data is metadata to be used for the creation of CKL reports.\nversion:--:2\nclassification:--:UNCLASSIFIED\ncustomname:--:\nstigid:--:Windows_Firewall_with_Advanced_Security\ndescription:--:This Security Technical Implementation Guide is published as a tool to improve the security of Department of Defense (DOD) information systems. The requirements are derived from the National Institute of Standards and Technology (NIST) 800-53 and related documents. Comments or proposed revisions to this document should be sent via email to the following address: disa.stig_spt@mail.mil.\nfilename:--:U_MS_Windows_Defender_Firewall_V2R2_STIG_Manual-xccdf.xml\nreleaseinfo:--:Release: 2 Benchmark Date: 09 Nov 2023\ntitle:--:Microsoft Windows Defender Firewall with Advanced Security Security Technical Implementation Guide\nuuid:--:\nnotice:--:\nsource:--:STIG.DOD.MIL",
+      []
+    ],
+    [
+      "{http://checklists.nist.gov/xccdf/1.2}reference",
+      [
+        [
+          "href",
+          "https://cyber.mil"
+        ]
+      ],
+      null,
+      [
+        [
+          "{http://purl.org/dc/elements/1.1/}publisher",
+          [],
+          "DISA+NIWC",
+          []
+        ],
+        [
+          "{http://purl.org/dc/elements/1.1/}source",
+          [],
+          "STIG.DOD.MIL",
+          []
+        ]
+      ]
+    ],
+    [
+      "{http://checklists.nist.gov/xccdf/1.2}plain-text",
+      [
+        [
+          "id",
+          "release-info"
+        ]
+      ],
+      "Enhanced Content 002.003.14 Date: 2026-08-26, based on Release: 2 Benchmark Date: 09 Nov 2023",
+      []
+    ],
+    [
+      "{http://checklists.nist.gov/xccdf/1.2}plain-text",
+      [
+        [
+          "id",
+          "generator"
+        ]
+      ],
+      "3.4.1.22916",
+      []
+    ],
+    [
+      "{http://checklists.nist.gov/xccdf/1.2}plain-text",
+      [
+        [
+          "id",
+          "conventionsVersion"
+        ]
+      ],
+      "1.10.0",
+      []
+    ],
+    [
+      "{http://checklists.nist.gov/xccdf/1.2}platform",
+      [
+        [
+          "idref",
+          "cpe:/a:microsoft:windows_firewall:-"
+        ]
+      ],
+      null,
+      []
+    ],
+    [
+      "{http://checklists.nist.gov/xccdf/1.2}version",
+      [],
+      "002.003.014",
+      []
+    ],
+    [
+      "{http://checklists.nist.gov/xccdf/1.2}metadata",
+      [],
+      null,
+      [
+        [
+          "{http://purl.org/dc/elements/1.1/}creator",
+          [],
+          "DISA",
+          []
+        ],
+        [
+          "{http://purl.org/dc/elements/1.1/}publisher",
+          [],
+          "DISA",
+          []
+        ],
+        [
+          "{http://purl.org/dc/elements/1.1/}contributor",
+          [],
+          "DISA",
+          []
+        ],
+        [
+          "{http://purl.org/dc/elements/1.1/}source",
+          [],
+          "STIG.DOD.MIL",
+          []
+        ]
+      ]
+    ]
+  ],
+  "omitted_rules": [
+    "xccdf_mil.disa.fso_rule_SV-241990r922930_rule",
+    "xccdf_mil.disa.fso_rule_SV-241991r922932_rule",
+    "xccdf_mil.disa.fso_rule_SV-241992r922934_rule",
+    "xccdf_mil.disa.fso_rule_SV-241993r922936_rule",
+    "xccdf_mil.disa.fso_rule_SV-241994r922938_rule",
+    "xccdf_mil.disa.fso_rule_SV-241995r922940_rule",
+    "xccdf_mil.disa.fso_rule_SV-241996r922942_rule",
+    "xccdf_mil.disa.fso_rule_SV-241997r922944_rule",
+    "xccdf_mil.disa.fso_rule_SV-241998r922946_rule",
+    "xccdf_mil.disa.fso_rule_SV-241999r922948_rule",
+    "xccdf_mil.disa.fso_rule_SV-242000r922950_rule",
+    "xccdf_mil.disa.fso_rule_SV-242001r922952_rule",
+    "xccdf_mil.disa.fso_rule_SV-242002r922954_rule",
+    "xccdf_mil.disa.fso_rule_SV-242003r922956_rule",
+    "xccdf_mil.disa.fso_rule_SV-242004r922958_rule",
+    "xccdf_mil.disa.fso_rule_SV-242005r922960_rule",
+    "xccdf_mil.disa.fso_rule_SV-242006r922962_rule",
+    "xccdf_mil.disa.fso_rule_SV-242007r922964_rule",
+    "xccdf_mil.disa.fso_rule_SV-242008r922966_rule",
+    "xccdf_mil.disa.fso_rule_SV-242009r922967_rule"
+  ],
+  "xml_parse_calls": 1,
+  "component_index_passes": 5,
+  "mapping_sha256": {
+    "windows.registry": "59f5a2fce1bc5c4eb9584c622b8b562ca02cb7c0675c00d8967e430631fa9491",
+    "independent.shellcommand": "1a3d516627984cd96bd22e9e71c8641933e2ba5fd78ab62bfd6355e7755db0d0",
+    "windows.auditeventpolicysubcategories": "98f5598d78fe4c9085f837e23bcb5507cd0ba137d08ef7093687d281718e249c",
+    "windows.userright": "6455f153c2b63e4029efdbe3a673b76fc80769773b35f58e93aa9fc4db714d3f",
+    "windows.wmi.query": "7c5f247c373c5a5c4d375e23dfcd85074df3f12482bbf55e76e7244081afd877",
+    "windows.passwordpolicy": "589527b37e18f2bc8e642219ab57a2152cb771e50c3007a0ffc853243d56235a",
+    "windows.lockoutpolicy": "92528230952ffa2fe8c795496fbf74318546c36bf373fc92bc06726ed04977d9",
+    "windows.service": "1ceb70691592bd6e01c52af356bbf1c3426182a999714ed1dc88627972683792",
+    "independent.textfilecontent54": "295daf5f9d4f1490f6240aa2b32d9c0bb47e9ec47c7e8cb8af8f764704ed4997",
+    "windows.fileeffectiverights53": "62aea81102ff3e13be086d4b0f611b8e08eb3cedb0773e1980dd394c0a8b9e58",
+    "windows.cmdlet": "9a4c5d45b6d1364c4c5416d9012c0264952ce2074768909c33483c09233d6396",
+    "windows.ntuser": "36a3c85fa832f4df3e6bba907a3f315bab348a79aedd62fdaa8264a69edca699",
+    "windows.appcmd": "ae00b371534df4cf3e51950fcfe46a522226bc865187a874c295b7091282a2c1",
+    "windows.appcmdlistconfig": "7ed1a1638c3f5dbc93c24d440ecbb3bdb00e9388f907ce43611955c90581009f",
+    "independent.environmentvariable58": "ca39f073e7c066f18561b821b356860fca592840c98aba40c55876cfca49bf85",
+    "unix.password": "f12c3ebf5bdd301abe96c272f57d4e09572b5668ce4d9c39e557fc341cbc1233",
+    "unix.sysctl": "26db565e79c28641463339285862587cbdec541441ea0cb0d13c4cddc56b29bd",
+    "linux.partition": "ae2992d75a1d3f69517810f36b8952df2e9be696253bde32589b435a415ed5af",
+    "linux.systemdunitproperty": "2faa091f854b961021c512c7e1d599c2c781d31360ae602935919c1b2e3d224a",
+    "independent.family": "7b6efc89acf0b1c399cb8ddf3419329a058d0a758e8448212ee5c0b66d67f3aa",
+    "linux.inetlisteningservers": "c2b9d660bd67f02da33c08739d8293adddd2cb2605ad166226309ee2aff89b77",
+    "linux.selinuxboolean": "a97c03f2672465b850863bdb71deb28e7b8f581377b208d03d119fabde26194e",
+    "linux.sestatus": "56a36f9416e26fa2b702a6aa44ec495f340cff29b4bbe4d6462db90b264a9546",
+    "linux.systemdunitdependency": "09dfe911602378ffb95fa6a8fb40ad6103dbbd33f6ee2fdc18675f954397d8fa",
+    "unix.interface": "918e9a3bc473341fd1d18d945624b6f2ad7c8b28a41071509ee85dad086227c1",
+    "unix.shadow": "d7e2449d1ae4abb70c9f699319457dab8020cf42d60eeb29f519dc9dea918877",
+    "unix.symlink": "b7a47336201e66ede30db6f9ec83d80ae5a31519b8df8e4831d3f777ef70fcf5",
+    "unix.uname": "1b9318c0e4298aac255af21c01128201b3ed6f8294f6a029b66a3534ad9ccade",
+    "windows.group_sid": "06cc426f3753f646940d762c61de007a8f15e9929a8afbf49d90427c664b9c9a",
+    "windows.user_sid55": "8d455df2dac335e1bf579469b587ed53daab85cfaf420e3325219745cee9f747",
+    "variable.value": "f96c709a6a1a297bb624c65b5876661b9eb3d3693c514e10193cadb9f22bbfc6",
+    "unix.file": "adae531c25dad4806c9e13a6e00e2d7af60f236536011506fb4d75ad909e4094",
+    "linux.rpminfo": "08e2ed10da27ab23aa0ae9ef2476c9ee74f71b2d3fda39611118edd7d1419ece",
+    "unix.process58": "893e468b8d8848729dabffcd069e3914a690142a341f9a35e6aa11e1c76e9421",
+    "linux.apparmorstatus": "2c717a767f258029bbf2424d384bbf35e082c09aecfbfcb332fcd9eb077da2a7",
+    "linux.dpkginfo": "7c59418fb8c43aa00bb42a29c87bcbe7c073042933ce0503c372890904d97547",
+    "linux.kernelmodule": "43f364d7f373030b7df89f3db2f71ab4244db094f8fddfbfe15b330999a5e19d",
+    "linux.rpmverifypackage": "cc228220625ea0ef31a488a6c5bb350e7ebf4b03fab4d52ee8457e69f7bb0728",
+    "windows.sid": "fd06e6fc25e30d0b7b76400378cd326dd9038bfe85ccf6f127e1b08891098215",
+    "windows.sid_sid": "6cb1f11f7d0970fe3fca6ae4fe86bf58d81b1efd63f5ed93bbf6f637a6cb4e82",
+    "windows.wuaupdatesearcher": "7b336786423a33347dfb6b31e4071a26e57926669160da4e40cb86923df38845",
+    "independent.unknown": "3db0dddf1ff8275bcb9c52c7cefcb8c87c2db6a331319f8362b015ad9a10a682",
+    "linux.selinuxsecuritycontext": "915a121c365e095a82b721b7f9ab2d36442180ea84b838fc0a2ba569f934b1ff",
+    "windows.file": "dda88ddb466263c689fc12469cf7b728954fb38f5c688deac8cdadad035980bb",
+    "independent.xmlfilecontent": "ed9e03d4e4c0e950ae7b2139d2ace2d460861bb9ce8b1df7ff7ab04f41a8fc9a",
+    "windows.regkeyeffectiverights53": "e3e228d36c8ce1f23134e4b43b052da1309a7ca0e096b1812ee72d0c88b8444b",
+    "file.hash": "c616313900483b12024773a355fdcb3f679b8cab86285685f045815e95137954",
+    "independent.yamlfilecontent": "49680d49793fdd9d9cb8657e5e19b1abd6855fcca9c467940a1aa2c5b2930ac8",
+    "linux.rpmverifyfile": "9165546af791aea865ccefe4fd3113d74fa8b6cc8c9336904c1fbdf961a7b33a",
+    "solaris.smf": "8bb91eab02c5580f22644f3418331b329ad761f41bcc57cb628530e8bf3ba858",
+    "iosxe.line": "857846490b38d8c957e76fe46ff333c346b0fffe71351283fd5b94de6e7713c5",
+    "iosxe.global": "474cca169b6c3b95acb0145107684ec7c7ae1631bf3744abb05702f83d7579ee"
+  },
+  "scope": "Automated Assessment/selection subset, not full Rule-policy or Benchmark conversion",
+  "unsupported": [
+    "other Rules",
+    "manual execution",
+    "CPE/platform execution",
+    "full Rule metadata/remediation/scoring",
+    "other Object behaviors/traversal",
+    "record-level Variables, nested records, record absence and masking",
+    "all_exist",
+    "other capabilities/functions"
+  ],
+  "coverage_promoted": false,
+  "scanner_evaluated": false
+}

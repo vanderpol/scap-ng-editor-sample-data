@@ -1,0 +1,28 @@
+{
+  "rule": {
+    "id": "membership-to-the-enterprise-admins-group-must-be-restricted-to-accoun-a6ddb178-rule",
+    "version": "AD.0001",
+    "title": "Membership to the Enterprise Admins group must be restricted to accounts used only to manage the Active Directory Forest.",
+    "severity": "high",
+    "role": "full",
+    "weight": 10.0,
+    "discussion": "<VulnDiscussion>The Enterprise Admins group is a highly privileged group.  Personnel who are system administrators must log on to Active Directory systems only using accounts with the level of authority necessary. Only system administrator accounts used exclusively to manage the Active Directory Forest may be members of the Enterprise Admins group. A separation of administrator responsibilities helps mitigate the risk of privilege escalation resulting from credential theft attacks.</VulnDiscussion><FalsePositives></FalsePositives><FalseNegatives></FalseNegatives><Documentable>false</Documentable><Mitigations></Mitigations><SeverityOverrideGuidance></SeverityOverrideGuidance><PotentialImpacts></PotentialImpacts><ThirdPartyTools></ThirdPartyTools><MitigationControl></MitigationControl><Responsibility></Responsibility><IAControls></IAControls>",
+    "rationale": null,
+    "extensions": {},
+    "warnings": [],
+    "identifiers": [],
+    "references": [],
+    "requires": [],
+    "conflicts": [],
+    "applicability": [],
+    "parameters": {},
+    "remediation": {},
+    "organizational_input_requirements": {},
+    "assessment_choices": {
+      "automated": {
+        "assessment": "membership-to-the-enterprise-admins-group-must-be-restricted-to-accoun-a6ddb178-assessment"
+      }
+    },
+    "default_assessment_choice": "automated"
+  }
+}

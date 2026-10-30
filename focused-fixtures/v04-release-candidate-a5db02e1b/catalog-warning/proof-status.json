@@ -1,0 +1,24 @@
+{
+  "source_commit": "a5db02e1b29a2d7c312ddcf593be1ee055afb750",
+  "original_source_zip_sha256": "94740b7929dd868043ab1b476c3b568712fc26d045a4d450359cea90effbfa1c",
+  "conversion_status": "CONVERTED_UNVERIFIED",
+  "proof_scope": "UNPROVED; original-source compatibility warnings retained",
+  "package_consumer": {
+    "status": "INDEPENDENT_PACKAGE_CONSUMER_PASS",
+    "benchmark": "direct-slice",
+    "bundle_sha256": "b2af653c14733fc18516fbe438fa18c86b75130900e2e7254558eff97eaa0634",
+    "documents": 4,
+    "programs": 1,
+    "tests": 2,
+    "shared_objects": 0,
+    "variables": 0,
+    "source_graph_sha256": "b66a82a0c7283cd66c3919d6dd5edaa79b4e469655a98237a7ce531fe5f425de",
+    "external_source_compared": true,
+    "scanner_evaluated": false,
+    "publisher_trust_verified": false,
+    "independent_static_proof": "NOT_ESTABLISHED_BY_COMPILATION",
+    "conversion_status": "CONVERTED_UNVERIFIED"
+  },
+  "scanner_runtime": "NOT_RUN",
+  "publisher_trust": "NOT_VERIFIED"
+}

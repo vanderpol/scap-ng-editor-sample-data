@@ -1,0 +1,22 @@
+{
+  "source_commit": "a5db02e1b29a2d7c312ddcf593be1ee055afb750",
+  "original_source_zip_sha256": "2f46264b5fa21c8a033236121794ebe372314bf7458dac0aca4f81179fe7ece0",
+  "conversion_status": "CONVERTED_VERIFIED",
+  "proof_scope": "independent static original-source proof",
+  "package_consumer": {
+    "status": "INDEPENDENT_PACKAGE_CONSUMER_PASS",
+    "benchmark": "direct-slice",
+    "bundle_sha256": "70cca2d582540e824f4c1ff372b412a2a47766d2262c1ed755c0b752ffc0a86f",
+    "documents": 6,
+    "programs": 2,
+    "tests": 6,
+    "shared_objects": 1,
+    "variables": 1,
+    "source_graph_sha256": "799161b84c43b8124eeeef0020a1ef92041c5d1bf34a2b265f9008ffae5bc46b",
+    "external_source_compared": true,
+    "scanner_evaluated": false,
+    "publisher_trust_verified": false
+  },
+  "scanner_runtime": "NOT_RUN",
+  "publisher_trust": "NOT_VERIFIED"
+}

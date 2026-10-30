@@ -1,0 +1,49 @@
+{
+  "assessment": {
+    "id": "membership-to-the-enterprise-admins-group-must-be-restricted-to-accoun-a6ddb178-assessment",
+    "version": 1,
+    "assessment_title": "Membership to the Enterprise Admins group must be restricted to accounts used only to manage the Active Directory Forest.",
+    "mode": "automated",
+    "class": "compliance",
+    "purpose": "assessment",
+    "specification": {
+      "id": "scap-ng.pre-alpha.assessment",
+      "version": "0.4.0"
+    },
+    "tests": {
+      "unknown-test-results-an-auditor-must-review-results-gathered-and-stig-86951f13-test": {
+        "test_title": "Unknown Test Results - An auditor must review results gathered and STIG requirements.",
+        "capability": "independent.unknown",
+        "require": {
+          "items_found": "one_or_more"
+        },
+        "reported_elements": "all"
+      },
+      "run-a-powershell-command-to-gather-members-of-the-enterprise-admins-gr-83b28dfa-test": {
+        "test_title": "Run a PowerShell command to gather members of the Enterprise Admins group. (Manual Review Required)",
+        "capability": "independent.shellcommand",
+        "object": {
+          "shell": "powershell",
+          "command": "Get-ADGroupMember -Identity 'Enterprise Admins'",
+          "pattern": "\\w",
+          "error_if_exit_status_not_0": false,
+          "error_if_stderr_exists": false
+        },
+        "require": {
+          "items_found": "may_be_absent"
+        },
+        "reported_elements": "all"
+      }
+    },
+    "evaluate": {
+      "and": [
+        {
+          "test": "unknown-test-results-an-auditor-must-review-results-gathered-and-stig-86951f13-test"
+        },
+        {
+          "test": "run-a-powershell-command-to-gather-members-of-the-enterprise-admins-gr-83b28dfa-test"
+        }
+      ]
+    }
+  }
+}

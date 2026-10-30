@@ -1,0 +1,22 @@
+assessment:
+  id: amazon-linux-2023-must-have-the-audit-package-installed-cf466dc4-assessment
+  version: 1
+  assessment_title: Amazon Linux 2023 must have the audit package installed.
+  mode: automated
+  class: compliance
+  purpose: assessment
+  specification:
+    id: scap-ng.pre-alpha.assessment
+    version: 0.4.0
+  tests:
+    package-audit-is-installed-dbc05684-test:
+      test_title: package audit is installed
+      capability: linux.rpminfo
+      object:
+        package_name: {equals: audit}
+        include_file_paths: false
+      require:
+        items_found: one_or_more
+      reported_elements: all
+  evaluate:
+    test: package-audit-is-installed-dbc05684-test
