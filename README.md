@@ -6,6 +6,8 @@ This repository exists so the editor can remain small, transferable, and indepen
 
 ## Current native 0.4.0 candidate samples
 
+**Latest upstream corpus:** [0.4.0 downloads and Assessment samples](https://github.com/vanderpol/scap-ng/blob/main/docs/releases/0.4.0-downloads-and-samples.md) now provides an immutable **normalized 65-stream native YAML review ZIP** and separate toolchain. The five focused examples below are exact `a5db02e1b` candidate fixtures and remain unchanged. The three large editor-specific generated views in this repository have **not** been refreshed from the new normalized candidate; do not mistake the upstream download for a committed regeneration of those views.
+
 [Five exact-SHA candidate examples](focused-fixtures/v04-release-candidate-a5db02e1b/README.md)
 include original Linux/Windows, shared Objects, catalog/all_exist warnings and
 typed Inputs/Parameters. Proof and warning statuses are explicit; these are
