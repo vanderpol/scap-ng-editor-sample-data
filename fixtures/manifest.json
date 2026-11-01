@@ -1,0 +1,65 @@
+{
+  "format": "scap-ng/editor-starter-fixtures/1",
+  "created": "2026-11-01",
+  "specification_version": "0.4.0",
+  "qualification": "pre-alpha draft; authoring/schema/compile fixtures only, not scanner-runtime results",
+  "schema_source": {
+    "repository": "vanderpol/scap-ng",
+    "ref": "37b614858c9f6f1d6261fac244cb734c8acc060b",
+    "pr": 268
+  },
+  "editor_adapter": {
+    "repository": "vanderpol/scap-ng-vscode",
+    "ref": "ae7f812590fa108b412146f21e59171d60507f29"
+  },
+  "archive": {
+    "repository": "vanderpol/scap-ng-editor-sample-data",
+    "branch": "archive/pre-vscode-cleanup-20261101",
+    "original_head": "cb5a264f6684433616ede83cdfb30472d92470e2"
+  },
+  "fixtures": [
+    {
+      "path": "fixtures/current-v04/linux-home-mount-nosuid.assessment.yaml",
+      "upstream": "docs/examples/owner-contract-20261031/linux-home-mount-nosuid-assessment.yaml",
+      "git_blob_sha": "486f8ec8d417d2943dc4d0c9f1d88a88d87e0e0f",
+      "status": "original-backed bounded static source validation and compilation",
+      "purpose": "Linux capability and YAML structured edit"
+    },
+    {
+      "path": "fixtures/current-v04/linux-home-mount-nosuid.assessment.json",
+      "upstream": "docs/examples/owner-contract-20261031/linux-home-mount-nosuid-assessment.json",
+      "git_blob_sha": "0ed99ead5df881bd7e99b3dbd38b48b7be567b16",
+      "status": "original-backed bounded static source validation and compilation",
+      "purpose": "YAML/JSON representation navigation"
+    },
+    {
+      "path": "fixtures/current-v04/windows-server-2025-lock-screen.assessment.yaml",
+      "upstream": "docs/examples/conformance-remediation-20261101/windows-server-2025-shows-on-lock-screen-sv-278080-assessment.yaml",
+      "git_blob_sha": "e5044382a7d6e8ae7ba256e4403986ddf9675169",
+      "status": "bounded original static source equivalence and compilation",
+      "purpose": "Registry object and compact requirements"
+    },
+    {
+      "path": "fixtures/current-v04/windows-server-2025-sysvol-permissions.assessment.yaml",
+      "upstream": "docs/examples/conformance-remediation-20261101/windows-server-2025-control-permissions-sv-278139-assessment.yaml",
+      "git_blob_sha": "b64052b5fbed3c7788659faf23f6ec528434013a",
+      "status": "bounded original static source validation and compilation",
+      "purpose": "Variable expressions, Windows permissions"
+    },
+    {
+      "path": "fixtures/source-preservation/annotated-draft.yaml",
+      "status": "editor synthetic; YAML parse only",
+      "purpose": "comments, quoting, order, unknown-field no-op and edit fidelity"
+    },
+    {
+      "path": "fixtures/source-preservation/annotated-draft.json",
+      "status": "editor synthetic; JSON parse only",
+      "purpose": "no-op and scalar edit fidelity"
+    },
+    {
+      "path": "fixtures/source-preservation/incomplete-draft.yaml",
+      "status": "deliberately malformed",
+      "purpose": "recoverable text edit and parser location diagnostic"
+    }
+  ]
+}

@@ -1,131 +1,31 @@
-# SCAP-NG Editor Sample Data
+# SCAP-NG VS Code editor sample data
 
-External sample and scale-test content for `vanderpol/scap-ng-editor`.
+This is a **small, intentionally curated starter workspace** for [scap-ng-vscode](https://github.com/vanderpol/scap-ng-vscode). It is not the authoritative SCAP-NG corpus, schema, specification, a complete STIG, or scanner evidence.
 
-This repository exists so the editor can remain small, transferable, and independent of ownership of the SCAP-NG standards/content project.
+## Start here
 
-## Current native 0.4.0 candidate samples
+- **Authoring contract:** SCAP-NG 0.4.0 pre-alpha, draft [PR #268](https://github.com/vanderpol/scap-ng/pull/268), pinned at `37b614858c9f6f1d6261fac244cb734c8acc060b`.
+- **Editor adapter checkpoint:** [`ae7f81259`](https://github.com/vanderpol/scap-ng-vscode/commit/ae7f812590fa108b412146f21e59171d60507f29). The editor still needs an extension host, graphical UI, native VS Code edits, and a regex/sample playground.
+- **Samples:** [`fixtures/current-v04/`](fixtures/current-v04/) has three real-source-backed automated Assessments (Linux, Windows registry, Windows permissions). These validate/compile statically at the cited source checkpoint but do **not** establish scanner-runtime equivalence.
+- **Editing edge cases:** [`fixtures/source-preservation/`](fixtures/source-preservation/) has valid annotated YAML, valid JSON, and deliberately malformed YAML for lossless round-trip and diagnostics. These are *not* normative SCAP-NG documents.
+- **Inventory:** [`fixtures/manifest.json`](fixtures/manifest.json) gives exact upstream provenance and expected editor uses.
 
-**Latest upstream corpus:** [0.4.0 downloads and Assessment samples](https://github.com/vanderpol/scap-ng/blob/main/docs/releases/0.4.0-downloads-and-samples.md) now provides an immutable **normalized 65-stream native YAML review ZIP** and separate toolchain. The five focused examples below are exact `a5db02e1b` candidate fixtures and remain unchanged. The three large editor-specific generated views in this repository have **not** been refreshed from the new normalized candidate; do not mistake the upstream download for a committed regeneration of those views.
+## Suggested first editor smoke tests
 
-[Five exact-SHA candidate examples](focused-fixtures/v04-release-candidate-a5db02e1b/README.md)
-include original Linux/Windows, shared Objects, catalog/all_exist warnings and
-typed Inputs/Parameters. Proof and warning statuses are explicit; these are
-partial authoring projections, with no scanner-runtime claim. Historical sample
-views below remain preserved. Authority: [SCAP-NG #260](https://github.com/vanderpol/scap-ng/issues/260).
+1. Open each source file without changing a byte; verify a no-op save is byte-identical.
+2. Edit a scalar in YAML and verify comments, quotes, order, and unrelated formatting survive; undo exactly.
+3. Show schema-driven help/enums/defaults from an **externally selected, SHA-verified 0.4 metadata pack**; hidden defaults must remain explicitly serialized and diagnostics visible.
+4. Open malformed YAML without destroying it. Surface a precise error and allow text editing.
+5. Exercise Linux/Windows Assessment navigation and explicit source selection. Do not assert PASS/FAIL without a qualified evaluator.
 
-## Indexed official source-cache research
+## Large-scale STIG library tests
 
-[STIG + SCAP/OVAL publisher-verified preprocessing design](docs/STIG-SCAP-SOURCE-CACHE.md) ([issue #2](https://github.com/vanderpol/scap-ng-editor-sample-data/issues/2)) defines how to prepare lightweight per-Rule packets *once per changed official release*, keeping manual XCCDF and SCAP/OVAL source graphs separate but indexed together. **The cache is not populated or running yet.** A future [SCAP 1.4 authoring target](https://github.com/vanderpol/scap-ng-editor/issues/9) could reuse that same source library after the SCAP-NG editor works. The existing `stig-manual/` directory remains the NG-generated view, **not** the authoritative official publisher cache.
+Do **not** expand the old r3 catalog in this repository. When navigation/performance tests need scale, obtain a pinned, immutable full-65 review download through the [SCAP-NG downloads index](https://github.com/vanderpol/scap-ng/blob/main/docs/releases/0.4.0-downloads-and-samples.md) and verify its published manifest and hashes first. That DRAFT includes unverified, blocked and manual content: do not label it a deployable or fully scanner-proved STIG library.
 
-## Purpose
+## Archived material
 
-The editor is expected to consume and edit the full complexity of real SCAP-NG content. This repository therefore contains substantial generated data, not only tiny unit-test fixtures.
+The entire former `main` tree, including the 2,000+ file r3 RHEL9/Windows11 catalog, older preview fixtures, seeding workflows and source-cache research, is preserved unchanged in [`archive/pre-vscode-cleanup-20261101`](https://github.com/vanderpol/scap-ng-editor-sample-data/tree/archive/pre-vscode-cleanup-20261101), starting at `cb5a264f6684433616ede83cdfb30472d92470e2`. This branch is a recovery archive, not an active generation target.
 
-The primary corpus should be derived reproducibly from the pinned 65-benchmark NIWC Current corpus using the authoritative SCAP-NG conversion and exact-normalization pipeline.
+The current `main` intentionally has no auto-seeding workflow: sample refreshes must be deliberate, pinned to a new source/schema/editor revision, validated and recorded in the fixture manifest. No schemas, compiled bundles, source archives, or proof packages are vendored here.
 
-## Three generated views
-
-The repository is organized around the editor's three first-class use cases:
-
-```text
-stig-manual/
-scap-ng/
-assessments-only/
-manifests/
-focused-fixtures/
-```
-
-### `stig-manual/`
-
-A prose-oriented export for benchmark/manual authoring.
-
-It should preserve the Benchmark, groups, Rules, references, profiles and other policy/prose structures needed to author a STIG manual while excluding automated Assessment payloads from the working view.
-
-This is a generated view, not a separately maintained source corpus.
-
-### `scap-ng/`
-
-The complete normalized SCAP-NG authoring source derived from the full corpus.
-
-This is the broadest scale and complexity test for the editor and should preserve the complete source graph, including shared/reusable Assessments and cross-file references.
-
-### `assessments-only/`
-
-An export containing the Assessment authoring surface independently of Benchmark prose.
-
-It should contain enough surrounding identity/reference information to make reusable Assessments understandable and editable without creating synthetic Benchmark wrappers.
-
-This is also a generated view of the same normalized corpus.
-
-## One source, three exports
-
-The three large directories SHALL be reproducibly derived from one pinned normalized source build. They SHALL NOT evolve independently.
-
-Every refresh should record at least:
-
-- SCAP-NG source commit;
-- pinned NIWC source revision;
-- schema version;
-- conversion command/workflow;
-- normalization command/workflow;
-- export generator version/commit;
-- counts of benchmarks, rules, assessments, tests, objects, states and variables where practical;
-- known blockers/exclusions.
-
-The `manifests/` directory should carry this provenance and per-export inventory.
-
-## Scale is intentional
-
-These exports should be large enough to exercise:
-
-- startup and project-load behavior;
-- directory/tree navigation;
-- search across many files;
-- cross-file reference resolution;
-- shared Assessment discovery;
-- validation throughput;
-- diagnostics at scale;
-- save/round-trip behavior;
-- memory usage;
-- UI responsiveness for large Benchmarks and Assessment libraries.
-
-Do not reduce the main corpus to toy examples merely to make the editor easier to implement.
-
-## Focused fixtures
-
-`focused-fixtures/` may contain small positive, negative, boundary, and round-trip cases for fast automated tests.
-
-These supplement the large corpus; they do not replace it.
-
-## Storage policy
-
-The durable repository payload should be **authoring source only**.
-
-Store:
-- SCAP-NG/editor-facing YAML source;
-- small JSON/YAML manifests;
-- compact provenance, inventory, counts, and hashes;
-- focused text fixtures needed by editor tests.
-
-Do not store:
-- original DISA ZIP packages;
-- original XCCDF/OVAL/XML merely as provenance copies;
-- compiled `.scapng` packages;
-- GitHub Actions artifacts;
-- conversion logs or large evidence bundles;
-- duplicate schema/specification snapshots;
-- generated binaries or caches.
-
-Original inputs and conversion evidence should be referenced by pinned repository revision, source URL/revision, hash, and workflow/run metadata rather than copied into this repository.
-
-## What does not belong here
-
-- editor application source code;
-- normative SCAP-NG schema/specification source;
-- independently hand-maintained copies of the same corpus in the three views;
-- unrelated generated review/evidence products.
-
-## Generation rule
-
-Generated content may be committed here because exercising large real-world editor workloads is the purpose of this repository. Generation must remain reproducible and provenance-pinned.
+Publisher-origin data and existing provenance remain subject to their respective upstream terms; this repository does not assert a new project-wide source/specification license.
