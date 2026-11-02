@@ -38,6 +38,12 @@ def check(canonical=None):
                 req = test['require']
                 assert 'items_found' not in req and 'items_satisfying' not in req
                 assert list(req['item_requirement']) == ['items_found', 'items_satisfying']
+                assert list(req)[:3] == ['item_requirement', 'field_requirement', 'fields'], path
+            if path.endswith(('windows-server-2025-lock-screen.assessment.yaml',
+                              'linux-home-nosuid.assessment.yaml')):
+                assert b'        fields: {' in raw, path
+            if path.endswith('.yaml'):
+                assert b'        field_requirement: {' in raw, path
     present = {p.relative_to(ROOT).as_posix()
                for p in (ROOT / 'fixtures/current-v04').iterdir() if p.is_file()}
     assert present == {p for p in paths if p.startswith('fixtures/current-v04/')}

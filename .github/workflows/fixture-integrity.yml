@@ -10,11 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Checkout owner-approved canonical candidate
+      - name: Checkout exact requirements-first canonical example revision
         uses: actions/checkout@v4
         with:
           repository: vanderpol/scap-ng
-          ref: 354c9c962c77488a3d939cab56f6ceecfd495d27
+          ref: 463675f3b931e596c922352a131cb3c515ab2265
           path: canonical
           persist-credentials: false
       - uses: actions/setup-python@v5

@@ -4,11 +4,12 @@ This is a **small, intentionally curated starter workspace** for [scap-ng-vscode
 
 ## Start here
 
-- **Authoring contract:** SCAP-NG 0.4.0 pre-release Item grouping amendment, [canonical PR #4](https://github.com/vanderpol/scap-ng/pull/4), pinned at `354c9c962c77488a3d939cab56f6ceecfd495d27`. Flat `schema/` is authoritative; versioned `$id` URIs still contain `v0.4.0`.
-- **Editor adapter checkpoint:** [`e3ac527`](https://github.com/vanderpol/scap-ng-vscode/commit/e3ac52753569e861cc1e0df1a458ecdc023ec1ad). A schema-pin/CI refresh is pending. The editor still needs an extension host, graphical UI, native VS Code edits, and a regex/sample playground.
+- **Authoring contract:** SCAP-NG 0.4.0 pre-release Item grouping amendment, [canonical PR #4](https://github.com/vanderpol/scap-ng/pull/4), with the [current presentation-aligned examples in PR #6](https://github.com/vanderpol/scap-ng/pull/6) pinned to `463675f3b931e596c922352a131cb3c515ab2265`. Flat `schema/` is authoritative; versioned `$id` URIs still contain `v0.4.0`.
+- **Editor adapter checkpoint:** [merged one-clone bootstrap](https://github.com/vanderpol/scap-ng-vscode/commit/5b857ca6404fdc106080bc32a789577beff711df); exact current-example repinning follows this fixture update. The editor still needs an extension host, graphical UI, native VS Code edits, and a regex/sample playground.
 - **Samples:** [`fixtures/current-v04/`](fixtures/current-v04/) contains four exact canonical Assessments (Linux, Windows registry, Windows permissions, optional organizational Input) and one derived Linux JSON view. These validate structurally against the amended schema, **not** scanner runtime or new independent proof equivalence.
 - **Editing edge cases:** [`fixtures/source-preservation/`](fixtures/source-preservation/) has valid annotated YAML, valid JSON, and deliberately malformed YAML for lossless round-trip and diagnostics. These are *not* normative SCAP-NG documents.
 - **Inventory:** [`fixtures/manifest.json`](fixtures/manifest.json) gives exact upstream provenance and expected editor uses.
+- **Presentation contract:** new comparison Tests show compact `item_requirement` first, compact `field_requirement` second, then `fields`. Simple one- or two-predicate maps fit on one line; complex regex/logic remains readable in block form. CI checks this ordering as well as schema validity.
 
 ## Suggested first editor smoke tests
 
