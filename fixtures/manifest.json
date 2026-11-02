@@ -1,19 +1,19 @@
 {
   "format": "scap-ng/editor-starter-fixtures/1",
-  "created": "2026-11-01",
+  "created": "2026-11-02",
   "specification_version": "0.4.0",
   "qualification": "owner-amended pre-release 0.4; schema-valid authoring fixtures only, not new independent compilation/scanner-runtime proof",
   "schema_source": {
     "repository": "vanderpol/scap-ng",
-    "ref": "354c9c962c77488a3d939cab56f6ceecfd495d27",
-    "pr": 4,
+    "ref": "463675f3b931e596c922352a131cb3c515ab2265",
+    "pr": 6,
     "schema_directory": "schema/",
     "schema_json_sha256": "ab1933f2d9171ee0af70c0fab855b00f5faf78bf59ad4924fbf24b402ac4072a"
   },
   "editor_adapter": {
     "repository": "vanderpol/scap-ng-vscode",
-    "ref": "e3ac52753569e861cc1e0df1a458ecdc023ec1ad",
-    "status": "editor schema pin and full-file audit pending"
+    "ref": "5b857ca6404fdc106080bc32a789577beff711df",
+    "status": "one-clone bootstrap and file audit merged; follow-on example pin alignment pending"
   },
   "archive": {
     "repository": "vanderpol/scap-ng-editor-sample-data",
@@ -24,35 +24,35 @@
     {
       "path": "fixtures/current-v04/linux-home-nosuid.assessment.yaml",
       "upstream": "examples/linux-home-nosuid.assessment.yaml",
-      "git_blob_sha": "f51cb60617d0e53088222679fe5e1648c6c92925",
+      "git_blob_sha": "b124653a12800eb0050ac591c08833f861c7efd8",
       "status": "exact canonical example at amended schema pin; previous proof not promoted",
       "purpose": "Linux capability and YAML structured edit"
     },
     {
       "path": "fixtures/current-v04/linux-home-nosuid.assessment.json",
       "upstream": "generated from examples/linux-home-nosuid.assessment.yaml at canonical schema pin",
-      "git_blob_sha": "ebce1f839dad82f417ad88165b29ebaa2d81c109",
+      "git_blob_sha": "b02acbf557020233b8c68fd2a451f8d8430b50f6",
       "status": "derived JSON/YAML structural twin; not a distinct source proof",
       "purpose": "YAML/JSON representation navigation"
     },
     {
       "path": "fixtures/current-v04/windows-server-2025-lock-screen.assessment.yaml",
       "upstream": "examples/windows-server-2025-lock-screen.assessment.yaml",
-      "git_blob_sha": "2322bdb2e4dceedf20b4750e2234043bab738f9b",
+      "git_blob_sha": "b457dab1b99f3e7c3a38b27fa79d5a587d6050f5",
       "status": "exact canonical example at amended schema pin; previous proof not promoted",
       "purpose": "Registry object and compact requirements"
     },
     {
       "path": "fixtures/current-v04/windows-server-2025-sysvol-permissions.assessment.yaml",
       "upstream": "examples/windows-server-2025-sysvol-permissions.assessment.yaml",
-      "git_blob_sha": "68e8fa4f5bf747612a7b51fc03bbd7a191d03325",
+      "git_blob_sha": "6f1e422e98570a554c3c3c50dbab174d071b1c8c",
       "status": "exact canonical example at amended schema pin; previous proof not promoted",
       "purpose": "Variable expressions, Windows permissions"
     },
     {
       "path": "fixtures/current-v04/windows-optional-organizational-input.assessment.yaml",
       "upstream": "examples/windows-optional-organizational-input.assessment.yaml",
-      "git_blob_sha": "c3df50db7f1a875c236a05aea3b6bae200fd4850",
+      "git_blob_sha": "d0208fab184253a8cfa6541ec75b3f3a60f5496d",
       "status": "exact canonical example at amended schema pin; previous proof not promoted",
       "purpose": "Optional organizational Input presence and not-evaluated path"
     },
