@@ -4,13 +4,18 @@ This is a **small, intentionally curated starter workspace** for [scap-ng-vscode
 
 ## Start here
 
-- **Authoring contract:** SCAP-NG 0.4.0 pre-alpha, draft [PR #268](https://github.com/vanderpol/scap-ng/pull/268), pinned at `37b614858c9f6f1d6261fac244cb734c8acc060b`.
-- **Editor adapter checkpoint:** [`ae7f81259`](https://github.com/vanderpol/scap-ng-vscode/commit/ae7f812590fa108b412146f21e59171d60507f29). The editor still needs an extension host, graphical UI, native VS Code edits, and a regex/sample playground.
-- **Samples:** [`fixtures/current-v04/`](fixtures/current-v04/) has three real-source-backed automated Assessments (Linux, Windows registry, Windows permissions). These validate/compile statically at the cited source checkpoint but do **not** establish scanner-runtime equivalence.
+- **Authoring contract:** SCAP-NG 0.4.0 pre-release Item grouping amendment, [canonical PR #4](https://github.com/vanderpol/scap-ng/pull/4), pinned at `354c9c962c77488a3d939cab56f6ceecfd495d27`. Flat `schema/` is authoritative; versioned `$id` URIs still contain `v0.4.0`.
+- **Editor adapter checkpoint:** [`e3ac527`](https://github.com/vanderpol/scap-ng-vscode/commit/e3ac52753569e861cc1e0df1a458ecdc023ec1ad). A schema-pin/CI refresh is pending. The editor still needs an extension host, graphical UI, native VS Code edits, and a regex/sample playground.
+- **Samples:** [`fixtures/current-v04/`](fixtures/current-v04/) contains four exact canonical Assessments (Linux, Windows registry, Windows permissions, optional organizational Input) and one derived Linux JSON view. These validate structurally against the amended schema, **not** scanner runtime or new independent proof equivalence.
 - **Editing edge cases:** [`fixtures/source-preservation/`](fixtures/source-preservation/) has valid annotated YAML, valid JSON, and deliberately malformed YAML for lossless round-trip and diagnostics. These are *not* normative SCAP-NG documents.
 - **Inventory:** [`fixtures/manifest.json`](fixtures/manifest.json) gives exact upstream provenance and expected editor uses.
 
 ## Suggested first editor smoke tests
+
+The small fixture manifest is independently audited in CI. From a local
+checkout with Python, PyYAML and jsonschema installed, run
+`python scripts/check_fixtures.py --canonical-root /path/to/pinned-scap-ng`.
+The selected source checkout must be the exact commit in `fixtures/manifest.json`.
 
 1. Open each source file without changing a byte; verify a no-op save is byte-identical.
 2. Edit a scalar in YAML and verify comments, quotes, order, and unrelated formatting survive; undo exactly.
@@ -20,7 +25,7 @@ This is a **small, intentionally curated starter workspace** for [scap-ng-vscode
 
 ## Large-scale STIG library tests
 
-Do **not** expand the old r3 catalog in this repository. When navigation/performance tests need scale, obtain a pinned, immutable full-65 review download through the [SCAP-NG downloads index](https://github.com/vanderpol/scap-ng/blob/main/docs/releases/0.4.0-downloads-and-samples.md) and verify its published manifest and hashes first. That DRAFT includes unverified, blocked and manual content: do not label it a deployable or fully scanner-proved STIG library.
+Do **not** expand the old r3 catalog in this repository. The historical 65-stream review library is in [SCAP-NG Evidence](https://github.com/vanderpol/scap-ng-evidence/tree/main/runs/v04-library/2026-10-30-all65-normalized-review-ff69d46b3); it **predates the owner-approved `item_requirement` amendment** and is not a current-schema fixture. Wait for a new immutable, checksum-verified full library before using it for schema-valid current 0.4 editor tests. Full-scale downloads belong outside this small Git repository.
 
 ## Archived material
 
