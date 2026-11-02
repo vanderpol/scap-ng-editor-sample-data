@@ -2,15 +2,18 @@
   "format": "scap-ng/editor-starter-fixtures/1",
   "created": "2026-11-01",
   "specification_version": "0.4.0",
-  "qualification": "pre-alpha draft; authoring/schema/compile fixtures only, not scanner-runtime results",
+  "qualification": "owner-amended pre-release 0.4; schema-valid authoring fixtures only, not new independent compilation/scanner-runtime proof",
   "schema_source": {
     "repository": "vanderpol/scap-ng",
-    "ref": "37b614858c9f6f1d6261fac244cb734c8acc060b",
-    "pr": 268
+    "ref": "354c9c962c77488a3d939cab56f6ceecfd495d27",
+    "pr": 4,
+    "schema_directory": "schema/",
+    "schema_json_sha256": "ab1933f2d9171ee0af70c0fab855b00f5faf78bf59ad4924fbf24b402ac4072a"
   },
   "editor_adapter": {
     "repository": "vanderpol/scap-ng-vscode",
-    "ref": "ae7f812590fa108b412146f21e59171d60507f29"
+    "ref": "e3ac52753569e861cc1e0df1a458ecdc023ec1ad",
+    "status": "editor schema pin and full-file audit pending"
   },
   "archive": {
     "repository": "vanderpol/scap-ng-editor-sample-data",
@@ -19,32 +22,39 @@
   },
   "fixtures": [
     {
-      "path": "fixtures/current-v04/linux-home-mount-nosuid.assessment.yaml",
-      "upstream": "docs/examples/owner-contract-20261031/linux-home-mount-nosuid-assessment.yaml",
-      "git_blob_sha": "486f8ec8d417d2943dc4d0c9f1d88a88d87e0e0f",
-      "status": "original-backed bounded static source validation and compilation",
+      "path": "fixtures/current-v04/linux-home-nosuid.assessment.yaml",
+      "upstream": "examples/linux-home-nosuid.assessment.yaml",
+      "git_blob_sha": "f51cb60617d0e53088222679fe5e1648c6c92925",
+      "status": "exact canonical example at amended schema pin; previous proof not promoted",
       "purpose": "Linux capability and YAML structured edit"
     },
     {
-      "path": "fixtures/current-v04/linux-home-mount-nosuid.assessment.json",
-      "upstream": "docs/examples/owner-contract-20261031/linux-home-mount-nosuid-assessment.json",
-      "git_blob_sha": "0ed99ead5df881bd7e99b3dbd38b48b7be567b16",
-      "status": "original-backed bounded static source validation and compilation",
+      "path": "fixtures/current-v04/linux-home-nosuid.assessment.json",
+      "upstream": "generated from examples/linux-home-nosuid.assessment.yaml at canonical schema pin",
+      "git_blob_sha": "ebce1f839dad82f417ad88165b29ebaa2d81c109",
+      "status": "derived JSON/YAML structural twin; not a distinct source proof",
       "purpose": "YAML/JSON representation navigation"
     },
     {
       "path": "fixtures/current-v04/windows-server-2025-lock-screen.assessment.yaml",
-      "upstream": "docs/examples/conformance-remediation-20261101/windows-server-2025-shows-on-lock-screen-sv-278080-assessment.yaml",
-      "git_blob_sha": "e5044382a7d6e8ae7ba256e4403986ddf9675169",
-      "status": "bounded original static source equivalence and compilation",
+      "upstream": "examples/windows-server-2025-lock-screen.assessment.yaml",
+      "git_blob_sha": "2322bdb2e4dceedf20b4750e2234043bab738f9b",
+      "status": "exact canonical example at amended schema pin; previous proof not promoted",
       "purpose": "Registry object and compact requirements"
     },
     {
       "path": "fixtures/current-v04/windows-server-2025-sysvol-permissions.assessment.yaml",
-      "upstream": "docs/examples/conformance-remediation-20261101/windows-server-2025-control-permissions-sv-278139-assessment.yaml",
-      "git_blob_sha": "b64052b5fbed3c7788659faf23f6ec528434013a",
-      "status": "bounded original static source validation and compilation",
+      "upstream": "examples/windows-server-2025-sysvol-permissions.assessment.yaml",
+      "git_blob_sha": "68e8fa4f5bf747612a7b51fc03bbd7a191d03325",
+      "status": "exact canonical example at amended schema pin; previous proof not promoted",
       "purpose": "Variable expressions, Windows permissions"
+    },
+    {
+      "path": "fixtures/current-v04/windows-optional-organizational-input.assessment.yaml",
+      "upstream": "examples/windows-optional-organizational-input.assessment.yaml",
+      "git_blob_sha": "c3df50db7f1a875c236a05aea3b6bae200fd4850",
+      "status": "exact canonical example at amended schema pin; previous proof not promoted",
+      "purpose": "Optional organizational Input presence and not-evaluated path"
     },
     {
       "path": "fixtures/source-preservation/annotated-draft.yaml",

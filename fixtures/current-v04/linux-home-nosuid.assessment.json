@@ -19,8 +19,10 @@
           }
         },
         "require": {
-          "items_found": "one_or_more",
-          "items_satisfying": "every",
+          "item_requirement": {
+            "items_found": "one_or_more",
+            "items_satisfying": "every"
+          },
           "fields": {
             "mount_options": {
               "equals": "nosuid"

@@ -1,0 +1,24 @@
+name: Current 0.4 editor fixture integrity
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  fixtures:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Checkout owner-approved canonical candidate
+        uses: actions/checkout@v4
+        with:
+          repository: vanderpol/scap-ng
+          ref: 354c9c962c77488a3d939cab56f6ceecfd495d27
+          path: canonical
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install 'PyYAML>=6,<7' 'jsonschema>=4.24,<5'
+      - run: python scripts/check_fixtures.py --canonical-root canonical
