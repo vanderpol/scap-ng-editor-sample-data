@@ -17,7 +17,7 @@ assessment:
       require:
         item_requirement: {items_found: one_or_more, items_satisfying: every}
         field_requirement: {values_found: one_or_more, values_matching: every}
-        fields: {value: {equals: {input: policy-value-input}}}
+        fields: {value: {equals: {input: policy-value-input}, value_match: every}}
       reported_elements: all
   evaluate: {test: needs-policy-test}
   variables:
