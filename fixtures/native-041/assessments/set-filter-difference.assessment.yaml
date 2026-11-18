@@ -17,10 +17,10 @@ assessment:
           operands:
             - object: {filepath: {equals: /tmp/scap-ng-fixture-alpha}}
               filters:
-                - include: {owner_uid: {values_found: one_or_more, equals: 1000}}
+                - include: {owner_uid: {values_found: one_or_more, values_matching: every, equals: 1000}}
             - object: {filepath: {equals: /tmp/scap-ng-fixture-beta}}
               filters:
-                - exclude: {owner_uid: {values_found: one_or_more, equals: 0}}
+                - exclude: {owner_uid: {values_found: one_or_more, values_matching: every, equals: 0}}
       require:
         item_requirement: {items_found: one_or_more, items_satisfying: every}
         field_requirement: {values_found: one_or_more, values_matching: every}
