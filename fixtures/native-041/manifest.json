@@ -280,7 +280,7 @@
   "semantic_negative": [
     {
       "path": "fixtures/native-041/semantic-negative/unguarded-optional-input.assessment.yaml",
-      "git_blob_sha": "f6a14aa06f23f974549db5c7f00b18fe88090b4f",
+      "git_blob_sha": "74f7932bd34380a317e66f3359e7467873639983",
       "expected_syntax": "schema_valid_candidate",
       "expected_diagnostic": "optional Input consumed without dominating input_provided guard"
     },
