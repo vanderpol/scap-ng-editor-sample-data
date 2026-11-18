@@ -254,7 +254,7 @@
   "policy_documents": [
     {
       "path": "fixtures/native-041/policy/benchmark-applicability-profiles.benchmark.yaml",
-      "git_blob_sha": "2a9c393f613bc7ddeb4b0a1ebb6f036d29f9adcb",
+      "git_blob_sha": "e155861e1954ab7ba338040984d795c063df36f3",
       "schema": "benchmark.schema.json",
       "scope": "synthetic policy/authoring only; not a target qualification"
     },
