@@ -9,8 +9,8 @@ assessment:
   response:
     type: documented-authorization-review
     choices:
-      - {value: approved, label: Authorized approval is documented, outcome: true}
-      - {value: denied, label: No valid authorization, outcome: false}
+      - {value: approved, label: Authorized approval is documented, outcome: 'true'}
+      - {value: denied, label: No valid authorization, outcome: 'false'}
       - {value: unavailable, label: Evidence unavailable, outcome: unknown}
       - {value: excluded, label: Explicitly out of policy scope, outcome: not_applicable}
     allow_comment: true
