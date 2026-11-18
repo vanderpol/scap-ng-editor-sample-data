@@ -4,7 +4,7 @@ benchmark:
   ng_schema_version: 0.4.1
   use_case: native-language-conformance
   title:
-    - {text: Native Benchmark, Group and Profile fixture, language: en}
+    - {text: 'Native Benchmark, Group and Profile fixture', language: en}
   description:
     - {text: Synthetic conditions for core evaluation only; no target authority, language: en}
   language: en
