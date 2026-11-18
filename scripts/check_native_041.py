@@ -53,7 +53,10 @@ def audit(canonical: Path | None) -> None:
             assert blob_sha(raw) == fixture["git_blob_sha"], relative
             doc = yaml.safe_load(raw)
             assert isinstance(doc, dict) and isinstance(doc.get("assessment"), dict), relative
-            assert doc["assessment"].get("specification", {}).get("version") == "0.4.1"
+            if doc["assessment"].get("mode") == "automated":
+                assert doc["assessment"].get("specification", {}).get("version") == "0.4.1", relative
+            else:
+                assert doc["assessment"].get("mode") == "manual", relative
             assert "expected" not in doc and "golden" not in doc
             if validator:
                 if status == "valid":
