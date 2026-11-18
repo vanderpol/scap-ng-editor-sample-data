@@ -7,7 +7,7 @@
     "schema_dir": "schema/",
     "contract": "0.4.1"
   },
-  "qualification": "Author-reviewed examples plus separately asserted expectations only; canonical schema validation, Work Codex RI runtime replay, host-independent execution and VS Code roundtrips remain TO BE EXECUTED. Do not present as verified scanner results.",
+  "qualification": "Authored fixture suite and independently authored expectations. Exact 0.4.1 schema checker available; authoritative validation, semantic diagnosis, Work Codex runtime replay, host-independent execution, and VS Code roundtrip evidence have NOT YET BEEN EXECUTED. Do not present expected results as measured scanner results.",
   "positive": [
     {
       "path": "fixtures/native-041/assessments/conditional-ordered.assessment.yaml",
@@ -89,6 +89,31 @@
           }
         ],
         "note": "Canonical authored source copy, runtime states pending"
+      }
+    },
+    {
+      "path": "fixtures/native-041/assessments/referenced-baseline.assessment.yaml",
+      "git_blob_sha": "841bfdb23472881cb514ca15768644019579f6c7",
+      "expected": {
+        "expected": "true",
+        "note": "Host-independent virtual Variable Test; dependency target"
+      }
+    },
+    {
+      "path": "fixtures/native-041/assessments/conditional-dependency.assessment.yaml",
+      "git_blob_sha": "53e29af4154725ee617fd027afe0eee34923a304",
+      "expected": {
+        "expected": "true",
+        "expected_branch": "then",
+        "note": "With same-package referenced baseline true, executes continuation; dependency must be invoked/reused and an indeterminate dependency must not fall into else"
+      }
+    },
+    {
+      "path": "fixtures/native-041/assessments/manual-review.assessment.yaml",
+      "git_blob_sha": "5935c69af235d0283ec8dc58a2a57011a050b668",
+      "expected": {
+        "expected": "manual_not_executed_automatically",
+        "note": "Four publisher-defined response values map to technical true/false/unknown/not_applicable only upon authorized human selection; no fabricated host outcome"
       }
     }
   ],
@@ -224,6 +249,46 @@
         "profile_disabled": "not_evaluated"
       },
       "note": "Expected results are independent of effective tree; applicability Assessment mapping, real Group inheritance and source policy must be demonstrated through the RI package."
+    }
+  ],
+  "policy_documents": [
+    {
+      "path": "fixtures/native-041/policy/benchmark-applicability-profiles.benchmark.yaml",
+      "git_blob_sha": "2a9c393f613bc7ddeb4b0a1ebb6f036d29f9adcb",
+      "schema": "benchmark.schema.json",
+      "scope": "synthetic policy/authoring only; not a target qualification"
+    },
+    {
+      "path": "fixtures/native-041/policy/independent.rule.yaml",
+      "git_blob_sha": "442dac9ad01fe538b81ab280795eca7d3e599570",
+      "schema": "rule.schema.json",
+      "scope": "synthetic policy/authoring only; not a target qualification"
+    },
+    {
+      "path": "fixtures/native-041/policy/conditional.rule.yaml",
+      "git_blob_sha": "ee6bd0600ea8ed925bf1c7bfc4bdfc7bbc96b773",
+      "schema": "rule.schema.json",
+      "scope": "synthetic policy/authoring only; not a target qualification"
+    },
+    {
+      "path": "fixtures/native-041/policy/applicability-catalog.yaml",
+      "git_blob_sha": "f904cb2dd5ebd76ee26248ef8c90a42b2f1dae0c",
+      "schema": "applicability.schema.json",
+      "scope": "synthetic policy/authoring only; not a target qualification"
+    }
+  ],
+  "semantic_negative": [
+    {
+      "path": "fixtures/native-041/semantic-negative/unguarded-optional-input.assessment.yaml",
+      "git_blob_sha": "f6a14aa06f23f974549db5c7f00b18fe88090b4f",
+      "expected_syntax": "schema_valid_candidate",
+      "expected_diagnostic": "optional Input consumed without dominating input_provided guard"
+    },
+    {
+      "path": "fixtures/native-041/semantic-negative/dangling-shared-object.assessment.yaml",
+      "git_blob_sha": "d5eab69706cb485222225f8a452664689b2b6ab2",
+      "expected_syntax": "schema_valid_candidate",
+      "expected_diagnostic": "named shared Object reference unresolved"
     }
   ]
 }
