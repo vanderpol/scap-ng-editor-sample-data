@@ -1,0 +1,18 @@
+# Synthetic Rule; adds a local NOT restriction to inherited applicability.
+rule:
+  id: native-conditional-rule
+  version: "1"
+  title: Conditional Rule with Benchmark, nested Group, Rule-local scope
+  severity: high
+  role: full
+  weight: 1.0
+  requires: []
+  conflicts: []
+  parameters: {}
+  applicability:
+    not: {condition: synthetic-excluded-edition}
+  assessment_choices:
+    automated:
+      assessment: native-conditional-ordered-assessment
+      expected_version: 1
+  default_assessment_choice: automated
