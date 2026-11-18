@@ -57,7 +57,18 @@ def audit(canonical: Path | None) -> None:
             assert "expected" not in doc and "golden" not in doc
             if validator:
                 if status == "valid":
-                    validator.validate(doc)
+                    try:
+                        validator.validate(doc)
+                    except ValidationError as error:
+                        print("SCHEMA ADMISSION FAILED:", relative)
+                        def explain(err, depth=0):
+                            if depth > 5:
+                                return
+                            print("  " * depth + f"{err.validator}: {err.message}"[:450])
+                            for child in err.context[:16]:
+                                explain(child, depth + 1)
+                        explain(error)
+                        raise
                 else:
                     try:
                         validator.validate(doc)
