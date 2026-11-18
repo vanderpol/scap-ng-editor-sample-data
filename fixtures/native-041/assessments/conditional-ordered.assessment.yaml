@@ -1,0 +1,56 @@
+# Native 0.4.1: ordered if/else_if/else; this is not an OVAL expression.
+# Expected outcomes live ONLY in ../manifest.json. No host data is collected.
+assessment:
+  id: native-conditional-ordered-assessment
+  version: 1
+  assessment_title: Ordered branches skip the unselected body
+  mode: automated
+  class: miscellaneous
+  specification: {id: scap-ng.pre-alpha.assessment, version: 0.4.1}
+  tests:
+    first-guard-test:
+      test_title: First condition is false
+      capability: variable.value
+      variable: first-guard-variable
+      require:
+        item_requirement: {items_found: one_or_more, items_satisfying: every}
+        field_requirement: {values_found: one_or_more, values_matching: every}
+        fields: {value: {equals: enabled}}
+      reported_elements: all
+    second-guard-test:
+      test_title: First alternative is true
+      capability: variable.value
+      variable: second-guard-variable
+      require:
+        item_requirement: {items_found: one_or_more, items_satisfying: every}
+        field_requirement: {values_found: one_or_more, values_matching: every}
+        fields: {value: {equals: enabled}}
+      reported_elements: all
+    selected-branch-test:
+      test_title: Selected branch produces true
+      capability: variable.value
+      variable: second-guard-variable
+      require:
+        item_requirement: {items_found: one_or_more, items_satisfying: every}
+        field_requirement: {values_found: one_or_more, values_matching: every}
+        fields: {value: {equals: enabled}}
+      reported_elements: all
+    skipped-branch-test:
+      test_title: This branch must remain not evaluated
+      capability: variable.value
+      variable: first-guard-variable
+      require:
+        item_requirement: {items_found: one_or_more, items_satisfying: every}
+        field_requirement: {values_found: one_or_more, values_matching: every}
+        fields: {value: {equals: disabled}}
+      reported_elements: all
+  evaluate:
+    if: {test: first-guard-test}
+    then: {test: skipped-branch-test}
+    else_if:
+      - if: {test: second-guard-test}
+        then: {test: selected-branch-test}
+    else: {test: skipped-branch-test}
+  variables:
+    first-guard-variable: {kind: constant, expression: {literal: disabled}}
+    second-guard-variable: {kind: constant, expression: {literal: enabled}}

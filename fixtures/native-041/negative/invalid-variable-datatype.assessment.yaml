@@ -1,0 +1,21 @@
+# INTENTIONALLY INVALID 0.4.1: Variable datatype declaration was removed.
+assessment:
+  id: invalid-variable-datatype-assessment
+  version: 1
+  assessment_title: Reject removed declaration datatype
+  mode: automated
+  class: miscellaneous
+  specification: {id: scap-ng.pre-alpha.assessment, version: 0.4.1}
+  tests:
+    literal-test:
+      test_title: Literal comparison
+      capability: variable.value
+      variable: literal-variable
+      require: {item_requirement: {items_found: one_or_more}}
+      reported_elements: all
+  evaluate: {test: literal-test}
+  variables:
+    literal-variable:
+      kind: constant
+      datatype: string
+      expression: {literal: ready}

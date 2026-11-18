@@ -1,0 +1,21 @@
+# Core-independent virtual Assessment used by an external dependency.
+assessment:
+  id: native-referenced-baseline-assessment
+  version: 1
+  assessment_title: Reusable externally referenced Assessment
+  mode: automated
+  class: miscellaneous
+  specification: {id: scap-ng.pre-alpha.assessment, version: 0.4.1}
+  tests:
+    baseline-value-test:
+      test_title: A constant baseline predicate
+      capability: variable.value
+      variable: baseline-variable
+      require:
+        item_requirement: {items_found: one_or_more, items_satisfying: every}
+        field_requirement: {values_found: one_or_more, values_matching: every}
+        fields: {value: {equals: baseline}}
+      reported_elements: all
+  evaluate: {test: baseline-value-test}
+  variables:
+    baseline-variable: {kind: constant, expression: {literal: baseline}}

@@ -1,0 +1,11 @@
+# Executable synthetic conditions; NOT verified host or CPE applicability facts.
+# All mapping Assessments here are virtual language fixtures, not host probes.
+applicability:
+  id: native-applicability-catalog
+  conditions:
+    synthetic-platform-a: {assessment: native-referenced-baseline-assessment}
+    synthetic-platform-b: {assessment: native-referenced-baseline-assessment}
+    synthetic-scope-enabled: {assessment: native-referenced-baseline-assessment}
+    synthetic-workstation: {assessment: native-referenced-baseline-assessment}
+    synthetic-server: {assessment: native-referenced-baseline-assessment}
+    synthetic-excluded-edition: {assessment: native-conditional-na-assessment}

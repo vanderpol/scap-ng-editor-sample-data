@@ -1,0 +1,22 @@
+# INTENTIONALLY INVALID 0.4.1: canonical spelling is else_if, not elseif.
+assessment:
+  id: invalid-elseif-assessment
+  version: 1
+  assessment_title: Reject legacy elseif key
+  mode: automated
+  class: miscellaneous
+  specification: {id: scap-ng.pre-alpha.assessment, version: 0.4.1}
+  tests:
+    first-guard-test:
+      test_title: Check temporary file
+      capability: unix.file
+      object: {filepath: {equals: /tmp/scap-ng-fixture}}
+      require: {item_requirement: {items_found: one_or_more}}
+      reported_elements: all
+  evaluate:
+    if: {test: first-guard-test}
+    then: {test: first-guard-test}
+    elseif:
+      - if: {test: first-guard-test}
+        then: {test: first-guard-test}
+    else: {test: first-guard-test}

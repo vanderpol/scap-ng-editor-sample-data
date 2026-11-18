@@ -1,0 +1,29 @@
+# Native-only: explicit policy not_applicable must not be conflated with false.
+assessment:
+  id: native-conditional-na-assessment
+  version: 1
+  assessment_title: Conditional explicit not-applicable branch
+  mode: automated
+  class: miscellaneous
+  specification: {id: scap-ng.pre-alpha.assessment, version: 0.4.1}
+  tests:
+    scope-guard-test:
+      test_title: This scope condition is true
+      capability: variable.value
+      variable: scope-variable
+      require:
+        item_requirement: {items_found: one_or_more, items_satisfying: every}
+        field_requirement: {values_found: one_or_more, values_matching: every}
+        fields: {value: {equals: allowed}}
+      reported_elements: all
+  evaluate:
+    if: {test: scope-guard-test}
+    then:
+      not_applicable:
+        reason: The policy explicitly excludes this declared test scope
+    else:
+      not_evaluated:
+        reason: No authorized assessment path was supplied for this scope
+        follow_up: Obtain a reviewed scope policy before testing
+  variables:
+    scope-variable: {kind: constant, expression: {literal: allowed}}

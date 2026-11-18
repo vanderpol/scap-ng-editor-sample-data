@@ -1,0 +1,31 @@
+# Native Evaluate condition references another Assessment, not an OVAL Definition.
+assessment:
+  id: native-conditional-dependency-assessment
+  version: 1
+  assessment_title: Conditional reuse of a packaged Assessment dependency
+  mode: automated
+  class: miscellaneous
+  specification: {id: scap-ng.pre-alpha.assessment, version: 0.4.1}
+  dependencies:
+    baseline:
+      assessment: native-referenced-baseline-assessment
+      expected_version: 1
+  tests:
+    continuation-test:
+      test_title: Positive continuation after dependency
+      capability: variable.value
+      variable: continuation-variable
+      require:
+        item_requirement: {items_found: one_or_more, items_satisfying: every}
+        field_requirement: {values_found: one_or_more, values_matching: every}
+        fields: {value: {equals: proceed}}
+      reported_elements: all
+  evaluate:
+    if: {assessment: baseline}
+    then: {test: continuation-test}
+    else:
+      not_evaluated:
+        reason: Required dependency did not establish a usable baseline
+        follow_up: Review dependency evidence and acquisition scope
+  variables:
+    continuation-variable: {kind: constant, expression: {literal: proceed}}

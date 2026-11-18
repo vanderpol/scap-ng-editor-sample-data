@@ -1,0 +1,16 @@
+# Synthetic Rule; applicability and package identity must be checked by RI.
+rule:
+  id: native-independent-rule
+  version: "1"
+  title: Exercise a Rule subject to parent Benchmark and Group applicability
+  severity: medium
+  role: full
+  weight: 1.0
+  requires: []
+  conflicts: []
+  parameters: {}
+  assessment_choices:
+    automated:
+      assessment: native-shared-object-reuse-assessment
+      expected_version: 1
+  default_assessment_choice: automated

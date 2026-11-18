@@ -1,0 +1,29 @@
+# Native authoring: an Object Set and per-operand include/exclude filters.
+# Use supplied mock Items in conformance tests; these paths are not host assertions.
+assessment:
+  id: native-set-filter-difference-assessment
+  version: 1
+  assessment_title: Difference and nested operand filters
+  mode: automated
+  class: miscellaneous
+  specification: {id: scap-ng.pre-alpha.assessment, version: 0.4.1}
+  tests:
+    set-filter-test:
+      test_title: Select Items after difference and filter evaluation
+      capability: unix.file
+      object:
+        set:
+          operator: difference
+          operands:
+            - object: {filepath: {equals: /tmp/scap-ng-fixture-alpha}}
+              filters:
+                - include: {owner_uid: {values_found: one_or_more, values_matching: every, equals: 1000}}
+            - object: {filepath: {equals: /tmp/scap-ng-fixture-beta}}
+              filters:
+                - exclude: {owner_uid: {values_found: one_or_more, values_matching: every, equals: 0}}
+      require:
+        item_requirement: {items_found: one_or_more, items_satisfying: every}
+        field_requirement: {values_found: one_or_more, values_matching: every}
+        fields: {owner_uid: {equals: 1000}}
+      reported_elements: all
+  evaluate: {test: set-filter-test}

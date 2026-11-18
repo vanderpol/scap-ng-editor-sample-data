@@ -1,0 +1,16 @@
+# SEMANTICALLY INVALID: lexical shared Object ID looks valid but isn't declared.
+assessment:
+  id: semantic-dangling-shared-object-assessment
+  version: 1
+  assessment_title: Dangling shared Object reference
+  mode: automated
+  class: miscellaneous
+  specification: {id: scap-ng.pre-alpha.assessment, version: 0.4.1}
+  tests:
+    unresolved-object-test:
+      test_title: Selector points to nonexistent shared Object
+      capability: unix.file
+      object: missing-file-object
+      require: {item_requirement: {items_found: one_or_more}}
+      reported_elements: all
+  evaluate: {test: unresolved-object-test}

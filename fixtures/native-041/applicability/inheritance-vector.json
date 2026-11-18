@@ -1,0 +1,69 @@
+{
+  "format": "scap-ng/applicability-levels-test-vector/1",
+  "kind": "synthetic-applicability-tree-not-a-benchmark",
+  "levels": {
+    "benchmark": {
+      "any_of": [
+        {
+          "condition": "os"
+        }
+      ]
+    },
+    "outer_group": {
+      "all_of": [
+        {
+          "condition": "member"
+        }
+      ]
+    },
+    "inner_group": {
+      "any_of": [
+        {
+          "condition": "workstation"
+        },
+        {
+          "condition": "server"
+        }
+      ]
+    },
+    "rule": {
+      "not": {
+        "condition": "enterprise-ltsc"
+      }
+    }
+  },
+  "effective": {
+    "all_of": [
+      {
+        "any_of": [
+          {
+            "condition": "os"
+          }
+        ]
+      },
+      {
+        "all_of": [
+          {
+            "condition": "member"
+          }
+        ]
+      },
+      {
+        "any_of": [
+          {
+            "condition": "workstation"
+          },
+          {
+            "condition": "server"
+          }
+        ]
+      },
+      {
+        "not": {
+          "condition": "enterprise-ltsc"
+        }
+      }
+    ]
+  },
+  "notes": "A logic fixture only. RI must build a genuine verified Benchmark/Group/Rule package and execute real CPE-backed applicability Assessments separately."
+}
