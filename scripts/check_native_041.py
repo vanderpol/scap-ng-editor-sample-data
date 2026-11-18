@@ -67,7 +67,35 @@ def audit(canonical: Path | None) -> None:
                         raise AssertionError("negative fixture unexpectedly schema-valid: " + relative)
             else:
                 print("UNVERIFIED SCHEMA (pass --canonical-root):", relative)
-    print(f"PARSED {len(positive)} positive / {len(negative)} negative cases; schema_checked={bool(validator)}")
+
+    policy_docs = manifest.get("policy_documents", [])
+    semantic_negatives = manifest.get("semantic_negative", [])
+    for fixture in policy_docs + semantic_negatives:
+        relative = fixture["path"]
+        assert relative not in seen and relative.startswith("fixtures/native-041/")
+        assert ".." not in Path(relative).parts
+        seen.add(relative)
+        raw = (ROOT / relative).read_bytes()
+        assert blob_sha(raw) == fixture["git_blob_sha"], relative
+        doc = yaml.safe_load(raw)
+        assert isinstance(doc, dict), relative
+        if canonical:
+            schema_file = fixture.get("schema", "assessment.schema.json")
+            schema = json.loads((canonical / "schema" / schema_file).read_text())
+            Draft202012Validator(schema, registry=registry).validate(doc)
+
+    for fixture in manifest.get("policy_vectors", []):
+        relative = fixture["path"]
+        assert relative not in seen and relative.startswith("fixtures/native-041/")
+        assert ".." not in Path(relative).parts
+        seen.add(relative)
+        raw = (ROOT / relative).read_bytes()
+        assert blob_sha(raw) == fixture["git_blob_sha"], relative
+        obj = json.loads(raw)
+        assert obj.get("kind") == "synthetic-applicability-tree-not-a-benchmark", relative
+
+    print(f"PARSED {len(positive)} Assessments / {len(policy_docs)} policy documents / {len(negative)} syntax-invalid / {len(semantic_negatives)} semantic-negative / {len(manifest.get('policy_vectors', []))} logic vectors; schema_checked={bool(validator)}")
+
 
 
 if __name__ == "__main__":
