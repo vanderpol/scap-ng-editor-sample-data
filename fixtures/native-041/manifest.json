@@ -49,7 +49,7 @@
     },
     {
       "path": "fixtures/native-041/assessments/set-filter-difference.assessment.yaml",
-      "git_blob_sha": "ac9ba6c76a7770c9991dbdc2ef07d155bf7a0394",
+      "git_blob_sha": "175819e385bb83d7decc6e8b779b7681fb502140",
       "expected": {
         "evidence": "synthetic-only",
         "expected_if_complete": "true",
