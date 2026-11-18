@@ -1,0 +1,214 @@
+{
+  "format": "scap-ng/editor-native-language-conformance/1",
+  "created": "2026-11-18",
+  "schema_source": {
+    "repository": "vanderpol/scap-ng",
+    "commit": "5ee55288b369da26f308f40813e545b78dff2753",
+    "schema_dir": "schema/",
+    "contract": "0.4.1"
+  },
+  "qualification": "Author-reviewed examples plus separately asserted expectations only; canonical schema validation, Work Codex RI runtime replay, host-independent execution and VS Code roundtrips remain TO BE EXECUTED. Do not present as verified scanner results.",
+  "positive": [
+    {
+      "path": "fixtures/native-041/assessments/conditional-ordered.assessment.yaml",
+      "git_blob_sha": "c20557c74f471e857ffad7021811152a0ae0e5c3",
+      "expected": {
+        "expected": "true",
+        "expected_branch": "else_if[0].then",
+        "guard_states": [
+          "false",
+          "true"
+        ],
+        "must_not_invoke": [
+          "skipped-branch-test in then",
+          "skipped-branch-test in else"
+        ],
+        "note": "Expected from source literal, not yet scanner-replayed"
+      }
+    },
+    {
+      "path": "fixtures/native-041/assessments/conditional-not-applicable.assessment.yaml",
+      "git_blob_sha": "15a03a037bc44d1ca15ea915ad71901353ebf733",
+      "expected": {
+        "expected": "not_applicable",
+        "expected_branch": "then",
+        "note": "Author-declared, evidence-backed scope exclusion; ensure literal outcome mapping not false or pass"
+      }
+    },
+    {
+      "path": "fixtures/native-041/assessments/require-one-versus-xor.assessment.yaml",
+      "git_blob_sha": "c7a03a0b11c0a38e49f0c9cfbc3ad90eefc1a355",
+      "expected": {
+        "expected": "true",
+        "technical_tests": {
+          "exactly-one-branch-test": "false",
+          "odd-parity-branch-test": "true"
+        },
+        "note": "3 matching item-local branches: ONE false, XOR true; outer NOT-and true"
+      }
+    },
+    {
+      "path": "fixtures/native-041/assessments/set-filter-difference.assessment.yaml",
+      "git_blob_sha": "ac9ba6c76a7770c9991dbdc2ef07d155bf7a0394",
+      "expected": {
+        "evidence": "synthetic-only",
+        "expected_if_complete": "true",
+        "logical_items": [
+          "alpha"
+        ],
+        "notes": "Set operands must carry distinct Items and owner_uid=1000; beta filtered via exclude, and source Item completeness/authority must be proven. Absolute paths are placeholders, not target assertions."
+      }
+    },
+    {
+      "path": "fixtures/native-041/assessments/shared-object-reuse.assessment.yaml",
+      "git_blob_sha": "3c0eacbdfd71281b54c42a5c12719203a325cfee",
+      "expected": {
+        "evidence": "synthetic-only",
+        "expected_if_complete": "true",
+        "expected_collections": "same shared selector/collection reused within one target/snapshot/security scope",
+        "note": "One complete Item with owner_uid=1000 and owner_read=true; no real host assertions"
+      }
+    },
+    {
+      "path": "fixtures/native-041/assessments/optional-input-presence.assessment.yaml",
+      "git_blob_sha": "305498a7289875aeb155a9015382e498087a4d55",
+      "expected": {
+        "cases": [
+          {
+            "binding": "absent",
+            "expected_evaluate": "not_evaluated"
+          },
+          {
+            "binding": "provided valid integer",
+            "expected_selected": "then"
+          },
+          {
+            "binding": "provided empty",
+            "expected_selected": "then",
+            "qualification": "Typed input consumption requires separate failure/status expectation; never treat as missing"
+          }
+        ],
+        "note": "Canonical authored source copy, runtime states pending"
+      }
+    }
+  ],
+  "negative": [
+    {
+      "path": "fixtures/native-041/negative/invalid-elseif.assessment.yaml",
+      "git_blob_sha": "348caa77f993a3435d0f952b7539ceaa73ac1b5c",
+      "expected_schema": "INVALID",
+      "expected_diagnostic": "unknown expression key elseif; use else_if"
+    },
+    {
+      "path": "fixtures/native-041/negative/invalid-variable-datatype.assessment.yaml",
+      "git_blob_sha": "288aa4f15d41970a9fc63e3f32aa0a3c8c69d184",
+      "expected_schema": "INVALID",
+      "expected_diagnostic": "Variables do not have a declaration datatype"
+    },
+    {
+      "path": "fixtures/native-041/negative/unapproved-foreach.assessment.yaml",
+      "git_blob_sha": "88fbb1f806236f4e34187f731bc271300ac4ca90",
+      "expected_schema": "INVALID",
+      "expected_diagnostic": "foreach is not an Evaluate expression in canonical 0.4.1"
+    }
+  ],
+  "mutation_vectors": [
+    {
+      "case_id": "conditional-ordered-true",
+      "file": "conditional-ordered.assessment.yaml",
+      "expected": "true",
+      "guards": [
+        "false",
+        "true"
+      ],
+      "selected": "else_if[0]",
+      "skipped": [
+        "then",
+        "else"
+      ],
+      "kind": "native-only"
+    },
+    {
+      "case_id": "conditional-first-true",
+      "file": "conditional-ordered.assessment.yaml",
+      "mutation": "change first-guard-variable literal to enabled",
+      "expected": "false",
+      "selected": "then",
+      "note": "then leaf deliberately false against first-guard-variable? It compares disabled to disabled and is true; verify source mutation before accepting",
+      "kind": "mutation-pending"
+    },
+    {
+      "case_id": "conditional-first-unknown",
+      "file": "conditional-ordered.assessment.yaml",
+      "mutation": "supply UNKNOWN evidence for first guard",
+      "expected": "unknown",
+      "selected": "none",
+      "kind": "synthetic-status"
+    },
+    {
+      "case_id": "conditional-first-error",
+      "file": "conditional-ordered.assessment.yaml",
+      "mutation": "supply ERROR for first guard",
+      "expected": "error",
+      "selected": "none",
+      "kind": "synthetic-status"
+    },
+    {
+      "case_id": "one-vs-xor-three-true",
+      "file": "require-one-versus-xor.assessment.yaml",
+      "branches": [
+        "true",
+        "true",
+        "true"
+      ],
+      "expected_one": "false",
+      "expected_xor": "true",
+      "kind": "native-only"
+    },
+    {
+      "case_id": "one-vs-xor-one-true",
+      "file": "require-one-versus-xor.assessment.yaml",
+      "branches": [
+        "true",
+        "false",
+        "false"
+      ],
+      "expected_one": "true",
+      "expected_xor": "true",
+      "kind": "mutation"
+    },
+    {
+      "case_id": "one-vs-xor-two-true",
+      "file": "require-one-versus-xor.assessment.yaml",
+      "branches": [
+        "true",
+        "true",
+        "false"
+      ],
+      "expected_one": "false",
+      "expected_xor": "false",
+      "kind": "mutation"
+    },
+    {
+      "case_id": "filter-incomplete-population",
+      "file": "set-filter-difference.assessment.yaml",
+      "mutation": "one operand incomplete or denied",
+      "expected": "unknown_or_error_by_receipt",
+      "note": "Never turn unseen Items into complete empty difference",
+      "kind": "synthetic-status"
+    },
+    {
+      "case_id": "shared-object-reuse-context",
+      "file": "shared-object-reuse.assessment.yaml",
+      "mutation": "run second Assessment under different target/snapshot/security",
+      "expected": "not_same_reuse_scope",
+      "kind": "native-only"
+    }
+  ],
+  "prior_artifacts": {
+    "branch": "archive/pre-vscode-cleanup-20261101",
+    "legacy_manifest": "fixtures/manifest.json",
+    "legacy_version": "0.4.0"
+  },
+  "excluded": "Experimental foreach binding definitions exist as $defs in canonical capability-common, but are not an approved executable Evaluate grammar; see scap-ng issue #76"
+}
