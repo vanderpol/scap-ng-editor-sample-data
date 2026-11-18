@@ -110,7 +110,7 @@
     },
     {
       "path": "fixtures/native-041/assessments/manual-review.assessment.yaml",
-      "git_blob_sha": "5935c69af235d0283ec8dc58a2a57011a050b668",
+      "git_blob_sha": "0b8e4353fa23441d41c6f00c143de6991d1b5f28",
       "expected": {
         "expected": "manual_not_executed_automatically",
         "note": "Four publisher-defined response values map to technical true/false/unknown/not_applicable only upon authorized human selection; no fabricated host outcome"
