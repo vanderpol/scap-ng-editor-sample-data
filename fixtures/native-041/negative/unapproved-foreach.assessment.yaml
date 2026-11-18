@@ -1,0 +1,21 @@
+# INTENTIONALLY INVALID in current 0.4.1: no authoring property for foreach.
+# This is a proposal test, not permission for the RI/editor to support new DSL.
+assessment:
+  id: unapproved-foreach-assessment
+  version: 1
+  assessment_title: Foreach needs canonical contract and owner approval
+  mode: automated
+  class: miscellaneous
+  specification: {id: scap-ng.pre-alpha.assessment, version: 0.4.1}
+  tests:
+    first-test:
+      test_title: Check Item
+      capability: unix.file
+      object: {filepath: {equals: /tmp/scap-ng-fixture}}
+      require: {item_requirement: {items_found: one_or_more}}
+      reported_elements: all
+  evaluate:
+    foreach:
+      item: selected
+      in: selected-object
+      evaluate: {test: first-test}
