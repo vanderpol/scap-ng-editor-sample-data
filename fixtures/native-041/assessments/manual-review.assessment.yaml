@@ -1,0 +1,18 @@
+# Native manual Assessment with explicit normalized human response outcomes.
+assessment:
+  id: native-manual-review-assessment
+  version: 1
+  assessment_title: Manual authorization evidence review
+  mode: manual
+  class: compliance
+  procedure: Review the approved authorization record; do not infer approval from local host data.
+  response:
+    type: documented-authorization-review
+    choices:
+      - {value: approved, label: Authorized approval is documented, outcome: true}
+      - {value: denied, label: No valid authorization, outcome: false}
+      - {value: unavailable, label: Evidence unavailable, outcome: unknown}
+      - {value: excluded, label: Explicitly out of policy scope, outcome: not_applicable}
+    allow_comment: true
+    allow_evidence: true
+  evidence_guidance: Supply an approved record reference without exposing confidential content.
