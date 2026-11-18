@@ -43,4 +43,4 @@ The check verifies Git blob identities, syntax, current canonical 0.4.1 schema a
 
 ## Status
 
-**Authored** on 2026-11-18. Schema CI, RI execution, independent expected-result comparison and VS Code graphical/YAML roundtrips are *pending*. Do not report PASS counts for these fixtures before those steps execute.
+**Schema admission PASSED** on 2026-11-18 for all 9 Assessments and 4 policy documents; the three intentional schema-invalid files were rejected and the two semantic-negative examples remained structurally valid. [Native 0.4.1 CI run](https://github.com/vanderpol/scap-ng-editor-sample-data/actions/runs/44358520526) executed and passed at PR #5 head `401d94290b54cacfa81300d483d0959033470ff9`; historical 0.4 fixture CI also passed. **RI execution, independent expected-result comparison, semantic-negative diagnostics and VS Code graphical/YAML roundtrips remain pending.** Do not report scanner PASS counts for these fixtures before those steps execute.
