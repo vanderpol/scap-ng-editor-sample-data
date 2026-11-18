@@ -7,7 +7,7 @@
     "schema_dir": "schema/",
     "contract": "0.4.1"
   },
-  "qualification": "Authored fixture suite and independently authored expectations. Exact 0.4.1 schema checker available; authoritative validation, semantic diagnosis, Work Codex runtime replay, host-independent execution, and VS Code roundtrip evidence have NOT YET BEEN EXECUTED. Do not present expected results as measured scanner results.",
+  "qualification": "Exact canonical 0.4.1 schema and negative admission PASSED in GitHub Actions native workflow run 44358520526 on PR #5 head 401d94290b54cacfa81300d483d0959033470ff9. All 19 fixture blob identities verified. RI shared-core execution, independent outcome matching, semantic-negative diagnostics and VS Code graphical/YAML roundtrips NOT YET EXECUTED; synthetic policy is not host-qualified.",
   "positive": [
     {
       "path": "fixtures/native-041/assessments/conditional-ordered.assessment.yaml",
@@ -290,5 +290,12 @@
       "expected_syntax": "schema_valid_candidate",
       "expected_diagnostic": "named shared Object reference unresolved"
     }
-  ]
+  ],
+  "schema_validation": {
+    "status": "passed",
+    "workflow": "Native 0.4.1 language fixture admission",
+    "run_url": "https://github.com/vanderpol/scap-ng-editor-sample-data/actions/runs/44358520526",
+    "tested_head": "401d94290b54cacfa81300d483d0959033470ff9",
+    "result": "9 authored Assessments + 4 native policy documents accepted; 3 deliberate syntax negatives rejected; 2 semantic negatives structurally admitted; applicability vector parsed"
+  }
 }
