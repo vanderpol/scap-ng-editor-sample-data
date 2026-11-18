@@ -1,0 +1,40 @@
+# Native grammar: ONE requires exactly one true condition; XOR is odd parity.
+# Both tests compare the same virtual Item with three matching branches.
+assessment:
+  id: native-one-xor-assessment
+  version: 1
+  assessment_title: Nested per-Item ONE and XOR are not interchangeable
+  mode: automated
+  class: miscellaneous
+  specification: {id: scap-ng.pre-alpha.assessment, version: 0.4.1}
+  tests:
+    exactly-one-branch-test:
+      test_title: Three matching branches violate ONE
+      capability: variable.value
+      variable: status-variable
+      require:
+        item_requirement: {items_found: one_or_more, items_satisfying: every}
+        field_requirement: {values_found: one_or_more, values_matching: every}
+        one:
+          - fields: {value: {equals: ready}}
+          - fields: {value: {equals: ready}}
+          - fields: {value: {equals: ready}}
+      reported_elements: all
+    odd-parity-branch-test:
+      test_title: Three matching branches satisfy XOR
+      capability: variable.value
+      variable: status-variable
+      require:
+        item_requirement: {items_found: one_or_more, items_satisfying: every}
+        field_requirement: {values_found: one_or_more, values_matching: every}
+        xor:
+          - fields: {value: {equals: ready}}
+          - fields: {value: {equals: ready}}
+          - fields: {value: {equals: ready}}
+      reported_elements: all
+  evaluate:
+    and:
+      - not: {test: exactly-one-branch-test}
+      - test: odd-parity-branch-test
+  variables:
+    status-variable: {kind: constant, expression: {literal: ready}}
