@@ -134,7 +134,7 @@
       "mutation": "change first-guard-variable literal to enabled",
       "expected": "false",
       "selected": "then",
-      "note": "then leaf deliberately false against first-guard-variable? It compares disabled to disabled and is true; verify source mutation before accepting",
+      "note": "First guard literal switches to enabled, so first branch selects skipped-branch-test, which requires disabled and returns false. Verify runtime branch trace.",
       "kind": "mutation-pending"
     },
     {
@@ -210,5 +210,20 @@
     "legacy_manifest": "fixtures/manifest.json",
     "legacy_version": "0.4.0"
   },
-  "excluded": "Experimental foreach binding definitions exist as $defs in canonical capability-common, but are not an approved executable Evaluate grammar; see scap-ng issue #76"
+  "excluded": "Experimental foreach binding definitions exist as $defs in canonical capability-common, but are not an approved executable Evaluate grammar; see scap-ng issue #76",
+  "policy_vectors": [
+    {
+      "path": "fixtures/native-041/applicability/inheritance-vector.json",
+      "git_blob_sha": "84674f72dc52a6c9ebd95903a1c5f8929aec1265",
+      "format": "synthetic logic fixture; not schema-valid Benchmark content",
+      "expected": {
+        "all_true_no_exclusion": "applicable",
+        "wrong_source_platform": "not_applicable",
+        "unknown_ancestor": "unknown",
+        "error_condition": "error",
+        "profile_disabled": "not_evaluated"
+      },
+      "note": "Expected results are independent of effective tree; applicability Assessment mapping, real Group inheritance and source policy must be demonstrated through the RI package."
+    }
+  ]
 }
