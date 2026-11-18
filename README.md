@@ -1,5 +1,9 @@
 # SCAP-NG VS Code editor sample data
 
+> **Current native 0.4.1 conformance/editor suite:** [fixtures/native-041/](fixtures/native-041/) contains new canonical-version Assessments and deliberately invalid grammar examples, with independently recorded expected cases and a pinned schema validation script. These examples are **not yet RI/runtime qualified**. See [sample retention audit](docs/sample-data-audit-20261118.md).
+>
+> **Historical caution:** The older `fixtures/current-v04/`, `fixtures/manifest.json` and `scripts/check_fixtures.py` are pinned to a superseded 0.4.0 design. They remain only for migration/source-preservation regression, not as normative 0.4.1 examples. The archival branch remains preserved.
+
 This is a **small, intentionally curated starter workspace** for [scap-ng-vscode](https://github.com/vanderpol/scap-ng-vscode). It is not the authoritative SCAP-NG corpus, schema, specification, a complete STIG, or scanner evidence.
 
 ## Start here
