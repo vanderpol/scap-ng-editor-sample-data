@@ -1,0 +1,53 @@
+# Synthetic native policy fixture. NOT an approved host compliance Benchmark.
+benchmark:
+  id: native-applicability-profile-fixture
+  ng_schema_version: 0.4.1
+  use_case: native-language-conformance
+  title:
+    - {text: Native Benchmark, Group and Profile fixture, language: en}
+  description:
+    - {text: Synthetic conditions for core evaluation only; no target authority, language: en}
+  language: en
+  status: []
+  version: {release: "1"}
+  metadata: {}
+  notices: []
+  front_matter: []
+  rear_matter: []
+  references: []
+  text_blocks: []
+  platform:
+    id: synthetic-fixture-platform
+    title: Synthetic only
+    applicability:
+      any_of:
+        - {condition: synthetic-platform-a}
+        - {condition: synthetic-platform-b}
+  applicability_catalog: native-applicability-catalog
+  scoring: []
+  parameters: []
+  default_selection: true
+  groups:
+    - id: outer-group
+      title: Outer scope
+      applicability: {condition: synthetic-scope-enabled}
+      rules: [native-independent-rule]
+      groups:
+        - id: inner-group
+          title: Inner scope
+          applicability:
+            any_of:
+              - {condition: synthetic-workstation}
+              - {condition: synthetic-server}
+          rules: [native-conditional-rule]
+          groups: []
+  profiles:
+    - id: select-independent
+      title: Disable conditional rule only
+      disabled_rules: [native-conditional-rule]
+    - id: select-conditional
+      title: Disable independent rule only
+      disabled_rules: [native-independent-rule]
+  rules: [native-independent-rule, native-conditional-rule]
+  assessment_specifications:
+    - {id: scap-ng.pre-alpha.assessment, version: 0.4.1}
