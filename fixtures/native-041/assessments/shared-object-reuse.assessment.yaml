@@ -1,0 +1,36 @@
+# Native authoring: two Tests share one Object identity without duplicating it.
+assessment:
+  id: native-shared-object-reuse-assessment
+  version: 1
+  assessment_title: A single shared Object is referenced by two Tests
+  mode: automated
+  class: miscellaneous
+  specification: {id: scap-ng.pre-alpha.assessment, version: 0.4.1}
+  shared_objects:
+    examined-file-object:
+      object_title: Stable shared file selector
+      capability: unix.file
+      filepath: {equals: /tmp/scap-ng-fixture-shared}
+  tests:
+    owner-test:
+      test_title: File owner satisfies required UID
+      capability: unix.file
+      object: examined-file-object
+      require:
+        item_requirement: {items_found: one_or_more, items_satisfying: every}
+        field_requirement: {values_found: one_or_more, values_matching: every}
+        fields: {owner_uid: {equals: 1000}}
+      reported_elements: all
+    mode-test:
+      test_title: File has owner read access
+      capability: unix.file
+      object: examined-file-object
+      require:
+        item_requirement: {items_found: one_or_more, items_satisfying: every}
+        field_requirement: {values_found: one_or_more, values_matching: every}
+        fields: {owner_read: {equals: true}}
+      reported_elements: all
+  evaluate:
+    and:
+      - test: owner-test
+      - test: mode-test
