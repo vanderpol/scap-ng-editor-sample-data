@@ -13,7 +13,12 @@ This suite tests **SCAP-NG-native authoring and shared evaluation behavior**, es
 | `require-one-versus-xor.assessment.yaml` | ONE ≠ XOR under three TRUE per-Item branches; independent field cardinality | Native logical syntax; source concept overlaps OVAL |
 | `set-filter-difference.assessment.yaml` | Difference with include/exclude filters on typed Items | OVAL has analogous constructs; native shape is different |
 | `shared-object-reuse.assessment.yaml` | Same shared Object referenced from two Tests | Native authoring/reuse behavior |
+| `referenced-baseline.assessment.yaml` / `conditional-dependency.assessment.yaml` | Cross-Assessment dependencies, first-class conditional dependency truth, reuse | Native authoring |
+| `manual-review.assessment.yaml` | Manual procedures, human response choices, normalized technical outcomes | Native manual authoring |
+| `policy/benchmark-applicability-profiles.benchmark.yaml` plus two Rules and an applicability catalog | Benchmark + nested Group + Rule-local applicability, two independent disabled-only Profiles, Assessment choice | Native policy authoring beyond OVAL Self-Assertion |
 | `applicability/inheritance-vector.json` | Benchmark + nested Group + Rule ancestor logic, status propagation | Synthetic logic vector, **not** a canonical Benchmark document |
+
+`semantic-negative/` contains **semantically rejected** authoring examples (unguarded optional Input and dangling shared Object references) that may still pass JSON Schema syntax. Both editor semantic analysis and RI package admission should diagnose these without inventing facts.
 
 `negative/` contains **deliberately schema-invalid** cases for the wrong `elseif` spelling, obsolete Variable declaration `datatype`, and the unapproved Evaluate `foreach` syntax. These must never be opened as valid example content or admitted by the scanner.
 
